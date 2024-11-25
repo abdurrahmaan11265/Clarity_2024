@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Platform Login</title>
+    <style>
+        /* * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #1e3a8a, #2563eb, #60a5fa, #a5d8ff);
+            background-size: 300% 300%;
+            animation: moveGradient 8s infinite ease-in-out;
+            overflow: hidden;
+        } */
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #1e3a8a, #2563eb, #60a5fa, #a5d8ff);
+            background-size: 200% 200%;
+            overflow: hidden;
+            animation: moveGradient 8s infinite ease-in-out;
+        }
+
+        @keyframes moveGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .login-container {
+            display: flex;
+            max-width: 900px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .welcome-section {
+            background-color: #2476c7;
+            color: white;
+            padding: 40px;
+            width: 400px;
+        }
+
+        .welcome-section h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section p {
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .feature-icon {
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .feature-text h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .feature-text p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .login-form {
+            padding: 40px;
+            width: 400px;
+        }
+
+        .role-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .role-button {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            background: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .role-button.active {
+            background-color: #EBF5FF;
+            border-color: #2476c7;
+            color: #2476c7;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .forgot-password {
+            color: #2476c7;
+            text-decoration: none;
+        }
+
+        .sign-in-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2476c7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .sign-in-button:hover {
+            background-color: #1d68b3;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                margin: 20px;
+            }
+
+            .welcome-section, .login-form {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="welcome-section">
+            <h1>Welcome Back!</h1>
+            <p>Access your educational journey with a single login. Choose your role to continue.</p>
+
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <div class="feature-text">
+                    <h3>Secure Access</h3>
+                    <p>Protected data and privacy</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-form">
+            <div class="role-selector">
+                <button class="role-button active" data-role="student">Student</button>
+                <button class="role-button" data-role="counselor">Counselor</button>
+                <button class="role-button" data-role="school">School</button>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+
+            <div class="form-footer">
+                <label class="remember-me">
+                    <input type="checkbox">
+                    Remember me
+                </label>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+
+            <button class="sign-in-button">Sign In</button>
+        </div>
+    </div>
+</body>
+</html>
+
+    <script>
+                const body = document.body;
+
+        // Add an event listener to track mouse movement
+        document.addEventListener("mousemove", (e) => {
+            const x = e.clientX / window.innerWidth; // Normalize to 0-1
+            const y = e.clientY / window.innerHeight; // Normalize to 0-1
+
+            // Adjust background position based on cursor position
+            body.style.backgroundPosition = `${x * 100}% ${y * 100}%`;
+        });
+
+
+
+            const roleButtons = document.querySelectorAll('.role-button');
+    
+    // Track the selected role
+    roleButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            roleButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        });
+    });
+
+    document.querySelector('.sign-in-button').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Get user input values
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const selectedRole = document.querySelector('.role-button.active').dataset.role;
+
+        if (!email || !password) {
+            alert("Please enter both email and password.");
+            return;
+        }
+
+        console.log('Login attempt:', {
+            role: selectedRole,
+            email: email,
+            password: password
+        });
+
+        // Redirect based on the selected role
+        if (selectedRole === 'student') {
+            window.location.href = "Student.html"; 
+        } else {
+            alert("This role is not yet implemented.");
+        }
+    });
+    </script>
+</body>
+</html>

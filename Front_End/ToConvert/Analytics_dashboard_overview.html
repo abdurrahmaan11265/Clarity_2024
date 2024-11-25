@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Academic Analysis Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/lovelyn');
+        @import url('https://fonts.cdnfonts.com/css/albertus-mt-std');
+        @import url('https://fonts.cdnfonts.com/css/interstate-2');
+
+
+        :root {
+            --primary: #3b82f6;
+            --primary-foreground: #ffffff;
+            --background: #f8fafc;
+            --foreground: #020817;
+            --muted: #f1f5f9;
+            --muted-foreground: #64748b;
+            --card: #ffffff;
+            --card-foreground: #020817;
+            --border: #e2e8f0;
+            --green: #22c55e;
+            --yellow: #eab308;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        .container_header {
+            max-width: 100vw;
+            margin: 0 auto;
+            padding: 2rem;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+        }
+
+        .container_body {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.5;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-family: 'Inter', sans-serif;
+
+        }
+
+        .text-muted {
+            color: var(--muted-foreground);
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .card {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: scale(1.02) !important;
+        }
+
+        .card-cover {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        .text-green {
+            color: var(--green);
+        }
+
+        .text-yellow {
+            color: var(--yellow);
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .card-description {
+            color: var(--muted-foreground);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric {
+            margin-bottom: 1.5rem;
+            background-color: var(--muted);
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 1.1rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .sub-metric {
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background-color: var(--background);
+            border-radius: 0.5rem;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .button-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .button-outline:hover {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: var(--muted);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: var(--primary);
+            transition: width 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .grid>* {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .grid>*:hover {
+            transform: scale(2);
+        }
+
+        .grid>*:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .grid>*:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .grid>*:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .header {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            padding: 0.5rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-foreground);
+            text-decoration: none;
+        }
+
+        .header-content {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .header p {
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container_header">
+            <div class="header-wrapper">
+                <a href="#" class="logo" style="font-family: 'Albertus MT Std', sans-serif;">CLARITY</a>
+                <div class="header-content">
+                    <h1>Academic Excellence Hub</h1>
+                    <p>Your gateway to comprehensive academic insights and progress tracking</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container_body">
+        <div class="grid grid-cols-3 mt-4">
+            <div class="card" onclick="window.location.href='Student.html'">
+                <img src="https://www.oustudents.com/pageassets/support-and-advice/student-advice/academic-appeals/Academic-appeals.jpg"
+                    alt="Academic Analysis Cover" class="card-cover">
+                <div class="card-content">
+                    <h2 class="card-title">Academic Analysis</h2>
+                    <p class="card-description">In-depth analysis of your academic performance</p>
+                    <div class="metric">
+                        <div class="metric-label">Subjects</div>
+                        <div class="metric-value">10</div>
+                        <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width: 98%;"></div>
+                        </div>
+                    </div>
+                    <div class="sub-metric">
+                        <span>Get Well Structed Analysis</span>
+
+                    </div>
+
+                    <div class="sub-metric">
+                        <span>Proper Tracking System</span>
+
+                    </div>
+                    <button class="button button-outline w-full mt-4" id="button-academics">View Detailed
+                        Report</button>
+                </div>
+            </div>
+            <div class="card" onclick="navigateTo('clarity-analysis')">
+                <img src="https://thumbs.dreamstime.com/b/smart-business-man-light-bulbs-as-symbol-solutions-knowledge-concept-searching-brilliant-ideas-creative-people-321694761.jpg"
+                    alt="Clarity Test Analysis Cover" class="card-cover">
+                <div class="card-content">
+                    <h2 class="card-title">Clarity Test Analysis</h2>
+                    <p class="card-description">Track your progress in clarity tests and identify areas for improvement
+                    </p>
+                    <div class="metric">
+                        <div class="metric-label">Analytics Tasks Completed</div>
+                        <div class="metric-value">4</div>
+                        <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width: 89%;"></div>
+                        </div>
+                    </div>
+                    <div class="sub-metric">
+                        <span>Friendly Tests</span>
+
+                    </div>
+                    <div class="sub-metric">
+                        <span>Interesting Tasks</span>
+
+                    </div>
+                    <button class="button button-outline w-full mt-4" id="button-clarity">View Detailed Report</button>
+                </div>
+            </div>
+            <div class="card" onclick="navigateTo('skills-analysis')">
+                <img src="https://www.industryconnect.org/wp-content/uploads/2022/06/soft-skills.jpg"
+                    alt="Skills Analysis Cover" class="card-cover">
+                <div class="card-content">
+                    <h2 class="card-title">Skills Analysis</h2>
+                    <p class="card-description">Evaluate your skill development and track progress towards mastery</p>
+                    <div class="metric">
+                        <div class="metric-label">Skills Mastered</div>
+                        <div class="metric-value">12</div>
+                        <div class="progress-bar">
+                            <div class="progress-bar-fill" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    <div class="sub-metric">
+                        <span>In Progress</span>
+                        <span>5 skills</span>
+                    </div>
+                    <div class="sub-metric">
+                        <span>Next Milestone</span>
+                        <span class="text-yellow">3 skills away</span>
+                    </div>
+                    <button class="button button-outline w-full mt-4" id="button-skills">View Detailed Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const button_academics = document.querySelector('#button-academics');
+        const button_skills = document.querySelector('#button-skills');
+        const button_clarity = document.querySelector('#button-clarity');
+
+        button_academics.addEventListener('click', (e) => {
+            e.stopPropagation();
+            window.location.href = 'Analytics_Acadamics.html';
+        });
+        button_clarity.addEventListener('click', (e) => {
+            e.stopPropagation();
+            window.location.href = 'Clarity_Analytics.html';
+        });
+
+        function navigateTo(page) {
+            console.log(Navigating to ${ page });
+        }
+
+        // Animate progress bars on load
+        window.addEventListener('load', () => {
+            const progressBars = document.querySelectorAll('.progress-bar-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+        });
+
+        // Add hover effect to cards
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px)';
+                card.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = '0 10px 15px rgba(0, 0, 0, 0.1)';
+            });
+        });
+
+        // Add click effect to buttons
+        const buttons = document.querySelectorAll('.button');
+        buttons.forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.style.transform = 'scale(0.95)';
+            });
+            button.addEventListener('mouseup', () => {
+                button.style.transform = 'scale(1)';
+            });
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+
+</html>

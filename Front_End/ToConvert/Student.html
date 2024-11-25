@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Student Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --light-blue: #e0f2fe;
+            --green: #22c55e;
+            --yellow: #fbbf24;
+            --background-color: #f0f9ff;
+            --card-background: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background-color: var(--card-background);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content h1 {
+            font-size: 1.75rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.25rem;
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .icon-button:hover {
+            color: var(--primary-color);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        .logout-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background-color: #2563eb;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .stat-content {
+            padding: 1.5rem;
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .stat-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .assessment-section, .messages-section {
+            background-color: var(--card-background);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .assessment-item, .message {
+            background-color: var(--light-blue);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .assessment-item:hover, .message:hover {
+            transform: translateX(5px);
+        }
+
+        .assessment-info h3 {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .assessment-info p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-available {
+            background-color: #dcfce7;
+            color: var(--green);
+        }
+
+        .status-upcoming {
+            background-color: #fef3c7;
+            color: var(--yellow);
+        }
+
+        .take-test-button {
+          margin: 10px;
+            background-color: var(--green);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .take-test-button:hover {
+            background-color: #15803d;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-sender {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .message-time {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .message-preview {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        @media (min-width: 768px) {
+            .main-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>Welcome back, John Doe!</h1>
+                <p>Track your learning journey and stay updated with your progress</p>
+            </div>
+            <div class="header-actions">
+                <button class="icon-button">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <div class="user-avatar">
+                    JD
+                </div>
+                <button class="logout-button">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card" id="Analytics">
+                <img src="https://www.edureka.co/blog/wp-content/uploads/2018/12/Data-Analytics-What-is-Data-Analytics-Edureka-1.png" alt="Analytics Dashboard" class="stat-image">
+                <div class="stat-content">
+                    <div class="stat-header">
+                        <span class="stat-icon"><i class="fas fa-chart-line"></i></span>
+                        <h3 class="stat-title">Analytics</h3>
+                    </div>
+                    <p class="stat-description">Track your performance metrics, learning patterns, and progress through interactive dashboards and detailed reports.</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <img src="https://img.freepik.com/premium-vector/job-exam-test-vector-illustration_138676-243.jpg" alt="Test Overview" class="stat-image">
+                <div class="stat-content">
+                    <div class="stat-header">
+                        <span class="stat-icon"><i class="fas fa-tasks"></i></span>
+                        <h3 class="stat-title">Tests</h3>
+                    </div>
+                    <p class="stat-description">Access your upcoming assessments, practice tests, and historical performance data to improve your academic success.</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <img src="https://www.univariety.com/blog/wp-content/uploads/2022/02/5853-min-scaled.jpg" alt="Alumni Network" class="stat-image">
+                <div class="stat-content">
+                    <div class="stat-header">
+                        <span class="stat-icon"><i class="fas fa-user-graduate"></i></span>
+                        <h3 class="stat-title">Alumni</h3>
+                    </div>
+                    <p class="stat-description">Connect with successful graduates, access mentorship opportunities, and explore networking events within our alumni community.</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <img src="https://builtin.com/sites/www.builtin.com/files/styles/ckeditor_optimize/public/inline-images/career-development-pillar-page-overview.png" alt="Career Development" class="stat-image">
+                <div class="stat-content">
+                    <div class="stat-header">
+                        <span class="stat-icon"><i class="fas fa-briefcase"></i></span>
+                        <h3 class="stat-title">Career</h3>
+                    </div>
+                    <p class="stat-description">Explore career paths, job opportunities, and professional development resources tailored to your academic journey.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="assessment-section">
+                <h2 class="section-header">Upcoming Assessments</h2>
+                <div class="assessment-item">
+                    <div class="assessment-info">
+                        <h3>Career Aptitude Test</h3>
+                        <p>Due by May 15, 2024</p>
+                    </div>
+                    <button class="take-test-button">Take Test</button>
+                </div>
+                <div class="assessment-item">
+                    <div class="assessment-info">
+                        <h3>Personality Assessment</h3>
+                        <p>Available from May 20, 2024</p>
+                    </div>
+                    <span class="status status-upcoming">Upcoming</span>
+                </div>
+            </div>
+
+            <div class="messages-section">
+                <h2 class="section-header">Recent Messages</h2>
+                <div class="message">
+                    <div class="message-header">
+                        <span class="message-sender">Career Counselor</span>
+                        <span class="message-time">10:30 AM</span>
+                    </div>
+                    <p class="message-preview">Your career assessment results are ready. Let's schedule a meeting...</p>
+                </div>
+                <div class="message">
+                    <div class="message-header">
+                        <span class="message-sender">Academic Advisor</span>
+                        <span class="message-time">Yesterday</span>
+                    </div>
+                    <p class="message-preview">Please review your course selection for next semester...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const Analytics = document.getElementById('Analytics');
+            Analytics.addEventListener('click', () => {
+                window.location.href = "Analytics_new.html"; 
+            });
+
+            document.querySelector('.logout-button').addEventListener('click', () => {
+              window.location.href = "login.html";
+                // Add actual logout functionality here
+            });
+
+            document.querySelector('.take-test-button').addEventListener('click', () => {
+                alert('Starting Career Aptitude Test...');
+                // Add actual test start functionality here
+            });
+        });
+    </script>
+</body>
+</html>

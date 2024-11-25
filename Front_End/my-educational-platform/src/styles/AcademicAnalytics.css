@@ -1,0 +1,330 @@
+:root {
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    --background: #ffffff;
+    --foreground: #020817;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --card: #ffffff;
+    --card-foreground: #020817;
+    --border: #e2e8f0;
+    --green: #22c55e;
+    --yellow: #eab308;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.analytics-container .nav {
+    max-width: 100vw;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+}
+
+.analytics-container .analytics-container-header {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.analytics-container .Main-Content {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.analytics-container .flex {
+    display: flex;
+}
+
+.analytics-container .items-center {
+    align-items: center;
+}
+
+.analytics-container .justify-between {
+    justify-content: space-between;
+}
+
+.analytics-container .space-x-4>*+* {
+    margin-left: 1rem;
+}
+
+.analytics-container .mr-2 {
+    margin-right: 0.5rem;
+}
+
+.analytics-container .text-2xl {
+    font-size: 1.5rem;
+    padding: 0;
+}
+
+.analytics-container .font-bold {
+    font-weight: 600;
+}
+
+/* Header elements */
+.analytics-container .analytics-container-header h1 {
+    color: white;
+}
+
+.analytics-container .analytics-container-header button {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.analytics-container .analytics-container-header button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.analytics-container .analytics-container-header svg {
+    stroke: white;
+}
+
+.container_academic_analysics {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background);
+    color: var(--foreground);
+    line-height: 1.5;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.analytics-container #select_class_No {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.analytics-container #select_Exams {
+    display: flex;
+    justify-content: center;
+}
+
+.analytics-container h1,
+.analytics-container h2,
+.analytics-container h3 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.analytics-container .text-muted {
+    color: var(--muted-foreground);
+}
+
+.analytics-container .grid {
+    display: grid;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .analytics-container .grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.analytics-container .card {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.analytics-container .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.analytics-container .text-center {
+    text-align: center;
+}
+
+.analytics-container .text-primary {
+    color: var(--primary);
+}
+
+.analytics-container .text-green {
+    color: var(--green);
+}
+
+.analytics-container .text-yellow {
+    color: var(--yellow);
+}
+
+.analytics-container .flex {
+    display: flex;
+}
+
+.analytics-container .justify-between {
+    justify-content: space-between;
+}
+
+.analytics-container .items-center {
+    align-items: center;
+}
+
+.analytics-container .mb-4 {
+    margin-bottom: 1rem;
+}
+
+.analytics-container .mt-4 {
+    margin-top: 1rem;
+}
+
+.analytics-container select,
+.analytics-container button {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.25rem;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.analytics-container button {
+    cursor: pointer;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    border: none;
+}
+
+.analytics-container button:hover {
+    background-color: #2563eb;
+    transform: scale(1.05);
+}
+
+.analytics-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.analytics-container th,
+.analytics-container td {
+    padding: 0.75rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.3s ease;
+}
+
+.analytics-container tr:hover td {
+    background-color: var(--muted);
+}
+
+.analytics-container th {
+    font-weight: 600;
+    color: var(--muted-foreground);
+}
+
+.analytics-container .badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+}
+
+.analytics-container .badge-blue {
+    background-color: #e0f2fe;
+    color: #0284c7;
+}
+
+.analytics-container .chart-container_academic_analysics {
+    height: 200px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.analytics-container .chart-container_academic_analysics.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.analytics-container header,
+.analytics-container .grid,
+.analytics-container .flex,
+.analytics-container table {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* .grid > * {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .grid > *:nth-child(1) { animation-delay: 0.1s; }
+        .grid > *:nth-child(2) { animation-delay: 0.2s; }
+        .grid > *:nth-child(3) { animation-delay: 0.3s; } */
+
+.analytics-container #loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+.analytics-container .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--muted);
+    border-top: 5px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

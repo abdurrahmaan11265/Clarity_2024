@@ -1,0 +1,134 @@
+.clarity-analytics-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.clarity-analytics-container .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.clarity-analytics-container .subtitle {
+    color: #5f6368;
+    margin-bottom: 2rem;
+}
+
+.clarity-analytics-container .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.clarity-analytics-container .metric-card {
+    background: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.clarity-analytics-container .metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.clarity-analytics-container .metric-title {
+    color: #5f6368;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.clarity-analytics-container .metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.clarity-analytics-container .metric-value.blue {
+    color: #4285f4;
+}
+
+.clarity-analytics-container .metric-value.green {
+    color: #34a853;
+}
+
+.clarity-analytics-container .metric-value.orange {
+    color: #fbbc04;
+}
+
+.clarity-analytics-container .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.clarity-analytics-container select {
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 0.875rem;
+    color: #202124;
+    transition: border-color 0.3s ease;
+}
+
+.clarity-analytics-container select:hover {
+    border-color: #4285f4;
+}
+
+.clarity-analytics-container .chart-section {
+    margin-top: 20px;
+}
+
+.clarity-analytics-container .table-section {
+    background: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.clarity-analytics-container .table-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.clarity-analytics-container .table-section td,
+.clarity-analytics-container .table-section th {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.3s ease;
+}
+
+.clarity-analytics-container .table-section th {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.clarity-analytics-container .test-select {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.clarity-analytics-container .test-select h3 {
+    color: #5f6368;
+}
+
+.clarity-analytics-container th {
+    color: #5f6368;
+}
+
+.clarity-analytics-container .table-section table {
+    width: 100%;
+}

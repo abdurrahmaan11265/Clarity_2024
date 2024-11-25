@@ -1,0 +1,141 @@
+student: {
+    name: "John Doe",
+    details: {
+        age: 20,
+        gender: "male",
+        address: "123 Main St",
+        phone: "123-456-7890",
+        email: "jM7rZ@example.com",
+        motherName: "Jane Doe",
+        fatherName: "James Doe",
+        telephone: "123-456-7890"
+    },
+    classes: [
+        {
+            classNo: 9,
+            subjects: [
+                {
+                    name: "Maths",
+                    marks: {
+                        assessment1: 80,
+                        halfYearly: 90,
+                        assessment2: 90,
+                        final: 95
+                    }
+                },
+                {
+                    name: "Physics",
+                    marks: {
+                        assessment1: 80,
+                        halfYearly: 90,
+                        assessment2: 90,
+                        final: 95
+                    }
+                }
+                // ..... so on
+            ]
+        },
+        {
+            classNo: 10,
+            subjects: [
+                {
+                    name: "Maths",
+                    marks: {
+                        assessment1: 80,
+                        halfYearly: 90,
+                        assessment2: 90,
+                        final: 95
+                    }
+                },
+                {
+                    name: "Physics",
+                    marks: {
+                        assessment1: 80,
+                        halfYearly: 90,
+                        assessment2: 90,
+                        final: 95
+                    }
+                }
+                // ..... so on
+            ]
+        }
+    ],
+    clarityTests: [
+        {
+            name: "intelligences",
+            dateAndMarks: [
+                {
+                    date: "2022-01-01",
+                    marks: {
+                        verbal: 80,
+                        numerical: 90,
+                        logical: 95
+                    }
+                },
+                {
+                    date: "2022-02-01",
+                    marks: {
+                        verbal: 80,
+                        numerical: 90,
+                        logical: 95
+                    }
+                }
+                // ..... so on
+            ]
+        },
+        {
+            name: "Skills based",
+            dateAndMarks: [
+                {
+                    date: "2022-01-01",
+                    marks: {
+                        verbal: 80,
+                        numerical: 90,
+                        logical: 95
+                    }
+                },
+                {
+                    date: "2022-02-01",
+                    marks: {
+                        verbal: 80,
+                        numerical: 90,
+                        logical: 95
+                    }
+                }
+                // ..... so on
+            ]
+        }
+    ],
+    skills: [
+        "reading",
+        "writing",
+        "speaking",
+        "listening",
+        "understanding",
+        "problem solving"
+    ],
+    careerOptions: [
+        "engineering",
+        "medicine",
+        "law",
+        "arts",
+        "science",
+        "management"
+    ],
+    prefferedCareer: "engineering",
+    requiredSkills: [
+        "Mathematics",
+        "Physics",
+        "Computer Skills",
+        "Analytical Thinking",
+        "Problem-Solving",
+        "Technical Writing",
+        "Collaboration",
+        "Presentation Skills",
+        "Project Management",
+        "Time Management",
+        "Critical Thinking",
+        "Adaptability",
+        "Teamwork",
+    ]
+}

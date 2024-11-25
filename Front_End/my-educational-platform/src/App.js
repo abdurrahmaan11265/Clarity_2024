@@ -1,0 +1,35 @@
+import React from 'react';
+import { useRoutes } from 'react-router-dom'; // No need to import Router here
+import Login from './pages/Login';
+import StudentDashboard from './pages/StudentDashboard';
+import AcademicAnalytics from './pages/AcademicAnalytics';
+import { AuthProvider } from './AuthContext'; // Ensure this path is correct
+import AuthenticatedRoute from './services/useAuthContext';
+import Analytics from './pages/Analytics';
+import AllTest from './pages/AllTest';
+import Test from './pages/Test';
+import ClarityAnalytics from './pages/ClarityAnalytics';
+
+const routeDefinitions = [
+  { path: '/', element: <Login /> },
+  { path: "/student", element: <AuthenticatedRoute element={<StudentDashboard />} /> },
+  { path: '/analytics', element: <Analytics /> },
+  { path: '/academic-analytics', element: <AcademicAnalytics /> },
+  { path: '/allTests', element: <AllTest /> },
+  { path: '/test/:testId', element: <Test /> },
+  { path: '/clarity-analytics', element: <ClarityAnalytics /> },
+];
+
+function App() {
+  const routing = useRoutes(routeDefinitions);
+
+  return (
+    <AuthProvider>
+      <div className="App bg-black">
+        {routing}
+      </div>
+    </AuthProvider>
+  );
+}
+
+export default App; // Export App directly
