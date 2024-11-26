@@ -9,7 +9,10 @@ const {
     updateMarks,
     getUserData,
     verifyToken,
-    analyzeSkills
+    analyzeSkills,
+    generateCareerOptions,
+    updatePreferredCareerAndSkills,
+    askCareerQuestion
 } = require('../controllers/studentController');
 const { getTestNames } = require('../controllers/testController');
 
@@ -33,5 +36,14 @@ router.post("/analyze-skills", analyzeSkills);
 
 // Protected route to get user data
 router.get('/user-data/:userId', verifyToken, getUserData);
+
+// career options
+router.post('/generate-career-options', generateCareerOptions);
+
+// update preferred career and skills
+router.post('/update-preffered-career', updatePreferredCareerAndSkills);
+
+// ask career question
+router.post('/ask-career-question', askCareerQuestion);
 
 module.exports = router;

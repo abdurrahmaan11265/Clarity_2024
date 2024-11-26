@@ -31,6 +31,10 @@ const StudentDashboard = () => {
         // Add actual test start functionality here
     };
 
+    const handleCareerClick = () => {
+        navigate('/career');
+    }
+
     return (
         <div className="student-dashboard-container">
             <header className="header">
@@ -42,7 +46,7 @@ const StudentDashboard = () => {
                     {/* <button className="icon-button">
                         <i className="fas fa-bell"></i>
                     </button> */}
-                    <div className="user-avatar">{ userData.name.substring(0, 2).toUpperCase() }</div>
+                    <div className="user-avatar">{userData.name.substring(0, 2).toUpperCase()}</div>
                     <button className="logout-button" onClick={handleLogout}>
                         <i className="fas fa-sign-out-alt"></i> Logout
                     </button>
@@ -107,7 +111,7 @@ const StudentDashboard = () => {
                     </div>
                 </div>
 
-                <div className="stat-card">
+                <div className="stat-card" onClick={handleCareerClick}>
                     <img
                         src="https://builtin.com/sites/www.builtin.com/files/styles/ckeditor_optimize/public/inline-images/career-development-pillar-page-overview.png"
                         alt="Career Development"

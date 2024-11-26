@@ -9,7 +9,7 @@ import Analytics from './pages/Analytics';
 import AllTest from './pages/AllTest';
 import Test from './pages/Test';
 import ClarityAnalytics from './pages/ClarityAnalytics';
-
+import Career from './pages/Career';
 const routeDefinitions = [
   { path: '/', element: <Login /> },
   { path: "/student", element: <AuthenticatedRoute element={<StudentDashboard />} /> },
@@ -18,6 +18,7 @@ const routeDefinitions = [
   { path: '/allTests', element: <AllTest /> },
   { path: '/test/:testId', element: <Test /> },
   { path: '/clarity-analytics', element: <ClarityAnalytics /> },
+  { path: '/career', element: <Career /> },
 ];
 
 function App() {

@@ -134,15 +134,18 @@ const ClarityAnalytics = () => {
         </table>
       </div>
       <div className='chart-section'>
+
         <LineChart
           title={`${currentTest} Progress`}
           xAxisData={marksData.map(data => new Date(data.date).toLocaleDateString())}
           yAxisData={marksData.map(data => data.average)}
           label="Average Marks"
         />
-      </div>
-      <div className='radar-chart-section'>
-        <Radar data={radarData} />
+
+        <div>
+          <Radar data={radarData} />
+        </div>
+
       </div>
     </div>
   );

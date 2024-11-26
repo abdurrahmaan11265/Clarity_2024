@@ -132,3 +132,10 @@
 .clarity-analytics-container .table-section table {
     width: 100%;
 }
+
+.clarity-analytics-container .chart-section {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    /* justify-content: space-between; */
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +32,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             position: fixed;
             top: 0;
             left: 0;
@@ -58,14 +59,15 @@
         .card {
             background: white;
             border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             padding: 2rem;
             margin-bottom: 2rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .clarity-card {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            ;
             color: white;
             border-radius: 16px;
             padding: 2rem;
@@ -236,20 +238,105 @@
         }
 
         @keyframes slideInDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
+            from {
+                transform: translateY(-100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
         }
 
         @media (max-width: 1024px) {
             .grid-layout {
                 grid-template-columns: 1fr;
             }
+
             .clarity-card {
                 position: static;
             }
         }
+
+        .current-option {
+            display: flex;
+            margin-top: 1rem;
+            justify-content: space-between;
+        }
+
+        .current-option button {
+            background: var(--border-color);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* color: white; */
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            gap: 0.5rem;
+        }
+
+        .current-option button:hover {
+            background-color: var(--light-blue);
+            transform: translateY(-2px);
+        }
+        .hide {
+            display: none;
+        }
+
+        .skills-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .skill {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        .progress-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(#447ff2 calc(var(--percentage) * 1%), #ecf0f1 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2c3e50;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .skill-name {
+            position: absolute;
+            text-align: center;
+            width: 80px;
+            font-size: 14px;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .progress-circle:hover .tooltip {
+            opacity: 1;
+        }
     </style>
 </head>
+
 <body>
     <header class="header">
         <div class="user-info">
@@ -257,7 +344,7 @@
             <i class="fa-solid fa-circle-user fa-2xs"></i>
             <h1>Welcome, Student!</h1>
         </div>
-        <button class="custom-select" style="width: auto; padding: 0.5rem 1rem;">Logout</button>
+        <button class="custom-select" style="width: auto; padding: 0.5rem 1rem;">Back</button>
     </header>
 
     <main class="main-content">
@@ -290,7 +377,7 @@
         <div class="grid-layout">
             <div class="main-section">
                 <div class="card">
-                    <h2>Career Overview</h2>
+                    <h2>Career Options</h2>
                     <table class="salary-table">
                         <thead>
                             <tr>
@@ -305,64 +392,93 @@
                                 <td>Web Development</td>
                                 <td>750,000</td>
                                 <td>Frontend and backend development with modern technologies</td>
-                                <td>  <i class="fa fa-search" style="font-size:20px;color:#3b82f6 "></i></td>
+                                <td> <i class="fa fa-search" style="font-size:20px;color:#3b82f6 "></i></td>
                             </tr>
                             <tr>
                                 <td>Data Science</td>
                                 <td>950,000</td>
                                 <td>Analysis and interpretation of complex data sets</td>
-                                <td>  <i class="fa fa-search" style="font-size:20px;color:#3b82f6 "></i></td>
+                                <td> <i class="fa fa-search" style="font-size:20px;color:#3b82f6 "></i></td>
                             </tr>
                             <tr>
                                 <td>UI/UX Design</td>
                                 <td>800,000</td>
                                 <td>Creating user-friendly interfaces and experiences</td>
-                                <td>  <i class="fa fa-search" style="font-size:20px;color:#3b82f6 "></i> </td>
+                                <td> <i class="fa fa-search" style="font-size:20px;color:#3b82f6 "></i> </td>
                             </tr>
                         </tbody>
                     </table>
 
                     <div class="notice">
-                        In order to make any changes in these, Please contact your counsellor
+                        NOTE: In order to make any changes in these, Please contact your counsellor
                     </div>
 
 
                 </div>
 
                 <div class="card">
-                    <h2>Skills Management</h2>
-                    
-
-                    <input type="text" class="custom-input" placeholder="Select Skills">
-                    
+                    <h2>Preferred Career</h2>
+                    <div class="current-option">
+                        <p>Software Developer</p>
+                        <button class="change-btn">Change Option</button>
+                    </div>
 
                     <div class="select-wrapper">
-                        <select class="custom-select">
-                            <option value="" disabled selected>Select Skill Category</option>
+                        <select class="custom-select hide">
+                            <option value="" disabled selected>Select a Career Option to Explore</option>
                             <option value="web">Web Development</option>
                             <option value="data">Data Science</option>
                             <option value="design">UI/UX Design</option>
                         </select>
                     </div>
 
-                    
-
-                    
-
                     <div class="section-divider"></div>
 
-                    <div class="chart-container">
-                        <canvas id="skillsChart"></canvas>
+                    <div class="required-skills">
+                        <h2 style="font-weight: bold; color: #2c3e50; text-align: center; margin-top: 20px;">
+                            Required Skills and Current Proficiency Levels
+                        </h2>
+                        <div class="skills-container">
+                            <div class="skill">
+                                <div class="progress-circle" data-percentage="75">
+                                    <span class="skill-name">Skill 1</span>
+                                    <span class="tooltip">75%</span>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="progress-circle" data-percentage="60">
+                                    <span class="skill-name">Skill 2</span>
+                                    <span class="tooltip">60%</span>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="progress-circle" data-percentage="85">
+                                    <span class="skill-name">Skill 3</span>
+                                    <span class="tooltip">85%</span>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="progress-circle" data-percentage="50">
+                                    <span class="skill-name">Skill 4</span>
+                                    <span class="tooltip">50%</span>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="progress-circle" data-percentage="90">
+                                    <span class="skill-name">Skill 5</span>
+                                    <span class="tooltip">90%</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
 
             <div class="clarity-card">
                 <h2>Clarity AI Assistant</h2>
                 <div class="clarity-container">
-                    <input type="text" 
-                           class="clarity-input" 
-                           placeholder="Ask Clarity...">
+                    <input type="text" class="clarity-input" placeholder="Ask Clarity...">
                     <button class="clarity-btn">
                         <!-- <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         </svg> -->
@@ -375,37 +491,32 @@
             </div>
         </div>
     </main>
-
     <script>
-        const ctx = document.getElementById('skillsChart').getContext('2d');
-        const skillsChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Web Development', 'Data Science', 'UI/UX Design'],
-                datasets: [{
-                    data: [75, 60, 85],
-                    backgroundColor: [
-                        '#4169e1',
-                        '#1a237e',
-                        '#7986cb'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                },
-                animation: {
-                    duration: 2000,
-                    easing: 'easeInOutQuart'
-                }
+        document.addEventListener('DOMContentLoaded', () => {
+            const changeBtn = document.querySelector(".current-option .change-btn");
+            const options = document.querySelector(".select-wrapper .custom-select");
+
+            if (changeBtn && options) {
+                changeBtn.addEventListener('click', () => {
+                    options.classList.remove('hide');
+                    changeBtn.classList.add('hide');
+                });
+
+                options.addEventListener('change', () => {
+                    options.classList.toggle('hide');
+                    changeBtn.classList.toggle('hide');
+                });
+            } else {
+                console.error("Elements not found: Ensure that the selectors match the HTML structure.");
             }
+
+            const progressCircles = document.querySelectorAll('.progress-circle');
+            progressCircles.forEach(circle => {
+                const percentage = circle.getAttribute('data-percentage');
+                circle.style.setProperty('--percentage', percentage);
+            });
         });
     </script>
 </body>
+
 </html>

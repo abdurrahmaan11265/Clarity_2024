@@ -29,6 +29,12 @@ const classSchema = new mongoose.Schema({
     subjects: [subjectSchema],
 });
 
+const careerOptionSchema = new mongoose.Schema({
+    name: String,
+    averageSalary: Number,
+    description: String,
+});
+
 const studentSchema = new mongoose.Schema({
     name: { type: String, required: true },
     details: {
@@ -49,9 +55,14 @@ const studentSchema = new mongoose.Schema({
             percentage: Number,
         }
     ],
-    careerOptions: [String],
+    careerOptions: [careerOptionSchema],
     prefferedCareer: String,
-    requiredSkills: [String],
+    requiredSkills: [
+        {
+            name: String,
+            currentPercentage: Number,
+        }
+    ],
     password: { type: String, required: true },
     assignedTests: [{
         testId: { type: mongoose.Schema.Types.ObjectId, ref: 'Test' },
