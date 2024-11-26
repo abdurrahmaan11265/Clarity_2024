@@ -4,9 +4,7 @@ import '../styles/ClarityAnalytics.css';
 import LineChart from '../components/LineChart copy';
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
-import { useNavigate } from 'react-router-dom';
 import HeaderStudent from '../components/HeaderStudent';
-// Register the necessary components for the radar chart
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 const ClarityAnalytics = () => {
@@ -16,7 +14,6 @@ const ClarityAnalytics = () => {
   const [currentDate, setCurrentDate] = useState('');
   const [marksData, setMarksData] = useState([]);
   const [tableData, setTableData] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (clarityTests.length > 0) {
@@ -191,7 +188,6 @@ const ClarityAnalytics = () => {
 
         </div>
       </div>
-
     </div>
 
   );
