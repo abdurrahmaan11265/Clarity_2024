@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../AuthContext';
 import '../styles/ClarityAnalytics.css';
-import LineChart from '../components/LineChart';
+import LineChart from '../components/LineChart copy';
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 import { useNavigate } from 'react-router-dom';
-
+import HeaderStudent from '../components/HeaderStudent';
 // Register the necessary components for the radar chart
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
@@ -79,14 +79,47 @@ const ClarityAnalytics = () => {
       },
     ],
   };
+  const lineChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Line Chart Title',
+        padding: {
+          top: 100, 
+          bottom: 10,
+        }
+      },
+
+      legend: {
+        position: 'top',
+      },
+    },
+    
+  };
+  
+  const radarChartOptions = {
+    plugins: {
+      title: {
+        display: true,
+        padding: {
+          top: 10, 
+          bottom: 10,
+        },
+      },
+      
+    },
+  };
+  
 
   return (
     <div className='clarity-analytics-container'>
-      <div className='header'>
-        <button onClick={() => navigate('/analytics')}>Back</button>
-        <h1>Clarity Analysis</h1>
-        <p className='subtitle'>Comprehensive analysis of your performance metrics</p>
-      </div>
+      
+      <HeaderStudent header_name="Clarity Analytics" />
+
+      <div className='inside-clarity-analytics-container'>
+
       <div className='metrics'>
         <div className='metric-card'>
           <div className='metric-title'>Pending Work</div>
@@ -132,19 +165,38 @@ const ClarityAnalytics = () => {
             ))}
           </tbody>
         </table>
-      </div>
-      <div className='chart-section'>
-        <LineChart
-          title={`${currentTest} Progress`}
-          xAxisData={marksData.map(data => new Date(data.date).toLocaleDateString())}
-          yAxisData={marksData.map(data => data.average)}
-          label="Average Marks"
-        />
-      </div>
-      <div className='radar-chart-section'>
-        <Radar data={radarData} />
+
+        <h2>Clarity Chart</h2>
+    <div className='clarity-chart-container'>
+      
+   
+        <div className='chart-section'>
+          <LineChart
+            xAxisData={marksData.map(data => new Date(data.date).toLocaleDateString())}
+            yAxisData={marksData.map(data => data.average)}
+            label="Average Marks"
+            options={lineChartOptions}
+            
+          />
+        </div>
+        
+        <div className='chart-section'>
+          <Radar 
+           title={`Personality Progress`} 
+          data={radarData} 
+          options={radarChartOptions}/>
+          
+        </div>
       </div>
     </div>
+      </div>
+      </div>
+      
+    
+
+
+     
+
   );
 };
 

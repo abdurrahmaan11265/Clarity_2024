@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Analytics.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import  HeaderStudent  from '../components/HeaderStudent.js';
 
 const Dashboard = () => {
   const { userData } = useAuth();
   const [testsCompleted, setTestsCompleted] = useState(0);
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     if (userData && userData.clarityTests) {
@@ -15,27 +17,17 @@ const Dashboard = () => {
     }
   }, [userData]);
 
-  const handleGoBack = () => {
-    navigate('/student');
-  };
+  // const handleGoBack = () => {
+  //   navigate('/student');
+  // };
 
   return (
     <div className='analytics-container'>
-      <header>
-        <div className="nav flex items-center justify-between">
-          <div className="flex items-center">
-            <button className="mr-2" aria-label="Go back" onClick={handleGoBack}>
-              <svg className="icon" viewBox="0 0 24 24">
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <h1 className="text-2xl font-bold">Analytics</h1>
-          </div>
-        </div>
-      </header>
+      
+      <HeaderStudent header_name={"Analytics"}/>
 
-      <div className="container_body">
-        <div className="grid grid-cols-3 mt-4">
+      <div className="container_body_analytics">
+        <div className="grid-container">
           <div className="card">
             <img src="https://www.oustudents.com/pageassets/support-and-advice/student-advice/academic-appeals/Academic-appeals.jpg"
               alt="Academic Analysis Cover" className="card-cover" />
@@ -76,7 +68,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="card">
+          {/* <div className="card">
             <img src="https://www.industryconnect.org/wp-content/uploads/2022/06/soft-skills.jpg"
               alt="Skills Analysis Cover" className="card-cover" />
             <div className="card-content">
@@ -96,7 +88,7 @@ const Dashboard = () => {
               </div>
               <button className="button button-outline w-full mt-4" id="button-skills">View Detailed Report</button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
