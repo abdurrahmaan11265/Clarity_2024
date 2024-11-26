@@ -55,3 +55,29 @@ export const getUserData = async (userId, token) => {
         throw error; // Re-throw the error to handle it in the calling function
     }
 };
+
+export const updatePreferredCareer = async (studentId, preferredCareer) => {
+    try {
+        const response = await api.post('/api/students/update-preffered-career', {
+            studentId,
+            preferredCareer
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error updating preferred career:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+export const askCareerQuestion = async (studentId, question) => {
+    try {
+        const response = await api.post('/api/students/ask-career-question', {
+            studentId,
+            question
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error asking career question:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};

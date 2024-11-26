@@ -3,8 +3,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 const express = require('express');
-
 dotenv.config();
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 // Register Student
 exports.registerStudent = async (req, res) => {
@@ -255,12 +256,6 @@ exports.updateMarks = async (req, res) => {
 //     }
 // };
 
-
-
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY; 
-
 async function inferSkillsFromTextWithGemini(prompt) {
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -270,8 +265,8 @@ async function inferSkillsFromTextWithGemini(prompt) {
 
         // Strip out any markdown or unwanted characters
         responseText = responseText.replace(/```json|```/g, '').trim();
-        console.log(prompt);
-        console.log(responseText);
+        // console.log(prompt);
+        // console.log(responseText);
 
         return responseText; // Return the cleaned text
     } catch (error) {
@@ -299,7 +294,7 @@ exports.analyzeSkills = async (req, res) => {
             }
         }
 
-        prompt += "\nOutput the skills in the json format: 'Skill: percentage'. and don't give anything else rather than that json";
+        prompt += "\nOutput the skills in the json format: 'Skill: percentage'. and don't give anything else rather than that json.";
 
         // Call Gemini API to infer skills
         const skillsText = await inferSkillsFromTextWithGemini(prompt);
@@ -362,3 +357,158 @@ exports.getUserData = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while fetching user data' });
     }
 };
+
+async function generateCareerOptionsWithGemini(skills) {
+    const prompt = `Based on the following skills and their percentages, suggest career options with average salary and description:\n${JSON.stringify(skills)}\nOutput the career options in the JSON format: [{"name": "Career Name", "averageSalary": 50000, "description": "Career description"}]. and dont give anything else rather than that json.`;
+
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    try {
+        const result = await model.generateContent(prompt);
+        let responseText = result.response.text();
+
+        // Strip out any markdown or unwanted characters
+        responseText = responseText.replace(/```json|```/g, '').trim();
+        // console.log(prompt);
+        // console.log(responseText);
+
+        return JSON.parse(responseText); // Return the parsed JSON
+    } catch (error) {
+        console.error("Error generating career options:", error);
+        throw error; // Ensure the error is thrown to be caught in the calling function
+    }
+}
+
+exports.generateCareerOptions = async (req, res) => {
+    try {
+        const { studentId } = req.body;
+
+        // Find the student
+        const student = await Student.findById(studentId);
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        // Use the student's skills to generate career options
+        const careerOptions = await generateCareerOptionsWithGemini(student.skills);
+
+        // Update the student's career options
+        student.careerOptions = careerOptions;
+        await student.save();
+
+        res.status(200).json({
+            message: "Career options generated and updated successfully",
+            careerOptions: student.careerOptions,
+        });
+    } catch (error) {
+        console.error("Error in generateCareerOptions:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+async function generateRequiredSkillsWithGemini(preferredCareer, currentSkills) {
+    const prompt = `For the career "${preferredCareer}", considering the current skills: ${JSON.stringify(currentSkills)}, list the top 5 required skills with their current proficiency percentage based on the given data the skills may not be present in the current skills but are required for the career. Output the skills in the JSON format: [{"name": "Skill Name", "currentPercentage": 50}]. and dont give anything else rather than that json.`;
+
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    try {
+        const result = await model.generateContent(prompt);
+        let responseText = result.response.text();
+
+        // Strip out any markdown or unwanted characters
+        responseText = responseText.replace(/```json|```/g, '').trim();
+        // console.log(prompt);
+        // console.log(responseText);
+
+        return JSON.parse(responseText); // Return the parsed JSON
+    } catch (error) {
+        console.error("Error generating required skills:", error);
+        throw error; // Ensure the error is thrown to be caught in the calling function
+    }
+}
+
+exports.updatePreferredCareerAndSkills = async (req, res) => {
+    try {
+        const { studentId, preferredCareer } = req.body;
+
+        // Find the student
+        const student = await Student.findById(studentId);
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        // Update the student's preferred career
+        student.prefferedCareer = preferredCareer;
+
+        // Generate required skills based on the preferred career and current skills
+        const requiredSkills = await generateRequiredSkillsWithGemini(preferredCareer, student.skills);
+
+        // Update the student's required skills
+        student.requiredSkills = requiredSkills;
+        await student.save();
+
+        res.status(200).json({
+            message: "Preferred career and required skills updated successfully",
+            prefferedCareer: student.prefferedCareer,
+            requiredSkills: student.requiredSkills,
+        });
+    } catch (error) {
+        console.error("Error in updatePreferredCareerAndSkills:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+async function answerQuestionWithGemini(question) {
+    const prompt = `You are a well-educated student career counselor. Answer the following question in a helpful and informative manner. Use bullet points or new lines to separate each section or paragraph, avoid using unnecessary symbols, and make it concise: "${question}"`;
+
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    try {
+        const result = await model.generateContent(prompt);
+        let responseText = result.response.text();
+
+        // Strip out any markdown or unwanted characters
+        responseText = responseText.replace(/```json|```/g, '').trim();
+
+        // Format the response with new lines or bullet points
+        responseText = responseText
+            .replace(/(\*\*|\*\*|\#)/g, '') // Remove markdown symbols
+            .replace(/(\*\s)/g, '- ') // Convert asterisks to bullet points
+            .replace(/(\n\s*)+/g, '\n') // Normalize new lines
+            .replace(/(\s*\n\s*)/g, '\n\n'); // Ensure paragraphs are separated by double new lines
+
+        console.log(prompt);
+        console.log(responseText);
+
+        return responseText; // Return the cleaned and formatted text
+    } catch (error) {
+        console.error("Error generating answer:", error);
+        throw error; // Ensure the error is thrown to be caught in the calling function
+    }
+}
+
+
+exports.askCareerQuestion = async (req, res) => {
+    try {
+        const { studentId, question } = req.body;
+
+        // Find the student
+        const student = await Student.findById(studentId);
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        // Get the answer from the AI
+        const answer = await answerQuestionWithGemini(question);
+
+        res.status(200).json({
+            message: "Question answered successfully",
+            question,
+            answer,
+        });
+    } catch (error) {
+        console.error("Error in askCareerQuestion:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+

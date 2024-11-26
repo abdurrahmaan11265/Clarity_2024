@@ -188,8 +188,23 @@ const ClarityAnalytics = () => {
           
         </div>
       </div>
+
     </div>
       </div>
+      <div className='chart-section'>
+
+        <LineChart
+          title={`${currentTest} Progress`}
+          xAxisData={marksData.map(data => new Date(data.date).toLocaleDateString())}
+          yAxisData={marksData.map(data => data.average)}
+          label="Average Marks"
+        />
+
+        <div>
+          <Radar data={radarData} />
+        </div>
+
+
       </div>
       
     
