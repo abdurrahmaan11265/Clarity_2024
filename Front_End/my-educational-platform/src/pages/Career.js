@@ -47,7 +47,7 @@ const Career = () => {
     const skillsToShow = showAllSkills ? userData.skills : userData.skills.slice(0, 7);
 
     return (
-        <div>
+        <div className="career-container">
             <header className="header">
                 <div className="user-info">
                     <i className="fa fa-circle-user fa-2xs"></i>

@@ -87,7 +87,7 @@ const ClarityAnalytics = () => {
         display: true,
         text: 'Line Chart Title',
         padding: {
-          top: 100, 
+          top: 100,
           bottom: 10,
         }
       },
@@ -96,121 +96,103 @@ const ClarityAnalytics = () => {
         position: 'top',
       },
     },
-    
+
   };
-  
+
   const radarChartOptions = {
     plugins: {
       title: {
         display: true,
         padding: {
-          top: 10, 
+          top: 10,
           bottom: 10,
         },
       },
-      
+
     },
   };
-  
+
 
   return (
     <div className='clarity-analytics-container'>
-      
+
       <HeaderStudent header_name="Clarity Analytics" />
 
       <div className='inside-clarity-analytics-container'>
 
-      <div className='metrics'>
-        <div className='metric-card'>
-          <div className='metric-title'>Pending Work</div>
-          <div className='metric-value blue'>3</div>
+        <div className='metrics'>
+          <div className='metric-card'>
+            <div className='metric-title'>Pending Work</div>
+            <div className='metric-value blue'>3</div>
+          </div>
+          <div className='metric-card'>
+            <div className='metric-title'>Tests Completed</div>
+            <div className='metric-value green'>12</div>
+          </div>
+          <div className='metric-card'>
+            <div className='metric-title'>Status</div>
+            <div className='metric-value orange'>Good</div>
+          </div>
         </div>
-        <div className='metric-card'>
-          <div className='metric-title'>Tests Completed</div>
-          <div className='metric-value green'>12</div>
-        </div>
-        <div className='metric-card'>
-          <div className='metric-title'>Status</div>
-          <div className='metric-value orange'>Good</div>
-        </div>
-      </div>
-      <div className='controls'>
-        <select onChange={handleTestChange} value={currentTest}>
-          {clarityTests.map(test => (
-            <option key={test._id} value={test.name}>{test.name}</option>
-          ))}
-        </select>
-        <select onChange={handleDateChange} value={currentDate}>
-          {clarityTests.find(test => test.name === currentTest)?.dateAndMarks.map(date => (
-            <option key={date._id} value={date.date}>
-              {new Date(date.date).toLocaleDateString()}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className='table-section'>
-        <table>
-          <thead>
-            <tr>
-              <th>Skill</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tableData.map((row, index) => (
-              <tr key={index}>
-                <td>{row.skill}</td>
-                <td>{row.score}</td>
-              </tr>
+        <div className='controls'>
+          <select onChange={handleTestChange} value={currentTest}>
+            {clarityTests.map(test => (
+              <option key={test._id} value={test.name}>{test.name}</option>
             ))}
-          </tbody>
-        </table>
-
-        <h2>Clarity Chart</h2>
-    <div className='clarity-chart-container'>
-      
-   
-        <div className='chart-section'>
-          <LineChart
-            xAxisData={marksData.map(data => new Date(data.date).toLocaleDateString())}
-            yAxisData={marksData.map(data => data.average)}
-            label="Average Marks"
-            options={lineChartOptions}
-            
-          />
+          </select>
+          <select onChange={handleDateChange} value={currentDate}>
+            {clarityTests.find(test => test.name === currentTest)?.dateAndMarks.map(date => (
+              <option key={date._id} value={date.date}>
+                {new Date(date.date).toLocaleDateString()}
+              </option>
+            ))}
+          </select>
         </div>
-        
-        <div className='chart-section'>
-          <Radar 
-           title={`Personality Progress`} 
-          data={radarData} 
-          options={radarChartOptions}/>
-          
+        <div className='table-section'>
+          <table>
+            <thead>
+              <tr>
+                <th>Skill</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.map((row, index) => (
+                <tr key={index}>
+                  <td>{row.skill}</td>
+                  <td>{row.score}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <h2>Clarity Chart</h2>
+          <div className='clarity-chart-container'>
+
+
+            <div className='chart-section'>
+              <LineChart
+                xAxisData={marksData.map(data => new Date(data.date).toLocaleDateString())}
+                yAxisData={marksData.map(data => data.average)}
+                label="Average Marks"
+                options={lineChartOptions}
+
+              />
+            </div>
+
+            <div className='chart-section'>
+              <Radar
+                title={`Personality Progress`}
+                data={radarData}
+                options={radarChartOptions} />
+
+            </div>
+          </div>
+
         </div>
       </div>
 
     </div>
-      </div>
-      <div className='chart-section'>
-
-        <LineChart
-          title={`${currentTest} Progress`}
-          xAxisData={marksData.map(data => new Date(data.date).toLocaleDateString())}
-          yAxisData={marksData.map(data => data.average)}
-          label="Average Marks"
-        />
-
-        <div>
-          <Radar data={radarData} />
-        </div>
-
-
-      </div>
-      
-    
-
-
-     
 
   );
 };

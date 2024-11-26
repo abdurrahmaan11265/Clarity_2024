@@ -16,7 +16,7 @@
     --warning-yellow: #ff9800;
 }
 
-.header {
+.career-container .header {
     background: white;
     padding: 1.5rem 2rem;
     display: flex;
@@ -31,7 +31,7 @@
     animation: slideInDown 0.5s ease-out;
 }
 
-.main-content {
+.career-container .main-content {
     padding: 2rem;
     margin-top: 80px;
     max-width: 1400px;
@@ -39,14 +39,14 @@
     margin-right: auto;
 }
 
-.grid-layout {
+.career-container .grid-layout {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 2rem;
     align-items: start;
 }
 
-.card {
+.career-container .card {
     background: white;
     border-radius: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -55,7 +55,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.clarity-card {
+.career-container .clarity-card {
     background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
     ;
     color: white;
