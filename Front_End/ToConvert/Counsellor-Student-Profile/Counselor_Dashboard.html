@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CounselorHub - My Students</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #e5e7ff;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --critical-color:red;
+            --background-color: #f8fafc;
+            --sidebar-width: 260px;
+            --header-height: 60px;
+            --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+        .container-body { background-color: var(--background-color); display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #3b82f6;
+            color: white;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .sidebar-visible { transform: translateX(0); }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .nav-item {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .nav-item:hover { background-color: rgba(255, 255, 255, 0.1); }
+        .nav-item.active { background-color: rgba(255, 255, 255, 0.2); }
+        .nav-item i { transition: transform 0.3s ease; }
+        .nav-item:hover i { transform: scale(1.2); }
+        .counselor-profile {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .counselor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-content {
+            margin-left: 0;
+            flex: 1;
+            padding: 2rem;
+            transition: margin-left 0.3s ease-in-out;
+            width: 100%;
+        }
+        .main-content-shifted { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); }
+        .welcome-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .welcome-left { display: flex; align-items: center; gap: 1rem; }
+        #sidebarToggle {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            width: 300px;
+            margin-top: 1rem;
+        }
+        .search-bar input { border: none; outline: none; width: 100%; margin-left: 0.5rem; }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover{
+            transform: translateY(-5px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .stat-value {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .stat-label { font-size: 1rem; color: #0000 }
+
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 20vw));
+            justify-content: space-evenly;
+            align-content: space-between;
+            align-items: stretch;
+            justify-items: stretch;
+            gap: 2rem;
+            margin: 2rem;
+        }
+        .student-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .student-header {
+            display: flex;
+            flex-direction:row ;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .student-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .student-info h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+        .student-info p { color: #64748b; font-size: 0.875rem; }
+        .academic-performance { margin: 1rem 0; }
+        .gpa-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+        .gpa-progress {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+        .status-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        .status-warning { background-color: #fff7ed; color: var(--warning-color); }
+        .status-success { background-color: #f0fdf4; color: var(--success-color); }
+        .status-critical { background-color: #fdecec; color: var(--critical-color); }
+        .card-actions { display: flex; gap: 1rem; }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn-outline { background: white; border: 1px solid #e2e8f0; color: #1e293b; }
+        .btn-primary { background: var(--primary-color); border: none; color: white; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .action-item:hover { background-color: var(--secondary-color); }
+        .action-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+        .students-header{
+            display: flex;
+            justify-content: space-between;
+            margin: 0px 32px;
+            
+        }
+        .student-header  h2{
+            margin-top: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar { width: 80px; padding: 1rem; }
+            .logo, .nav-item span, .counselor-profile span { display: none; }
+            .main-content-shifted { margin-left: 80px; width: calc(100% - 80px); }
+        }
+
+        @media (max-width: 768px) {
+            .students-grid { grid-template-columns: 1fr; }
+            .stats-section { grid-template-columns: 1fr; }
+            .sidebar { width: 100%; }
+            .counselor-profile { flex-direction: column; align-items: flex-start; }
+            .welcome-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .search-bar { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-body">
+    <aside class="sidebar">
+        <div class="logo">CounselorHub</div>
+        <nav>
+            <ul class="nav-menu">
+                <li class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></li>
+                <!-- <li class="nav-item active"><i class="fas fa-users"></i><span>Students</span></li> -->
+                <li class="nav-item"><i class="fas fa-calendar"></i><span>Appointments</span></li>
+                <li class="nav-item"><i class="fas fa-chart-bar"></i><span>Reports</span></li>
+            </ul>
+        </nav>
+        <div class="counselor-profile">
+            <div class="counselor-avatar"><i class="fas fa-user"></i></div>
+            <div>
+                <div>Dr. Sarah Wilson</div>
+                <small>School Counselor</small>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="welcome-header">
+            <div class="welcome-left">
+                <button id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                
+            </div>
+            <div class="welcome_text">
+                <h1>Welcome back, Dr. Sarah</h1>
+            </div>
+            <button class="btn btn-outline" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>Log out
+            </button>
+        </div>
+
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-value" id="studentCount">0</div>
+                <div class="stat-label" style="color: black;">Total Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="schoolCount">0</div>
+                <div class="stat-label" style="color: black">Total Schools</div>
+            </div>
+            <div class="stat-card">
+                <h3 style="margin-bottom: 1rem; font-size: 2rem;" >Quick Actions</h3>
+                <div class="action-item">
+                    <div class="action-icon"><i class="fas fa-users"></i></div>
+                    <div><div style="font-weight: 500;">Scheduled Sessions</div></div>
+                </div>
+                <div class="action-item">
+                    <div class="action-icon"><i class="fas fa-file-alt"></i></div>
+                    <div><div style="font-weight: 500;">Generate Reports</div></div>
+                </div>
+                <div class="action-item">
+                    <div class="action-icon"><i class="fas fa-file-alt"></i></div>
+                    <div><div style="font-weight: 500;">Send Message</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="students-header">
+            <h2 style="margin-top: 1rem; font-size: 2rem;">My Students</h2>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search students..." id="searchInput">
+            </div>
+        </div>
+
+        <div class="students-grid" id="studentsGrid">
+            <!-- Student cards will be dynamically inserted here (HEllO Abhdurrhiman) -->
+        </div>
+    </main>
+
+</div>
+
+    <script>
+        const students = [
+            { id: '2024001', name: 'Alex Jhon', grade: '10', gpa: 3.8, status: 'Needs Career Guidance', statusType: 'warning' },
+            { id: '2024002', name: 'Emily Johnson', grade: '10', gpa: 3.5, status: 'On Track', statusType: 'success' },
+            { id: '2024003', name: 'Michael Brown', grade: '12', gpa: 2, status: 'Needs Academic Support', statusType: 'critical' },
+            { id: '2024004', name: 'Sarah Davis', grade: '9', gpa: 4.0, status: 'Exceptional Performance', statusType: 'success' },
+            { id: '2024005', name: 'Sarah MAthew', grade: '9', gpa: 4.0, status: 'Exceptional Performance', statusType: 'success' },
+            { id: '2024006', name: 'Sarah MAthefsd', grade: '9', gpa: 4.0, status: 'Exceptional Performance', statusType: 'success' },
+            { id: '2024001', name: 'John Smith', grade: '11', gpa: 3.8, status: 'Needs Career Guidance', statusType: 'warning' },
+            { id: '2024002', name: 'Emily Johnson', grade: '10', gpa: 3.5, status: 'On Track', statusType: 'success' },
+            { id: '2024003', name: 'Michael Brown', grade: '12', gpa: 2, status: 'Needs Academic Support', statusType: 'critical' },
+            { id: '2024004', name: 'Sarah Davis', grade: '9', gpa: 4.0, status: 'Exceptional Performance', statusType: 'success' },
+            { id: '2024005', name: 'Sarah MAthew', grade: '9', gpa: 4.0, status: 'Exceptional Performance', statusType: 'success' },
+            { id: '2024001', name: 'John Smith', grade: '11', gpa: 3.8, status: 'Needs Career Guidance', statusType: 'warning' },
+            { id: '2024002', name: 'Emily Johnson', grade: '10', gpa: 3.5, status: 'On Track', statusType: 'success' },
+            { id: '2024003', name: 'Michael Brown', grade: '12', gpa: 2, status: 'Needs Academic Support', statusType: 'critical' },
+            { id: '2024004', name: 'Sarah Davis', grade: '9', gpa: 4.0, status: 'Exceptional Performance', statusType: 'success' },
+            { id: '2024005', name: 'Sarah MAthew', grade: '9', gpa: 4.0, status: 'Exceptional Performance', statusType: 'success' },
+        ];
+
+        function createStudentCard(student) {
+            const gpaPercentage = (student.gpa / 4) * 100;
+            const card = document.createElement('div');
+            card.className = 'student-card';
+            card.innerHTML = `
+                <div class="student-header">
+                    <div class="student-avatar"><i class="fas fa-user"></i></div>
+                    <div class="student-info">
+                        <h3>${student.name}</h3>
+                        <p>Grade ${student.grade} | Student ID: ${student.id}</p>
+                    </div>
+                </div>
+                <div class="academic-performance">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Academic Performance</span>
+                        <span style="color: var(--primary-color); font-weight: 500;">${gpaPercentage} %</span>
+                    </div>
+                    <div class="gpa-bar">
+                        <div class="gpa-progress" style="width: ${gpaPercentage}%; background-color: var(--primary-color);"></div>
+                    </div>
+                </div>
+                <span class="status-tag status-${student.statusType}">${student.status}</span>
+                <div class="card-actions">
+                    <button class="btn btn-outline" onclick="viewProfile('${student.id}')">
+                        <i class="fas fa-eye"></i>View Profile
+                    </button>
+                    <button class="btn btn-primary" onclick="bookAppointment('${student.id}')">
+                        <i class="fas fa-calendar-plus"></i>Book Appointment
+                    </button>
+                </div>
+            `;
+            return card;
+        }
+
+        function renderStudents(studentsArray) {
+            const grid = document.getElementById('studentsGrid');
+            grid.innerHTML = '';
+            studentsArray.forEach(student => grid.appendChild(createStudentCard(student)));
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredStudents = students.filter(student =>
+                student.name.toLowerCase().includes(searchTerm) || student.id.includes(searchTerm)
+            );
+            renderStudents(filteredStudents);
+        });
+
+        function viewProfile(studentId) { alert(`Viewing profile of student ${studentId}`); }
+        function bookAppointment(studentId) { alert(`Opening appointment booking interface for student ${studentId}`); }
+
+        renderStudents(students);
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.action-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const action = item.querySelector('div:nth-child(2)').firstElementChild.textContent;
+                alert(`Initiating: ${action}`);
+            });
+        });
+
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar-visible');
+            mainContent.classList.toggle('main-content-shifted');
+        });
+
+        document.addEventListener('click', (event) => {
+            const isClickInsideSidebar = sidebar.contains(event.target);
+            const isClickOnToggle = sidebarToggle.contains(event.target);
+            if (!isClickInsideSidebar && !isClickOnToggle && sidebar.classList.contains('sidebar-visible')) {
+                sidebar.classList.remove('sidebar-visible');
+                mainContent.classList.remove('main-content-shifted');
+            }
+        });
+
+        document.getElementById('studentCount').textContent = students.length;
+        document.getElementById('schoolCount').textContent = '5';
+
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.textContent = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        animateValue(document.getElementById('studentCount'), 0, 30, 1000);
+        animateValue(document.getElementById('schoolCount'), 0, 10, 1000);
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            window.location.href='login.html';
+            // Add actual logout logic here
+        });
+    </script>
+</body>
+</html>

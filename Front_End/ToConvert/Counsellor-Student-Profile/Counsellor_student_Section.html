@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile - Alex Johnson</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --light-blue: #f0f7ff;
+            --border-color: #e2e8f0;
+            --text-primary: #151e2c;
+            --text-secondary: #64748b;
+            --background-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .container-body {
+            background-color: #f8fafc;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 99vw;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Styles */
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .profile-details h1 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-details p {
+            color: var(--text-secondary);
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            font-size: large;
+        }
+
+        .nav-tab {
+            padding: 1rem 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+
+        .content-grid-overveiw {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+
+        .ai-summary {
+            background: var(--light-blue);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-width: 3px;
+            border: 2px solid var(--border-color);
+        }
+
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .refresh-button {
+            color: var(--primary-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+
+
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .performance-card {
+            opacity: 0;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .performance-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .performance-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Counseling Notes */
+        .counseling-notes {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .note-item {
+            padding: 1rem 0;
+            border-left: 2px solid var(--primary-color);
+            padding-left: 1rem;
+            margin-left: 1rem;
+            position: relative;
+        }
+
+        .note-item:not(:last-child) {
+            border-left: 2px solid var(--border-color);
+        }
+
+        .note-item::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+            left: -7px;
+            top: 1.5rem;
+        }
+
+        .note-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .note-time {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+
+        .student-info {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+        }
+
+        .info-value {
+            font-weight: 500;
+        }
+
+
+        .upcoming-sessions {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .session-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+        }
+
+        .session-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--light-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .content-grid-overveiw {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .profile-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.5s ease-out forwards;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight 0.5s ease-out forwards;
+        }
+
+
+        .performance-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .performance-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .note-item {
+            transition: background-color 0.3s ease;
+        }
+
+        .note-item:hover {
+            background-color: var(--light-blue);
+        }
+
+        .session-item {
+            transition: transform 0.3s ease;
+        }
+
+        .session-item:hover {
+            transform: translateX(5px);
+        }
+
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .rotating {
+            animation: rotate 1s linear infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-body">
+
+
+        <div class="container">
+            <header class="profile-header">
+                <div class="profile-info">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-details">
+                        <h1>Alex Johnson</h1>
+                        <p>Grade 10 • Student ID: #12345</p>
+                    </div>
+                </div>
+            </header>
+
+            <section class="performance-grid">
+                <div class="performance-card" id="academicAnalysis">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <i class="fas fa-graduation-cap" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+                        <h3 style="font-size: 1.25rem; color: var(--text-primary);">Academic Analysis</h3>
+                    </div>
+                    <p style="color: var(--text-secondary); text-align: left;">Strong performance in STEM subjects with
+                        a GPA of 3.8. Consistently performs above class average in mathematics and sciences. Areas for
+                        improvement identified in literature and writing skills.</p>
+                </div>
+
+                <div class="performance-card" id="clarityAnalysis">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <i class="fas fa-brain" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+                        <h3 style="font-size: 1.25rem; color: var(--text-primary);">Clarity Analysis</h3>
+                    </div>
+                    <p style="color: var(--text-secondary); text-align: left;">Demonstrates clear understanding of
+                        complex concepts. Shows strong analytical thinking abilities and can articulate ideas
+                        effectively in class discussions.</p>
+                </div>
+
+                <div class="performance-card" id="skillsAnalysis">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                        <i class="fas fa-chart-line" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+                        <h3 style="font-size: 1.25rem; color: var(--text-primary);">Skills Analysis</h3>
+                    </div>
+                    <p style="color: var(--text-secondary); text-align: left;">Excellent problem-solving and critical
+                        thinking skills. Strong in team collaboration and leadership. Active participant in group
+                        projects and study sessions.</p>
+                </div>
+            </section>
+
+            <div class="content-grid-overveiw">
+                <main>
+                    <section class="ai-summary">
+                        <div class="summary-header">
+                            <h2>AI-Generated Summary</h2>
+                            <button class="refresh-button">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh Analysis
+                            </button>
+                        </div>
+                        <p>Alex shows strong performance in mathematics and sciences, but may need additional support in
+                            literature. Recent attendance has been excellent (95%). Social engagement is positive with
+                            active participation in study groups.</p>
+                        <p class="text-secondary" style="margin-top: 1rem; font-size: 0.875rem;">Last updated: 2 hours
+                            ago</p>
+                    </section>
+
+                    <!-- <section class="performance-grid">
+                    <div class="performance-card">
+                        <div class="performance-value">3.8</div>
+                        <div class="performance-label">Current </div>
+                    </div>
+                    <div class="performance-card">
+                        <div class="performance-value">95%</div>
+                        <div class="performance-label">Attendance</div>
+                    </div>
+                    <div class="performance-card">
+                        <div class="performance-value">8</div>
+                        <div class="performance-label">Active Courses</div>
+                    </div>
+                </section> -->
+
+                    <section class="counseling-notes">
+                        <div class="notes-header">
+                            <h2>Counseling Notes</h2>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-plus"></i>
+                                Add Note
+                            </button>
+                        </div>
+                        <div class="note-item">
+                            <div class="note-title">Career Guidance Session</div>
+                            <div class="note-time">2 days ago</div>
+                            <p>Discussed potential college majors. Shows strong interest in engineering and computer
+                                science.</p>
+                        </div>
+                        <div class="note-item">
+                            <div class="note-title">Academic Review</div>
+                            <div class="note-time">1 week ago</div>
+                            <p>Reviewed mid-term results. Performing well in STEM subjects.</p>
+                        </div>
+                    </section>
+                </main>
+
+                <aside>
+                    <section class="student-info">
+                        <h2 style="margin-bottom: 1rem;">Student Information</h2>
+                        <div class="info-item">
+                            <span class="info-label">Age</span>
+                            <span class="info-value">16</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Grade Level</span>
+                            <span class="info-value">Grade 10</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Gender</span>
+                            <span class="info-value">Male</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Father </span>
+                            <span class="info-value">James Doe</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Mother </span>
+                            <span class="info-value">Jane Doe</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Telephone</span>
+                            <span class="info-value">123-456-7890</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Contact Email</span>
+                            <span class="info-value">alex.j@school.edu</span>
+                        </div>
+                    </section>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+
+        document.querySelector('.refresh-button').addEventListener('click', () => {
+            alert('Refreshing analysis...');
+
+        });
+
+
+        document.querySelector('.btn-outline').addEventListener('click', () => {
+            window.print();
+        });
+
+
+        function addAnimationWithDelay(selector, animationClass, delay) {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.classList.add(animationClass);
+                }, delay * (index + 1));
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            document.querySelector('.profile-header').classList.add('animate-fade-in');
+
+            addAnimationWithDelay('.performance-card', 'animate-fade-in', 200);
+
+
+            document.querySelector('.ai-summary').classList.add('animate-scale-in');
+
+
+            addAnimationWithDelay('.note-item', 'animate-fade-in-up', 300);
+
+            document.querySelector('.student-info').classList.add('animate-slide-in-right');
+            setTimeout(() => {
+                document.querySelector('.upcoming-sessions').classList.add('animate-slide-in-right');
+            }, 200);
+        });
+
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        document.querySelector('.refresh-button').addEventListener('click', () => {
+            const icon = document.querySelector('.refresh-button i');
+            icon.classList.add('rotating');
+
+
+            setTimeout(() => {
+                icon.classList.remove('rotating');
+
+                // Animate the AI summary content
+                const summary = document.querySelector('.ai-summary');
+                summary.style.opacity = '0';
+                setTimeout(() => {
+                    summary.classList.add('animate-scale-in');
+                    summary.style.opacity = '1';
+                }, 300);
+            }, 1500);
+        });
+        document.querySelector('#academicAnalysis').addEventListener('click', () => {
+            window.location.href = 'Analytics_Acadamics_Counsellor.html';
+        });
+        document.querySelector('#clarityAnalysis').addEventListener('click', () => {
+            window.location.href = 'Clarity_Analytics_Counsellor.html';
+        });
+        document.querySelector('#skillsAnalysis').addEventListener('click', () => {
+            window.location.href = 'Student_Skill_Page_Counsellor.html';
+        });
+
+        document.querySelector('.btn-outline').addEventListener('click', () => {
+            window.print();
+        });
+
+
+    </script>
+</body>
+
+</html>

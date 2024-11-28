@@ -8,13 +8,11 @@ const {
     deleteSubject,
     updateMarks,
     getUserData,
-    verifyToken,
-    analyzeSkills,
-    generateCareerOptions,
     updatePreferredCareerAndSkills,
     askCareerQuestion
 } = require('../controllers/studentController');
 const { getTestNames } = require('../controllers/testController');
+const protect = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
@@ -26,19 +24,13 @@ router.post('/add-class', addClass);
 router.delete('/delete-class', deleteClass);
 router.post('/add-subject', addSubject);
 router.delete('/delete-subject', deleteSubject);
-router.put('/update-marks', updateMarks);
+router.put('/update-marks', updateMarks); // this is for adding or updating marks of a subject's exam in a class
 
 // tests
 router.post('/get-test-names', getTestNames);
 
-// skills
-router.post("/analyze-skills", analyzeSkills);
-
 // Protected route to get user data
-router.get('/user-data/:userId', verifyToken, getUserData);
-
-// career options
-router.post('/generate-career-options', generateCareerOptions);
+router.get('/user-data/:userId', protect, getUserData);
 
 // update preferred career and skills
 router.post('/update-preffered-career', updatePreferredCareerAndSkills);

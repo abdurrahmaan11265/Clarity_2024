@@ -5,15 +5,37 @@ import LineChart from '../components/LineChart copy';
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 import HeaderStudent from '../components/HeaderStudent';
+import { useSearchParams } from 'react-router-dom';
+import { getUserData } from '../services/api';
+
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 const ClarityAnalytics = () => {
-  const { userData } = useAuth();
-  const clarityTests = useMemo(() => userData?.clarityTests || [], [userData]);
+  const [searchParams] = useSearchParams();
+  const studentId = searchParams.get('studentId');
+  const { userData, authToken } = useAuth();
+  const [clarityTests, setClarityTests] = useState([]);
   const [currentTest, setCurrentTest] = useState('');
   const [currentDate, setCurrentDate] = useState('');
   const [marksData, setMarksData] = useState([]);
   const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    const fetchStudentData = async () => {
+      try {
+        const data = await getUserData(studentId, authToken);
+        setClarityTests(data.clarityTests || []);
+      } catch (error) {
+        console.error('Error fetching student data:', error);
+      }
+    };
+
+    if (userData.userType === 'counselor' && studentId) {
+      fetchStudentData();
+    } else {
+      setClarityTests(userData.clarityTests || []);
+    }
+  }, [userData, studentId, authToken]);
 
   useEffect(() => {
     if (clarityTests.length > 0) {
@@ -76,6 +98,7 @@ const ClarityAnalytics = () => {
       },
     ],
   };
+
   const lineChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -88,12 +111,10 @@ const ClarityAnalytics = () => {
           bottom: 10,
         }
       },
-
       legend: {
         position: 'top',
       },
     },
-
   };
 
   const radarChartOptions = {
@@ -105,30 +126,22 @@ const ClarityAnalytics = () => {
           bottom: 10,
         },
       },
-
     },
   };
 
-
   return (
     <div className='clarity-analytics-container'>
-
       <HeaderStudent header_name="Clarity Analytics" />
 
       <div className='inside-clarity-analytics-container'>
-
         <div className='metrics'>
           <div className='metric-card'>
-            <div className='metric-title'>Pending Work</div>
-            <div className='metric-value blue'>3</div>
+            <div className='metric-title'>Kinds of Tests Given</div>
+            <div className='metric-value blue'>{clarityTests.length}</div>
           </div>
           <div className='metric-card'>
-            <div className='metric-title'>Tests Completed</div>
-            <div className='metric-value green'>12</div>
-          </div>
-          <div className='metric-card'>
-            <div className='metric-title'>Status</div>
-            <div className='metric-value orange'>Good</div>
+            <div className='metric-title'>Total Tests Given</div>
+            <div className='metric-value green'>{clarityTests.reduce((total, test) => total + test.dateAndMarks.length, 0)}</div>
           </div>
         </div>
         <div className='controls'>
@@ -163,33 +176,29 @@ const ClarityAnalytics = () => {
             </tbody>
           </table>
 
-          <h2>Clarity Chart</h2>
+          <h2 style={{ marginTop: '2rem', color: '#5f6368' }}>Clarity Chart</h2>
           <div className='clarity-chart-container'>
-
-
             <div className='chart-section'>
               <LineChart
                 xAxisData={marksData.map(data => new Date(data.date).toLocaleDateString())}
                 yAxisData={marksData.map(data => data.average)}
                 label="Average Marks"
                 options={lineChartOptions}
-
               />
             </div>
 
             <div className='chart-section'>
+              <h3 style={{ color: '#5f6368' }}>Date: {new Date(currentDate).toLocaleDateString()}</h3>
               <Radar
                 title={`Personality Progress`}
                 data={radarData}
-                options={radarChartOptions} />
-
+                options={radarChartOptions}
+              />
             </div>
           </div>
-
         </div>
       </div>
     </div>
-
   );
 };
 

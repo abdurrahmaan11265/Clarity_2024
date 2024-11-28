@@ -10,6 +10,7 @@ const api = axios.create({
 
 export const registerStudent = (data) => api.post('/api/students/register', data);
 export const loginStudent = (data) => api.post('/api/students/login', data);
+export const loginCounselor = (data) => api.post('/api/counselors/login', data);
 export const getAllTests = async (testIds) => {
     try {
         const response = await api.post('/api/students/get-test-names', {
@@ -80,4 +81,132 @@ export const askCareerQuestion = async (studentId, question) => {
         console.error("Error asking career question:", error.response ? error.response.data : error.message);
         throw error;
     }
+};
+
+export const assignTestToStudent = async (studentId, testId, authToken) => {
+    return api.post('/api/counselors/assign-test', { studentId, testId }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const removeTestFromStudent = async (studentId, testId, authToken) => {
+    return api.post('/api/counselors/remove-test', { studentId, testId }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const generateCareerOptions = async (studentId, authToken) => {
+    return api.post('/api/counselors/generate-career-options', { studentId }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const removeCareerOption = async (studentId, careerName, authToken) => {
+    return api.post('/api/counselors/remove-career-option', { studentId, careerName }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const editCareerOption = async (studentId, careerName, newAverageSalary, newDescription, authToken) => {
+    return api.post('/api/counselors/edit-career-option', { studentId, careerName, newAverageSalary, newDescription }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const addNewCareerOption = async (studentId, careerName, averageSalary, description, authToken) => {
+    return api.post('/api/counselors/add-new-career-option', { studentId, careerName, averageSalary, description }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const analyzeSkills = async (studentId, authToken) => {
+    return api.post('/api/counselors/analyze-skills', { studentId }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const addSkill = async (studentId, skillName, percentage, authToken) => {
+    return api.post('/api/counselors/add-skill', { studentId, skillName, percentage }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const updateSkill = async (studentId, skillName, newPercentage, authToken) => {
+    return api.post('/api/counselors/update-skill', { studentId, skillName, newPercentage }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const deleteSkill = async (studentId, skillName, authToken) => {
+        return api.post('/api/counselors/delete-skill', { studentId, skillName }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const addRequiredSkill = async (studentId, skillName, percentage, authToken) => {
+        return api.post('/api/counselors/add-required-skill', { studentId, skillName, percentage }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const updateRequiredSkill = async (studentId, skillName, newPercentage, authToken) => {
+        return api.post('/api/counselors/update-required-skill', { studentId, skillName, newPercentage }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const deleteRequiredSkill = async (studentId, skillName, authToken) => {
+    return api.post('/api/counselors/delete-required-skill', { studentId, skillName }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const addNote = async (studentId, note, authToken) => {
+        return api.post('/api/counselors/add-note', { studentId, note }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const removeNote = async (studentId, noteId, authToken) => {
+    return api.post('/api/counselors/remove-note', { studentId, noteId }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
+};
+
+export const generateAISummary = async (studentId, authToken) => {
+    return api.post('/api/counselors/generate-ai-summary', { studentId }, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    });
 };

@@ -1,33 +1,64 @@
+// AcademicAnalytics.js
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../AuthContext';
 import '../styles/AcademicAnalytics.css';
 import LineChart from '../components/LineChart';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { getUserData } from '../services/api';
 
 const AcademicAnalytics = () => {
-  const { userData } = useAuth();
-  const [classes, setClasses] = useState(userData.classes || []);
-  const [subjects, setSubjects] = useState(classes.length > 0 ? classes[0].subjects : []);
+  const { userData, authToken } = useAuth();
+  const [searchParams] = useSearchParams();
+  const studentId = searchParams.get('studentId');
+  const [studentData, setStudentData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [classes, setClasses] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const [currentExam, setCurrentExam] = useState('');
-  const [currentClass, setCurrentClass] = useState(classes.length > 0 ? classes[0].classNo : null);
+  const [currentClass, setCurrentClass] = useState(null);
   const [examPercentages, setExamPercentages] = useState([]);
   const [averageData, setAverageData] = useState({ xAxisData: [], yAxisData: [] });
   const [totalAverage, setTotalAverage] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (classes.length > 0 && currentClass !== null) {
-      const selectedClassSubjects = classes.filter((item) => item.classNo === currentClass)[0]?.subjects || [];
-      setSubjects(selectedClassSubjects);
-      if (selectedClassSubjects.length > 0) {
-        setCurrentExam(selectedClassSubjects[0].examNameAndMarks[0].name);
+    const fetchStudentData = async () => {
+      try {
+        const data = await getUserData(studentId, authToken);
+        setStudentData(data);
+      } catch (error) {
+        console.error('Error fetching student data:', error);
+      } finally {
+        setLoading(false);
       }
+    };
+
+    if (studentId) {
+      fetchStudentData();
+    } else {
+      setLoading(false);
     }
-  }, [currentClass, classes]);
+  }, [studentId, authToken]);
 
   useEffect(() => {
-    setClasses(userData.classes);
-  }, [userData]);
+    if (studentData && studentData.classes && studentData.classes.length > 0) {
+      setClasses(studentData.classes);
+      setCurrentClass(studentData.classes[0].classNo);
+    } else if (userData && userData.classes && userData.classes.length > 0) {
+      setClasses(userData.classes);
+      setCurrentClass(userData.classes[0].classNo);
+    }
+  }, [studentData, userData]);
+
+  useEffect(() => {
+    if (classes.length > 0) {
+      const selectedClass = classes.find((item) => item.classNo === currentClass) || classes[0];
+      setSubjects(selectedClass.subjects || []);
+      if (selectedClass.subjects && selectedClass.subjects.length > 0) {
+        setCurrentExam(selectedClass.subjects[0].examNameAndMarks[0]?.name || '');
+      }
+    }
+  }, [classes, currentClass]);
 
   useEffect(() => {
     if (subjects.length > 0) {
@@ -93,12 +124,20 @@ const AcademicAnalytics = () => {
   };
 
   const handleGoBack = () => {
-    navigate('/analytics');
+    if (userData.userType === 'student') {
+      navigate('/analytics');
+    } else {
+      navigate(`/counselors-student-dashboard?studentId=${studentId}`);
+    }
   };
-
 
   return (
     <div className='analytics-container'>
+      {loading && (
+        <div id="loadingOverlay">
+          <div className="spinner"></div>
+        </div>
+      )}
       <div className='analytics-container-header'>
         <div className="nav flex items-center justify-between">
           <div className="flex items-center">
@@ -113,10 +152,9 @@ const AcademicAnalytics = () => {
       </div>
 
       <div className='container_academic_analysics'>
-
         <div style={{ textAlign: "center" }}>
           <h1>Academic Records</h1>
-          <p className="text-muted">View your complete academic history and progress</p>
+          {!studentData ? (<p className="text-muted">View your complete academic history and progress</p>) : (<p className="text-muted">View the academic history and progress of {studentData.name}</p>) }
         </div>
 
         <div className="flex justify-between items-center mt-4" style={{ alignItems: "center" }} id="select_class_No">

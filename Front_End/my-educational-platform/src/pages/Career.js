@@ -48,9 +48,13 @@ const ClarityCard = ({ isLoading, clarityQuestion, setClarityQuestion, handleAsk
   };
 
 const Career = () => {
-    const { userData, setUserData, authToken } = useAuth(); 
+    const { userData, setUserData, authToken } = useAuth();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const studentId = searchParams.get('studentId');
+    const [studentData, setStudentData] = useState(null);
     const [showAllSkills, setShowAllSkills] = useState(false);
-    const [showDropdown, setShowDropdown] = useState(false); 
+    const [showDropdown, setShowDropdown] = useState(false);
     const [dropdownDisabled, setDropdownDisabled] = useState(false);
     const [clarityQuestion, setClarityQuestion] = useState('');
     const [clarityAnswer, setClarityAnswer] = useState('');
@@ -76,7 +80,7 @@ const Career = () => {
             const updatedUserData = await getUserData(userData._id, authToken);
             setUserData(updatedUserData);
             setDropdownDisabled(true);
-            setShowDropdown(false); 
+            setShowDropdown(false);
             setTimeout(() => setDropdownDisabled(false), 1000);
         } catch (error) {
             console.error("Failed to update preferred career:", error);
@@ -89,7 +93,7 @@ const Career = () => {
     const handleAskClarity = async () => {
         setIsLoading(true);
         try {
-            const response = await askCareerQuestion(userData._id, clarityQuestion);
+            const response = await askCareerQuestion(studentData._id, clarityQuestion);
             setClarityAnswer(response.answer);
         } catch (error) {
             console.error("Failed to get answer from Clarity AI:", error);
@@ -168,10 +172,10 @@ const Career = () => {
                                 </tbody>
                             </table>
 
-                            <div className="notice">
-                                NOTE: In order to make any changes in these, please contact your counsellor.
-                            </div>
-                        </div>
+                                    <div className="notice">
+                                        NOTE: In order to make any changes in these, please contact your counsellor.
+                                    </div>
+                                </div>
 
                         <div className="card">
                             <h2>Preferred Career</h2>
@@ -200,7 +204,7 @@ const Career = () => {
                                 </select>
                             </div>
 
-                            <div className="section-divider"></div>
+                                    <div className="section-divider"></div>
 
                             <div className="required-skills">
                             
