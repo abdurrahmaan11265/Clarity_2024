@@ -1,0 +1,132 @@
+.timeline-container {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding-top: 5.5rem;
+    padding-bottom:2rem ;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    
+  }
+  
+  .timeline-wrapper {
+    margin-bottom: 1rem;
+  }
+  
+  .timeline-line {
+    position: relative;
+    height: 0.25rem;
+    background-color: #3b82f6;
+    margin: 0 4rem;
+  }
+  
+  .timeline-points {
+    display: flex;
+    border: 1px;
+    justify-content: space-between;
+    position: absolute;
+    width: 100%;
+    top: -1rem;
+  }
+  
+  .point-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .point-content {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 1rem;
+    width: 10rem;
+    text-align: center;
+  }
+  
+  .point-content h3 {
+    font-weight: 600;
+    color: #3b82f6;
+    margin-bottom: 0.25rem;
+  }
+  
+  .point-content p {
+    font-size: 0.875rem;
+    color: #4b5563;
+  }
+  
+  .timeline-point {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    border: 1px;
+    background-color: #3b82f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .timeline-point:hover {
+    background-color: #4169e1;
+    transform: scale(1.1);
+  }
+  
+  .timeline-point span {
+    color: white;
+    font-weight: 500;
+  }
+  
+  .flashcards-container {
+    margin-top: 3.5rem;
+    padding: 0 4rem;
+    
+  }
+  
+  .flashcards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .flashcard {
+    border-radius: 16px;
+    padding: 1.5rem;
+    background-color: white;
+    border: 2px solid #3b82f6;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s;
+  }
+  
+  .flashcard:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .flashcard h4 {
+    font-weight: 600;
+    color: #4169e1;
+    margin-bottom: 0.75rem;
+    font-size: 1.125rem;
+  }
+  
+  .flashcard p {
+    color: #4b5563;
+    line-height: 1.5;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-in-up-1 { animation: fadeInUp 0.4s ease-out forwards; }
+  .fade-in-up-2 { animation: fadeInUp 0.5s ease-out forwards; }
+  .fade-in-up-3 { animation: fadeInUp 0.6s ease-out forwards; }
