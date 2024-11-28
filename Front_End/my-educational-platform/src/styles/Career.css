@@ -1,6 +1,3 @@
-
-
-
 * {
     margin: 0;
     padding: 0;
@@ -40,14 +37,16 @@
     color: #333;
     line-height: 1.6;
 }
-.inside-clarity-analytics-container{
+
+.inside-clarity-analytics-container {
     padding: 1rem 2rem;
 }
-.career-container  .mr-2 {
+
+.career-container .mr-2 {
     margin-right: 0.5rem;
 }
 
-.career-container  .text-2xl {
+.career-container .text-2xl {
     font-size: 1.5rem;
     margin: 0;
 }
@@ -60,12 +59,15 @@
 .career-container header svg {
     stroke: white;
 }
+
 .career-container header h1 {
     color: white;
 }
-.career-container .flex{
+
+.career-container .flex {
     display: flex;
 }
+
 .career-container .items-center {
     align-items: center;
 }
@@ -74,7 +76,7 @@
     justify-content: space-between;
 }
 
-.career-container .space-x-4>*+* {
+.career-container .space-x-4>+ {
     margin-left: 1rem;
 }
 
@@ -151,11 +153,13 @@
     text-align: left;
     border-bottom: 1px solid var(--border-color);
 }
-.salary-table td > img{
+
+.salary-table td>img {
     width: 30px;
     height: 30px;
 }
-.salary-table td > img:hover{
+
+.salary-table td>img:hover {
     transform: scale(1.1);
 }
 
@@ -333,7 +337,7 @@
     justify-content: space-between;
 }
 
-.current-option button, 
+.current-option button,
 .see-more-btn {
     background: var(--border-color);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -409,4 +413,345 @@
 
 .progress-circle:hover .tooltip {
     opacity: 1;
+}
+
+
+
+
+.clarity-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    border-radius: 12px;
+}
+
+.loading-overlay_for_skills {
+
+    display: none;
+    margin: 20px;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    border-radius: 12px;
+    transition: all 0.3s;
+}
+
+.spinner {
+    text-align: center;
+}
+
+.spinner>div {
+    width: 12px;
+    height: 12px;
+    background-color: white;
+    border-radius: 100%;
+    display: inline-block;
+    margin: 0 4px;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.spinner_for_skills .bounce1 {
+    animation-delay: -0.32s;
+}
+
+.spinner_for_skills .bounce2 {
+    animation-delay: -0.16s;
+}
+
+.spinner_for_skills {
+    text-align: center;
+}
+
+.spinner_for_skills>div {
+    width: 12px;
+    height: 12px;
+    background-color: #447ff2;
+    border-radius: 100%;
+    display: inline-block;
+    margin: 0 4px;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.spinner_for_skills .bounce1 {
+    animation-delay: -0.32s;
+}
+
+.spinner_for_skills .bounce2 {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1.0);
+    }
+}
+
+
+
+
+
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+
+.main-content {
+    animation: fadeIn 0.8s ease-out;
+}
+
+
+.card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.card:hover::after {
+    transform: translateX(100%);
+}
+
+
+.salary-table th,
+.salary-table td,
+.skills-table th,
+.skills-table td {
+    transition: background-color 0.3s ease;
+}
+
+.salary-table tr:hover td,
+.skills-table tr:hover td {
+    background-color: var(--light-blue);
+    transform: scale(1.01);
+}
+
+
+.clarity-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.clarity-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: -1;
+}
+
+.clarity-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.clarity-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.clarity-input {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.clarity-input:focus {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+
+.progress-circle {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-circle:hover {
+    transform: scale(1.1);
+}
+
+.progress-circle::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(45deg, var(--primary-blue), #6495ed);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.progress-circle:hover::before {
+    opacity: 1;
+}
+
+
+.tooltip {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%) translateY(10px);
+}
+
+.progress-circle:hover .tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.skill {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.skill:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.skill:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.skill:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.skill:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.skill:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+
+.custom-select {
+    transition: all 0.3s ease;
+}
+
+.custom-select:hover {
+    border-color: var(--primary-blue);
+}
+
+.custom-select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.2);
+    transform: translateY(-1px);
+}
+
+
+.spinner>div,
+.spinner_for_skills>div {
+    animation: bounce 1.4s infinite ease-in-out both;
+    transition: background-color 0.3s ease;
+}
+
+.spinner:hover>div {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.spinner_for_skills:hover>div {
+    background-color: var(--primary-blue);
+}
+
+
+.notice {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.notice:hover {
+    transform: translateX(5px);
+    background: #fff7e6;
+}
+
+
+.hide {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
 }

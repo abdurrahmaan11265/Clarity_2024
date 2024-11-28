@@ -1,51 +1,50 @@
-import React, { useState } from 'react';
-import '../styles/Career.css'; 
-import { useAuth } from '../AuthContext'; 
-import { updatePreferredCareer, getUserData, askCareerQuestion } from '../services/api'; 
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom'; // Correct import
+import '../styles/Career.css';
+import { useAuth } from '../AuthContext';
+import { updatePreferredCareer, getUserData, askCareerQuestion } from '../services/api';
 import HeaderStudent from '../components/HeaderStudent';
 import SearchImage from '../assests/search_sparkle.png';
 import RoadmapComponent from '../components/Roadmap.js';
 
 const ClarityCard = ({ isLoading, clarityQuestion, setClarityQuestion, handleAskClarity, clarityAnswer }) => {
     return (
-      <div className="clarity-card">
-        <h2>Clarity AI Assistant</h2>
-        <div className="clarity-container" style={{ position: 'relative' }}>
-          
-          
-          {isLoading ? (
-            <div className="loading-overlay">
-              <div className="spinner">
-                <div className="bounce1"></div>
-                <div className="bounce2"></div>
-                <div className="bounce3"></div>
-              </div>
+        <div className="clarity-card">
+            <h2>Clarity AI Assistant</h2>
+            <div className="clarity-container" style={{ position: 'relative' }}>
+                {isLoading ? (
+                    <div className="loading-overlay">
+                        <div className="spinner">
+                            <div className="bounce1"></div>
+                            <div className="bounce2"></div>
+                            <div className="bounce3"></div>
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        <input
+                            type="text"
+                            className="clarity-input"
+                            placeholder="Ask Clarity..."
+                            value={clarityQuestion}
+                            onChange={(e) => setClarityQuestion(e.target.value)}
+                        />
+                        <button
+                            className="clarity-btn"
+                            onClick={handleAskClarity}
+                            disabled={isLoading}
+                        >
+                            Ask Clarity
+                        </button>
+                        <div className="clarity-output">
+                            {clarityAnswer || "How can I help you today?"}
+                        </div>
+                    </>
+                )}
             </div>
-          ) : (
-            <>
-            <input
-            type="text"
-            className="clarity-input"
-            placeholder="Ask Clarity..."
-            value={clarityQuestion}
-            onChange={(e) => setClarityQuestion(e.target.value)}
-          />
-            <button 
-            className="clarity-btn" 
-            onClick={handleAskClarity}
-            disabled={isLoading}
-          >
-            Ask Clarity
-          </button>
-            <div className="clarity-output">
-              {clarityAnswer || "How can I help you today?"}
-            </div>
-            </>
-          )}
         </div>
-      </div>
     );
-  };
+};
 
 const Career = () => {
     const { userData, setUserData, authToken } = useAuth();
@@ -59,6 +58,23 @@ const Career = () => {
     const [clarityQuestion, setClarityQuestion] = useState('');
     const [clarityAnswer, setClarityAnswer] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchStudentData = async () => {
+            try {
+                const data = await getUserData(studentId, authToken);
+                setStudentData(data);
+            } catch (error) {
+                console.error('Error fetching student data:', error);
+            }
+        };
+
+        if (userData.userType === 'counselor' && studentId) {
+            fetchStudentData();
+        } else {
+            setStudentData(userData);
+        }
+    }, [userData, studentId, authToken]);
 
     const toggleSkillsVisibility = () => {
         setShowAllSkills(!showAllSkills);
@@ -74,7 +90,7 @@ const Career = () => {
         const newCareer = event.target.value;
         document.querySelector('.loading-overlay_for_skills').style.display = 'block';
         document.querySelector('.skills-container').style.display = 'none';
-        
+
         try {
             await updatePreferredCareer(userData._id, newCareer);
             const updatedUserData = await getUserData(userData._id, authToken);
@@ -84,7 +100,7 @@ const Career = () => {
             setTimeout(() => setDropdownDisabled(false), 1000);
         } catch (error) {
             console.error("Failed to update preferred career:", error);
-        } finally{
+        } finally {
             document.querySelector('.loading-overlay_for_skills').style.display = 'none';
             document.querySelector('.skills-container').style.display = 'flex';
         }
@@ -105,7 +121,7 @@ const Career = () => {
     const handleAskClarityCareer = async (careerOption = '') => {
         setIsLoading(true);
         setClarityQuestion(`Tell me about ${careerOption} career?`);
-        
+
         try {
             const response = await askCareerQuestion(userData._id, `Tell me about ${careerOption} career?`);
             setClarityAnswer(response.answer);
@@ -120,7 +136,7 @@ const Career = () => {
 
     return (
         <div className="career-container">
-            <HeaderStudent header_name={"Career"}/>
+            <HeaderStudent header_name={"Career"} />
 
             <main className="main-content">
                 <h1 style={{ textAlign: 'center' }}>Career Dashboard</h1>
@@ -172,10 +188,10 @@ const Career = () => {
                                 </tbody>
                             </table>
 
-                                    <div className="notice">
-                                        NOTE: In order to make any changes in these, please contact your counsellor.
-                                    </div>
-                                </div>
+                            <div className="notice">
+                                NOTE: In order to make any changes in these, please contact your counsellor.
+                            </div>
+                        </div>
 
                         <div className="card">
                             <h2>Preferred Career</h2>
@@ -204,11 +220,11 @@ const Career = () => {
                                 </select>
                             </div>
 
-                                    <div className="section-divider"></div>
+                            <div className="section-divider"></div>
 
                             <div className="required-skills">
-                            
-                            
+
+
                                 <h2 style={{ fontWeight: 'bold', color: '#2c3e50', textAlign: 'center', marginTop: '20px' }}>
                                     Required Skills and Current Proficiency Levels
                                 </h2>
@@ -219,9 +235,9 @@ const Career = () => {
                                         <div className="bounce3"></div>
                                     </div>
                                 </div>
-                                
+
                                 <div className="skills-container">
-                                
+
                                     {userData.requiredSkills.map(skill => (
                                         <div className="skill" key={skill._id.$oid}>
                                             <div
@@ -239,7 +255,7 @@ const Career = () => {
 
                     </div>
 
-                    <ClarityCard 
+                    <ClarityCard
                         isLoading={isLoading}
                         clarityQuestion={clarityQuestion}
                         setClarityQuestion={setClarityQuestion}
@@ -247,13 +263,13 @@ const Career = () => {
                         clarityAnswer={clarityAnswer}
                     />
                 </div>
-                
+
                 <div className="roadmap-container">
                     <h2 style={{ fontWeight: 'bold', color: '#2c3e50', textAlign: 'center', marginTop: '20px' }}>
                     </h2>
                     <RoadmapComponent />
                 </div>
-                 
+
             </main>
         </div>
     );
