@@ -25,7 +25,7 @@ exports.loginStudent = async (req, res) => {
         const { email, password } = req.body;
         const student = await Student.findOne({ 'details.email': email });
         if (student && (await bcrypt.compare(password, student.password))) {
-            const token = jwt.sign({ id: student._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            const token = jwt.sign({ id: student._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
             res.json({ token, student });
         } else {
             res.status(401).json({ message: 'Invalid email or password' });
@@ -118,7 +118,7 @@ exports.deleteSubject = async (req, res) => {
 };
 
 // Update marks for a subject in a class
-exports.updateMarks = async (req, res) => {
+exports. updateMarks = async (req, res) => {
     try {
         const { studentId, classNo, subjectName, examName, totalMarks, gainedMarks } = req.body;
 
@@ -256,90 +256,6 @@ exports.updateMarks = async (req, res) => {
 //     }
 // };
 
-async function inferSkillsFromTextWithGemini(prompt) {
-    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    try {
-        const result = await model.generateContent(prompt);
-        let responseText = result.response.text();
-
-        // Strip out any markdown or unwanted characters
-        responseText = responseText.replace(/```json|```/g, '').trim();
-        // console.log(prompt);
-        // console.log(responseText);
-
-        return responseText; // Return the cleaned text
-    } catch (error) {
-        console.error("Error generating content:", error);
-        throw error; // Ensure the error is thrown to be caught in the calling function
-    }
-}
-
-exports.analyzeSkills = async (req, res) => {
-    try {
-        const { studentId } = req.body;
-
-        // Find the student
-        const student = await Student.findById(studentId);
-        if (!student) {
-            return res.status(404).json({ message: "Student not found" });
-        }
-
-        // Combine all clarity test scores into a prompt
-        let prompt = "Based on the following test scores, identify the skills and assign a percentage to each skill, search new skills which can be derived from the score:\n";
-        for (const test of student.clarityTests) {
-            for (const entry of test.dateAndMarks) {
-                const marks = entry.marks;
-                prompt += `Test: ${test.name}, Date: ${entry.date.toISOString()}, Scores: ${JSON.stringify(marks)}. `;
-            }
-        }
-
-        prompt += "\nOutput the skills in the json format: 'Skill: percentage'. and don't give anything else rather than that json.";
-
-        // Call Gemini API to infer skills
-        const skillsText = await inferSkillsFromTextWithGemini(prompt);
-
-        // Parse the JSON response directly
-        const skillsObject = JSON.parse(skillsText);
-
-        // Convert the skills object into an array
-        const skillsArray = Object.entries(skillsObject).map(([name, percentage]) => ({
-            name,
-            percentage: parseFloat(percentage),
-        }));
-
-        // Update the student's skills
-        student.skills = skillsArray;
-        await student.save();
-
-        res.status(200).json({
-            message: "Skills analyzed and updated successfully",
-            skills: student.skills,
-        });
-    } catch (error) {
-        console.error("Error in analyzeSkills:", error);
-        res.status(500).json({ error: error.message });
-    }
-};
-
-// Middleware to verify JWT
-exports.verifyToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if (!token) {
-        return res.status(401).json({ message: 'Access token is missing or invalid' });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json({ message: 'Token is not valid' });
-        }
-        req.user = user;
-        next();
-    });
-};
-
 // Route to get user data
 exports.getUserData = async (req, res) => {
     try {
@@ -355,54 +271,6 @@ exports.getUserData = async (req, res) => {
     } catch (error) {
         console.error('Error fetching user data:', error);
         res.status(500).json({ error: 'An error occurred while fetching user data' });
-    }
-};
-
-async function generateCareerOptionsWithGemini(skills) {
-    const prompt = `Based on the following skills and their percentages, suggest career options with average salary and description:\n${JSON.stringify(skills)}\nOutput the career options in the JSON format: [{"name": "Career Name", "averageSalary": 50000, "description": "Career description"}]. and dont give anything else rather than that json.`;
-
-    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    try {
-        const result = await model.generateContent(prompt);
-        let responseText = result.response.text();
-
-        // Strip out any markdown or unwanted characters
-        responseText = responseText.replace(/```json|```/g, '').trim();
-        // console.log(prompt);
-        // console.log(responseText);
-
-        return JSON.parse(responseText); // Return the parsed JSON
-    } catch (error) {
-        console.error("Error generating career options:", error);
-        throw error; // Ensure the error is thrown to be caught in the calling function
-    }
-}
-
-exports.generateCareerOptions = async (req, res) => {
-    try {
-        const { studentId } = req.body;
-
-        // Find the student
-        const student = await Student.findById(studentId);
-        if (!student) {
-            return res.status(404).json({ message: "Student not found" });
-        }
-
-        // Use the student's skills to generate career options
-        const careerOptions = await generateCareerOptionsWithGemini(student.skills);
-
-        // Update the student's career options
-        student.careerOptions = careerOptions;
-        await student.save();
-
-        res.status(200).json({
-            message: "Career options generated and updated successfully",
-            careerOptions: student.careerOptions,
-        });
-    } catch (error) {
-        console.error("Error in generateCareerOptions:", error);
-        res.status(500).json({ error: error.message });
     }
 };
 

@@ -8,7 +8,7 @@ const examSchema = new mongoose.Schema({
 
 const subjectSchema = new mongoose.Schema({
     name: String,
-    examNameAndMarks: [examSchema], // Array of exams with their marks
+    examNameAndMarks: [examSchema],
 });
 
 const clarityTestSchema = new mongoose.Schema({
@@ -33,6 +33,12 @@ const careerOptionSchema = new mongoose.Schema({
     name: String,
     averageSalary: Number,
     description: String,
+});
+
+const counselorNoteSchema = new mongoose.Schema({
+    _id: { type: mongoose.Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() },
+    date: { type: Date, default: Date.now },
+    note: String,
 });
 
 const studentSchema = new mongoose.Schema({
@@ -68,7 +74,10 @@ const studentSchema = new mongoose.Schema({
         testId: { type: mongoose.Schema.Types.ObjectId, ref: 'Test' },
         completed: { type: Boolean, default: false },
         testName: String
-    }]
+    }],
+    counselorNotes: [counselorNoteSchema],
+    aiSummary: { type: String, default: 'No summary yet' },
+    userType: { type: String, default: 'student' }
 });
 
 module.exports = mongoose.model('Student', studentSchema);

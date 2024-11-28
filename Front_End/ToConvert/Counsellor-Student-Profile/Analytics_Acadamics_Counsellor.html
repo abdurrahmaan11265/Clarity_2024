@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Academic Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-foreground: #ffffff;
+            --background: #ffffff;
+            --foreground: #020817;
+            --muted: #f1f5f9;
+            --muted-foreground: #64748b;
+            --card: #ffffff;
+            --card-foreground: #020817;
+            --border: #e2e8f0;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --border-color: #e2e8f0;
+            --primary-color: #3b82f6;
+            
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container-body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.5;
+        }
+
+        .container_academic_analysics {
+            max-width: 99vw;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        #select_class_No{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #select_Exams{
+            display: flex;
+            justify-content: center;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .text-muted {
+            color: var(--muted-foreground);
+        }
+
+        .grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid-cols-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .card {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        .text-green {
+            color: var(--green);
+        }
+
+        .text-yellow {
+            color: var(--yellow);
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        select, button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.25rem;
+            background-color: var(--background);
+            color: var(--foreground);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+            transform: scale(1.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            transition: background-color 0.3s ease;
+        }
+
+        tr:hover td {
+            background-color: var(--muted);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--muted-foreground);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            animation: pulse 2s infinite;
+        }
+
+        .badge-blue {
+            background-color: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .chart-container_academic_analysics {
+            height: 200px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .chart-container_academic_analysics.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header, .grid, .flex, table {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* .grid > * {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .grid > *:nth-child(1) { animation-delay: 0.1s; }
+        .grid > *:nth-child(2) { animation-delay: 0.2s; }
+        .grid > *:nth-child(3) { animation-delay: 0.3s; } */
+
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--muted);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+
+        
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .profile-details h1 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-details p {
+            color: var(--text-secondary);
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+
+        
+
+
+    </style>
+</head>
+<body>
+    <div class="container-body">
+    <div id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+        
+
+
+
+    <div class="container_academic_analysics">
+        <header class="profile-header">
+            <div class="profile-info">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="profile-details">
+                    <h1>Alex Johnson</h1>
+                    <p>Grade 10-A • Student ID: #12345</p>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="btn btn-outline">
+                    <i class="fas fa-print"></i>
+                    Print Report
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-comment"></i>
+                    Message Student
+                </button>
+            </div>
+            </header>
+        <header style="text-align: center;">
+            <h1>Academic Records</h1>
+            <p class="text-muted">View your complete academic history and progress</p>
+        </header>
+
+
+        
+
+        <div class="flex justify-between items-center mt-4" style="align-items: center;" id="select_class_No">
+            <select id="Class_No_select">
+                <option value="Class No 9">Grade 9</option>
+                <option value="Class No 10">Grade 10</option>
+                <option value="Class No 11">Grade 11</option>
+                <option value="Class No 12">Grade 12</option>
+            </select>
+   
+        </div>
+
+        <div class="grid grid-cols-3 mt-4">
+            <div class="card">
+                <div class="text-center">
+                    <p class="text-muted">Percentage</p>
+                    <p class="text-primary" style="font-size: 2rem; font-weight: 700;">98</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="text-center">
+                    <p class="text-muted">Class Number</p>
+                    <p style="font-size: 2rem; font-weight: 700;">9th</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="text-center">
+                    <p class="text-muted">Academic Standing</p>
+                    <p class="text-green" style="font-size: 2rem; font-weight: 700;">Good</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-center mt-4" id="select_Exams">
+            <select id="semesterSelect">
+                <option value="Finals">Finals</option>
+                <option value="Assesment_1">Assesment 1</option>
+                <option value="Half_Yearly">Half Yearly </option>
+                <option value="Assesment_2">Assesment 2</option>
+            </select>
+            <!-- <button id="downloadReport">Download Report</button> -->
+        </div>
+
+        <div class="mt-4">
+            <div class="flex justify-between items-center">
+                <h2>Assesment_1</h2>
+                <span class="badge badge-blue">Current Semester</span>
+            </div>
+            <table class="mt-4">
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Percentage</th>
+                        <th>Grade</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Maths</td>
+                        <td>91%</td>
+                        <td>B+</td>
+                        <td class="text-yellow">Can be improved</td>
+                    </tr>
+                    <tr>
+                        <td>Science</td>
+                        <td>4</td>
+                        <td>95%</td>
+                        <td class="text-green">Good</td>
+                    </tr>
+                    <tr>
+                        <td>English</td>
+                        <td>95%</td>
+                        <td>A</td>
+                        <td class="text-green">Good</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4">
+            <h2>Academic Progress Graphs</h2>
+            <div class="grid grid-cols-3 mt-4">
+                <div class="card">
+                    <h3>Maths</h3>
+                    <div class="chart-container_academic_analysics">
+                        <canvas id="Maths"></canvas>
+                    </div>
+                </div>
+                
+
+                <div class="card">
+                    <h3>Physics</h3>
+                    <div class="chart-container_academic_analysics">
+                        <canvas id="Physics"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Chemistry</h3>
+                    <div class="chart-container_academic_analysics">
+                        <canvas id="Chemistry"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>English</h3>
+                    <div class="chart-container_academic_analysics">
+                        <canvas id="English"></canvas>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="card">
+                    <h3>Social Science</h3>
+                    <div class="chart-container_academic_analysics">
+                        <canvas id="Social_Science"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Hindi</h3>
+                    <div class="chart-container_academic_analysics">
+                        <canvas id="Hindi"></canvas>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h2>Total Average</h2>
+            <div class="card">
+                <div class="chart-container_academic_analysics" style="height: 300px;">
+                    <canvas id="clarityChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        // Loading animation
+        window.addEventListener('load', () => {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.opacity = '0';
+            loadingOverlay.addEventListener('transitionend', () => {
+                loadingOverlay.style.display = 'none';
+            }, { once: true });
+        });
+
+        // Intersection Observer for chart animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.chart-container_academic_analysics').forEach(chart => {
+            observer.observe(chart);
+        });
+
+
+        // Maths :)
+        const percentCtx = document.getElementById('Maths').getContext('2d');
+        new Chart(percentCtx, {
+            type: 'line',
+            data: {
+                labels: ['Assesment 1', 'Half Yearly', 'Assesment 2', 'Finals'],
+                datasets: [{
+                    label: 'percent',
+                    data: [92, 90, 95, 98],
+                    borderColor: '#3b82f6',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        max: 100
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+        const percentPHYCtx = document.getElementById('Physics').getContext('2d');
+        new Chart(percentPHYCtx, {
+            type: 'line',
+            data: {
+                labels: ['Assesment 1', 'Half Yearly', 'Assesment 2', 'Finals'],
+                datasets: [{
+                    label: 'percent',
+                    data: [92, 90, 91, 98],
+                    borderColor: '#3b82f6',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        max: 100
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+
+
+        //Chemistry
+        const percentCHECtx = document.getElementById('Chemistry').getContext('2d');
+        new Chart(percentCHECtx, {
+            type: 'line',
+            data: {
+                labels: ['Assesment 1', 'Half Yearly', 'Assesment 2', 'Finals'],
+                datasets: [{
+                    label: 'percent',
+                    data: [92, 85, 95, 98],
+                    borderColor: '#3b82f6',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        max: 100
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+        //English
+        const percentENGCtx = document.getElementById('English').getContext('2d');
+        new Chart(percentENGCtx, {
+            type: 'line',
+            data: {
+                labels: ['Assesment 1', 'Half Yearly', 'Assesment 2', 'Finals'],
+                datasets: [{
+                    label: 'percent',
+                    data: [86, 90, 95, 98],
+                    borderColor: '#3b82f6',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        max: 100
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+
+
+
+
+
+
+        // Percentage Progress Chart
+        const PercentageSOCCtx = document.getElementById('Social_Science').getContext('2d');
+        new Chart(PercentageSOCCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Assesment 1', 'Half Yearly 2023', 'Finals',],
+                datasets: [{
+                    label: 'Percentage Completed',
+                    data: [15, 30, 45],
+                    backgroundColor: '#3b82f6'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 60
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+        // Grade Distribution Chart
+        const gradeCtx = document.getElementById('Hindi').getContext('2d');
+        new Chart(gradeCtx, {
+            type: 'pie',
+            data: {
+                labels: ['A', 'A-', 'B+', 'B'],
+                datasets: [{
+                    data: [4, 1, 2, 1],
+                    backgroundColor: ['#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+        // Clarity Test Progress Chart
+        const clarityCtx = document.getElementById('clarityChart').getContext('2d');
+        new Chart(clarityCtx, {
+            type: 'line',
+            data: {
+                labels: ['Assesment 1', 'Half Yearly', 'Assesment 2', 'Final'],
+                datasets: [{
+                    label: 'Total Average',
+                    data: [65, 54, 65, 85, 89],
+                    borderColor: '#3b82f6',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
+                }
+            }
+        });
+
+        const semesterData = {
+            'Finals': {
+                semester: 'Finals',
+                percent: 98,
+                Class_no: '9',
+                courses: [
+                    { name: 'Mathematics', Percentage: 90+'%', grade: 'B+', status: 'Good' },
+                    { name: 'Physics', Percentage: 95 +'%', grade: 'A', status: 'Good' },
+                    { name: 'Chemistry', Percentage: 96+'%', grade: 'A', status: 'Good' },
+                    { name: 'English', Percentage: 90+'%', grade: 'B+', status: 'Can be improved' },
+                    { name: 'Social Science', Percentage: 95 +'%', grade: 'A', status: 'Good' },
+                    { name: 'Hindi', Percentage: 96+'%', grade: 'A', status: 'Good' }
+                ]
+            },
+            'Assesment_1': {
+                semester: 'Assesment 1',
+                percent: 95,
+                Class_no: '9',
+                courses: [
+                { name: 'Mathematics', Percentage: 90+'%', grade: 'B+', status: 'Can be improved' },
+                    { name: 'Physics', Percentage: 90 +'%', grade: 'A', status: 'Can be improved' },
+                    { name: 'Chemistry', Percentage: 87+'%', grade: 'A', status: 'Can be improved' },
+                    { name: 'English', Percentage: 95+'%', grade: 'B+', status: 'Good' },
+                    { name: 'Social Science', Percentage: 95 +'%', grade: 'A', status: 'Good' },
+                    { name: 'Hindi', Percentage: 96+'%', grade: 'A', status: 'Good' }
+                ]
+            },
+            'Half_Yearly': {
+                semester: 'Half Yearly',
+                percent: 97,
+                Class_no: '9',
+                courses: [
+                    { name: 'Mathematics', Percentage: 90+'%', grade: 'B+', status: 'Can be improved' },
+                    { name: 'Physics', Percentage: 95 +'%', grade: 'A', status: 'Good' },
+                    { name: 'Chemistry', Percentage: 96+'%', grade: 'A', status: 'Good' },
+                    { name: 'English', Percentage: 90+'%', grade: 'B+', status: 'Good' },
+                    { name: 'Social Science', Percentage: 95 +'%', grade: 'A', status: 'Good' },
+                    { name: 'Hindi', Percentage: 96+'%', grade: 'A', status: 'Good' }
+                ]
+            },
+            'Assesment_2': {
+                semester: 'Assesment 2',
+                percent: 91,
+                Class_no: '9',
+                courses: [
+                    { name: 'Mathematics', Percentage: 90+'%', grade: 'B+', status: 'Can be improved' },
+                    { name: 'Physics', Percentage: 95 +'%', grade: 'A', status: 'Good' },
+                    { name: 'Chemistry', Percentage: 96+'%', grade: 'A', status: 'Good' },
+                    { name: 'English', Percentage: 90+'%', grade: 'B+', status: 'Can be improved' },
+                    { name: 'Social Science', Percentage: 95 +'%', grade: 'A', status: 'Good' },
+                    { name: 'Hindi', Percentage: 96+'%', grade: 'A', status: 'Good' }
+                ]
+            },
+            
+        };
+
+        // Function to update the dashboard
+        function updateDashboard(semester) {
+            const data = semesterData[semester];
+
+            // Update percent and Percentage
+            document.querySelector('.card:nth-child(1) p:last-child').textContent = data.percent + '%';
+            document.querySelector('.card:nth-child(2) p:last-child').textContent = data.Class_no;
+
+            // Update semester title and badge
+            document.querySelector('.flex.justify-between.items-center h2').textContent = data.semester;
+
+            // Update course table
+            const tableBody = document.querySelector('tbody');
+            tableBody.innerHTML = '';
+            data.courses.forEach(course => {
+                const row = `
+                    <tr>
+                        <td>${course.name}</td>
+                        <td>${course.Percentage}</td>
+                        <td>${course.grade}</td>
+                        <td class="text-${course.status === 'Good' ? 'green' : 'yellow'}">${course.status}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        
+        document.getElementById('semesterSelect').addEventListener('change', function() {
+            updateDashboard(this.value);
+        });
+        //Hello,All the best
+        updateDashboard('Finals');
+
+        document.getElementById('downloadReport').addEventListener('click', function() {
+            console.log('Download report clicked');
+            
+        });
+    </script>
+</body>
+</html>

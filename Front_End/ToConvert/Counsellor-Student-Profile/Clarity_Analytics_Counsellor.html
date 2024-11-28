@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clarity Analysis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+
+        :root {
+            --border-color: #e2e8f0;
+            --primary-color: #3b82f6;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+       .container-body {
+            background-color: #f8f9fa;
+            /* background-image: url(https://img.freepik.com/premium-photo/success-idea-concept_670147-47682.jpg?w=1800); */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            opacity: 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #202124;
+        }
+
+        .subtitle {
+            color: #5f6368;
+            margin-bottom: 2rem;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .metric-title {
+            color: #5f6368;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            opacity: 0;
+        }
+
+        .metric-value.blue {
+            color: #4285f4;
+        }
+
+        .metric-value.green {
+            color: #34a853;
+        }
+
+        .metric-value.orange {
+            color: #fbbc04;
+        }
+
+        .section-title{
+            font-size: xx-large;
+            color: #333;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            opacity: 0;
+        }
+
+        select {
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            background: #fff;
+            font-size: 0.875rem;
+            color: #202124;
+            transition: border-color 0.3s ease;
+        }
+
+        select:hover {
+            border-color: #4285f4;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 2rem 0;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            opacity: 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #dadce0;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #5f6368;
+            font-weight: 500;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .chart-container {
+            height: 400px;
+            margin-top: 2rem;
+        }
+
+        .chart-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #202124;
+            text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .profile-details h1 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-details p {
+            color: var(--text-secondary);
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container-body">
+    <div class="container">
+
+
+        <header class="profile-header">
+            <div class="profile-info">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="profile-details">
+                    <h1>Alex Johnson</h1>
+                    <p>Grade 10-A • Student ID: #12345</p>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="btn btn-outline">
+                    <i class="fas fa-print"></i>
+                    Print Report
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-comment"></i>
+                    Message Student
+                </button>
+            </div>
+            </header>
+
+
+
+        <h1>Clarity Analysis</h1>
+        <p class="subtitle">Comprehensive analysis of your performance metrics</p>
+
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-title">Pending Work</div>
+                <div class="metric-value blue">3</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Tests Completed</div>
+                <div class="metric-value green">12</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Status</div>
+                <div class="metric-value orange">Good</div>
+            </div>
+        </div>
+
+        
+
+        <table id="analysisTable">
+            <thead>
+                <tr>
+                    <th>Test Type</th>
+                    <th>Score</th>
+                    <th>Percentile</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Intelligence Test</td>
+                    <td>92/100</td>
+                    <td>95th</td>
+                    <td>2024-03-15</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>IQ Assessment</td>
+                    <td>130</td>
+                    <td>98th</td>
+                    <td>2024-03-10</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>Personality Analysis</td>
+                    <td>85/100</td>
+                    <td>88th</td>
+                    <td>2024-03-05</td>
+                    <td>Completed</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="controls">
+            <select id="analysisSelect">
+                <option value="intelligence">Intelligence Test Score</option>
+                <option value="iq">IQ Test Score</option>
+                <option value="personality">Personality Building</option>
+            </select>
+        </div>
+
+        <div class="content-section">
+            <div class="loading"></div>
+            <div id="contentArea"></div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        // Initial animations
+        document.addEventListener('DOMContentLoaded', () => {
+            anime({
+                targets: '.container',
+                opacity: [0, 1],
+                duration: 1000,
+                easing: 'easeOutExpo'
+            });
+
+            anime({
+                targets: '.metric-card',
+                opacity: [0, 1],
+                translateY: [20, 0],
+                delay: anime.stagger(200),
+                duration: 800,
+                easing: 'easeOutExpo'
+            });
+
+            anime({
+                targets: '.metric-value',
+                opacity: [0, 1],
+                duration: 800,
+                delay: 500,
+                easing: 'easeInOutQuad'
+            });
+
+            anime({
+                targets: ['.controls', 'table', '.charts-container'],
+                opacity: [0, 1],
+                translateY: [20, 0],
+                delay: anime.stagger(200),
+                duration: 800,
+                easing: 'easeOutExpo'
+            });
+            anime({
+                targets: '.content-section',
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 800,
+                delay: 1000,
+                easing: 'easeInOutQuad'
+            });
+            anime({
+                targets: ['.controls', 'table', '.charts-container'],
+                opacity: [0, 1],
+                translateY: [20, 0],
+                delay: anime.stagger(200),
+                duration: 800,
+                easing: 'easeOutExpo'
+            });
+
+            // Initialize all charts
+            initializeCharts();
+        });
+
+        const contentData = {
+            intelligence: {
+                title: 'Intelligence Test Score Analysis',
+                data: {
+                    labels: ['Logical', 'Spatial', 'Verbal', 'Memory', 'Processing Speed'],
+                    values: [85, 92, 78, 88, 95]
+                }
+            },
+            iq: {
+                title: 'IQ Score Progression',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    values: [115, 118, 122, 125, 128, 130]
+                }
+            },
+            personality: {
+                title: 'Personality Dimensions',
+                data: {
+                    labels: ['Openness', 'Conscientiousness', 'Extraversion', 'Agreeableness', 'Neuroticism'],
+                    values: [75, 82, 68, 88, 45]
+                }
+            }
+        };
+
+        let currentChart = null;
+
+        function createChart(type, data, title) {
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
+            const ctx = document.createElement('canvas');
+            ctx.id = 'analysisChart';
+            ctx.style.width = '100%';
+            ctx.style.height = '100%';
+
+            const chartContainer = document.createElement('div');
+            chartContainer.className = 'chart-container';
+            chartContainer.appendChild(ctx);
+
+            const titleElement = document.createElement('div');
+            titleElement.className = 'section-title';
+            titleElement.textContent = title;
+
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = '';
+            contentArea.appendChild(titleElement);
+            contentArea.appendChild(chartContainer);
+
+            currentChart = new Chart(ctx, {
+                type: type === 'personality' ? 'radar' : 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: title,
+                        data: data.values,
+                        borderColor: '#4285f4',
+                        backgroundColor: 'rgba(66, 133, 244, 0.1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#4285f4',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeInOutQuart'
+                    },
+                    scales: type !== 'personality' ? {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    } : undefined,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        document.getElementById('analysisSelect').addEventListener('change', function(e) {
+            const loading = document.querySelector('.loading');
+            const contentArea = document.getElementById('contentArea');
+            
+            loading.classList.add('active');
+            contentArea.style.opacity = '0';
+
+            setTimeout(() => {
+                const selectedData = contentData[e.target.value];
+                createChart(e.target.value, selectedData.data, selectedData.title);
+                
+                loading.classList.remove('active');
+                contentArea.style.opacity = '1';
+            }, 1000);
+        });
+
+        // Initial content load
+        createChart('intelligence', contentData.intelligence.data, contentData.intelligence.title);
+    </script>
+
+        }
+
+        
+    </script>
+</body>
+</html>

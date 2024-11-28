@@ -5,6 +5,7 @@ const counselorSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     assignedStudents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }],
+    userType: { type: String, default: 'counselor' }
 });
 
 module.exports = mongoose.model('Counselor', counselorSchema);

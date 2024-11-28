@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../AuthContext';
 import '../styles/Login.css';
-import { loginStudent } from '../services/api';
+import { loginStudent, loginCounselor } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -17,9 +17,14 @@ const Login = () => {
             if (role === 'student') {
                 const response = await loginStudent({ email, password });
                 const { token, student } = response.data; // Destructure token and student from response
-                // console.log('Login successful:', student);
                 login(token, student); // Pass both token and student to login
                 navigate('/student');
+            }
+            if (role === 'counselor') {
+                const response = await loginCounselor({ email, password });
+                const { token, counselor } = response.data; // Destructure token and counselor from response
+                login(token, counselor); // Pass both token and counselor to login
+                navigate('/counselor');
             }
         } catch (error) {
             console.error('Login failed:', error);

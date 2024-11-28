@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 function HeaderStudent({header_name}) {
     const navigate = useNavigate();
     const handleGoBack = () => {
-    navigate('/student');
+    navigate(-1);
   };
     return (
         <div>
