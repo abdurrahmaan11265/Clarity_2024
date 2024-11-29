@@ -48,7 +48,7 @@ const ClarityCard = ({ isLoading, clarityQuestion, setClarityQuestion, handleAsk
 };
 
 const Career = () => {
-    const { userData, setUserData, authToken } = useAuth();
+    const { userData, authToken } = useAuth();
     const [searchParams] = useSearchParams();
     const studentId = searchParams.get('studentId');
     const [studentData, setStudentData] = useState(null);
