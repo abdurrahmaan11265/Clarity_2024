@@ -1,14 +1,13 @@
-
 @property --rotate {
     syntax: "<angle>";
     initial-value: 132deg;
     inherits: false;
-  }
+}
 
 :root {
     --rotate: 132deg;
     --primary-color: #3b82f6;
-    --lighter-primary-color:#7dabf5;
+    --lighter-primary-color: #7dabf5;
     --light-blue: #f0f7ff;
     --border-color: #e2e8f0;
     --text-primary: #151e2c;
@@ -22,26 +21,26 @@
     line-height: 1.5;
 }
 
-.container {
+.container-body .container {
     max-width: 99vw;
     margin: 0 auto;
     padding: 2rem;
 }
 
-.profile-header {
+.container-body .profile-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
 }
 
-.profile-info {
+.container-body .profile-info {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-.profile-avatar {
+.container-body .profile-avatar {
     width: 64px;
     height: 64px;
     border-radius: 50%;
@@ -53,7 +52,7 @@
     color: var(--primary-color);
 }
 
-.profile-details h1 {
+.container-body .profile-details h1 {
     font-size: 1.5rem;
     color: var(--text-primary);
     margin-bottom: 0.25rem;
@@ -194,6 +193,7 @@
     align-items: center;
     margin-bottom: 1rem;
 }
+
 .notes-header h2 {
     font-size: 1.5rem;
     color: var(--primary-color);
@@ -384,7 +384,8 @@
         transform: rotate(360deg);
     }
 }
-.add-note{
+
+.add-note {
     width: 70%;
     display: flex;
     flex-direction: column;
@@ -402,11 +403,12 @@
 
 .add-note textarea:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); /* Add a subtle shadow */
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+    /* Add a subtle shadow */
     outline: none;
 }
 
-.timeline-container {
+.container-body .timeline-container {
     position: relative;
     padding: 1rem 0;
     border: 1px solid var(--border-color);
@@ -415,14 +417,14 @@
 }
 
 
-.timeline-item {
+.container-body .timeline-item {
     position: relative;
     margin-bottom: 2rem;
     padding-left: 2rem;
 }
 
 
-.timeline-line {
+.container-body .timeline-line {
     position: absolute;
     width: 2px;
     background-color: var(--primary-color);
@@ -433,7 +435,7 @@
 }
 
 
-.timeline-point {
+.container-body .timeline-point {
     position: absolute;
     width: 12px;
     height: 12px;
@@ -446,23 +448,24 @@
 }
 
 
-.timeline-item:hover > .timeline-point{
+.container-body .timeline-item:hover>.timeline-point {
     background-color: var(--lighter-primary-color);
 }
 
 
-.timeline-content {
+.container-body .timeline-content {
     width: 80%;
     display: flex;
     flex-direction: column;
     padding: 1rem;
     background-color: var(--light-blue);
     border-radius: 8px;
-    border:  solid var(--border-color)
+    border: solid var(--border-color)
 }
-.timeline-content:hover {
+
+.container-body .timeline-content:hover {
     border: 2px solid var(--lighter-primary-color);
-    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); 
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
     outline: none;
 }
 
@@ -494,8 +497,8 @@
 }
 
 
-.timeline-item:last-child .timeline-line {
-    display: none; 
+.container-body .timeline-item:last-child .timeline-line {
+    display: none;
 }
 
 
@@ -514,9 +517,8 @@
     position: absolute;
     width: 800%;
     height: 800%;
-    background: radial-gradient(
-        var(--lighter-primary-color),
-    );
+    background: radial-gradient(var(--lighter-primary-color),
+        );
     animation: gradientSpin 3s linear infinite;
     transform-origin: center;
 }
@@ -541,6 +543,7 @@
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
@@ -586,12 +589,13 @@
     0% {
         transform: translate(-50%, -50%) rotate(0deg);
     }
+
     100% {
         transform: translate(-50%, -50%) rotate(360deg);
     }
 }
 
 
-.loading-container-notes{
+.loading-container-notes {
     padding: 20px;
 }
