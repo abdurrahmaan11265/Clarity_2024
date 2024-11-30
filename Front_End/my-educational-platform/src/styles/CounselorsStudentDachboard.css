@@ -1,6 +1,14 @@
-/* StudentProfile.css */
+
+@property --rotate {
+    syntax: "<angle>";
+    initial-value: 132deg;
+    inherits: false;
+  }
+
 :root {
+    --rotate: 132deg;
     --primary-color: #3b82f6;
+    --lighter-primary-color:#7dabf5;
     --light-blue: #f0f7ff;
     --border-color: #e2e8f0;
     --text-primary: #151e2c;
@@ -180,9 +188,15 @@
 
 .notes-header {
     display: flex;
+    flex-direction: column;
+    gap: 1rem;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+}
+.notes-header h2 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
 }
 
 .note-item {
@@ -221,7 +235,6 @@
 
 .note-title {
     font-weight: 600;
-    margin-bottom: 0.5rem;
 }
 
 .note-time {
@@ -371,19 +384,214 @@
         transform: rotate(360deg);
     }
 }
+.add-note{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-/* Style the note input field */
-.add-note input {
+.add-note textarea {
     width: 100%;
     padding: 0.5rem;
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.add-note input:focus {
+.add-note textarea:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); /* Add a subtle shadow */
     outline: none;
+}
+
+.timeline-container {
+    position: relative;
+    padding: 1rem 0;
+    border: 1px solid var(--border-color);
+    border-left: 2px solid var(--primary-color);
+    border-radius: 16px;
+}
+
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 2rem;
+}
+
+
+.timeline-line {
+    position: absolute;
+    width: 2px;
+    background-color: var(--primary-color);
+    top: 0;
+    bottom: 0;
+    left: -1rem;
+    z-index: -1;
+}
+
+
+.timeline-point {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    top: 0;
+    left: -7px;
+    z-index: 1;
+    transform: translateY(-50%);
+}
+
+
+.timeline-item:hover > .timeline-point{
+    background-color: var(--lighter-primary-color);
+}
+
+
+.timeline-content {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: var(--light-blue);
+    border-radius: 8px;
+    border:  solid var(--border-color)
+}
+.timeline-content:hover {
+    border: 2px solid var(--lighter-primary-color);
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); 
+    outline: none;
+}
+
+.note-title {
+    font-weight: normal;
+    color: var(--text-primary);
+}
+
+.note-time {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+
+.delete-button {
+    width: 80px;
+    margin-top: 0.5rem;
+    background: none;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    padding: 0.5rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+.delete-button:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+
+.timeline-item:last-child .timeline-line {
+    display: none; 
+}
+
+
+.container-body .loading-container {
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--light-blue);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.container-body .loading-gradient {
+    position: absolute;
+    width: 800%;
+    height: 800%;
+    background: radial-gradient(
+        var(--lighter-primary-color),
+    );
+    animation: gradientSpin 3s linear infinite;
+    transform-origin: center;
+}
+
+.container-body .loading-text {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    text-align: center;
+    z-index: 1;
+}
+
+.loading-text svg {
+    font-size: 2rem;
+}
+
+@keyframes gradientSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.rotating {
+    animation: rotate 1s linear infinite;
+}
+
+.refresh-button.refreshing {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.btn.adding {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: var(--light-blue);
+}
+
+
+.btn.adding-note {
+    position: relative;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.btn.adding-note::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--lighter-primary-color);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+
+.loading-container-notes{
+    padding: 20px;
 }

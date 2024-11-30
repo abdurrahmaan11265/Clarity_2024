@@ -1,24 +1,40 @@
-// StudentProfile.js
 import React, { useEffect, useState } from 'react';
-import { FaUser, FaPlus, FaSyncAlt, FaGraduationCap, FaBrain, FaChartLine, FaTrash } from 'react-icons/fa';
+import { FaUser, FaPlus, FaSyncAlt, FaGraduationCap, FaBrain, FaChartLine, FaTrash, FaSpinner } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
 import '../styles/CounselorsStudentDachboard.css';
 import { useAuth } from '../AuthContext';
 import { getUserData, generateAISummary, addNote, removeNote } from '../services/api';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import HeaderStudent from '../components/HeaderStudent';
+
+
 
 const StudentProfile = () => {
+    
+    
     const { authToken } = useAuth();
     const [studentData, setStudentData] = useState(null);
     const [newNote, setNewNote] = useState('');
     const [searchParams] = useSearchParams();
     const studentId = searchParams.get('studentId');
     const navigate = useNavigate();
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState('');
+    const [isAddingNote, setIsAddingNote] = useState(false);
+
+
+    const messages = [
+        "Analyzing student performance trends...",
+        "Updating academic insights...",
+        "Processing recent academic data...",
+        "Generating comprehensive analysis...",
+        "Calculating performance metrics..."
+    ];
 
     useEffect(() => {
         fetchStudentData();
     }, [authToken, studentId]);
-
+    
     const fetchStudentData = async () => {
         try {
             const data = await getUserData(studentId, authToken);
@@ -29,29 +45,65 @@ const StudentProfile = () => {
     };
 
     const handleRefreshAnalysis = async () => {
+        setIsRefreshing(true);
+        // const ai_summery_container = document.querySelector('.ai-summary');
+        // ai_summery_container.classList.add("ai-worrking-card")
+        
+
+
+
+        const updateMessage = () => {
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            setLoadingMessage(randomMessage);
+        };
+        
+        const messageInterval = setInterval(updateMessage, 2000);
+        updateMessage();
+
         try {
             await generateAISummary(studentId, authToken);
-            await fetchStudentData(); // Refresh the student data after generating the summary
+            await fetchStudentData();
         } catch (error) {
             console.error('Error refreshing AI summary:', error);
+        } finally {
+            setIsRefreshing(false);
+            clearInterval(messageInterval);
+            setLoadingMessage('');
         }
     };
+
 
     const handleAddNote = async () => {
-        if (!newNote.trim()) return; // Prevent adding empty notes
+        if (!newNote.trim()) return; 
+    
         try {
+            document.querySelector('.timeline-container').style.display = 'none';
+            setIsAddingNote(true); 
+            const loader_container_notes= document.querySelector('.loading-container-notes');
+            loader_container_notes.style.display = 'block';
+            await new Promise(resolve => setTimeout(resolve, 2000));
             await addNote(studentId, newNote, authToken);
-            setNewNote(''); // Clear the input field
-            await fetchStudentData(); // Refresh the student data to include the new note
+            setNewNote(''); 
+            await fetchStudentData(); 
         } catch (error) {
             console.error('Error adding note:', error);
+        } finally {
+            setIsAddingNote(false); 
+            document.querySelector('.timeline-container').style.display = 'block';
+            document.querySelector('.loading-container-notes').style.display = 'none';
         }
     };
-
+    
+    <button 
+        onClick={handleAddNote}
+        disabled={isAddingNote}
+    >
+        {isAddingNote ? 'Adding...' : <><FaPlus /> Add Note</>}
+    </button>
     const handleRemoveNote = async (noteId) => {
         try {
             await removeNote(studentId, noteId, authToken);
-            await fetchStudentData(); // Refresh the student data to reflect the removed note
+            await fetchStudentData(); 
         } catch (error) {
             console.error('Error removing note:', error);
         }
@@ -66,6 +118,7 @@ const StudentProfile = () => {
     const handleAcademicAnalysis = () => {
         navigate(`/academic-analytics?studentId=${studentId}`);
     }   
+
 
     const handleClarityAnalysis = () => {
         navigate(`/clarity-analytics/?studentId=${studentId}`);
@@ -124,45 +177,80 @@ const StudentProfile = () => {
 
                 <div className="content-grid-overveiw">
                     <main>
-                        <section className="ai-summary">
-                            <div className="summary-header">
-                                <h2>AI-Generated Summary</h2>
-                                <button className="refresh-button" onClick={handleRefreshAnalysis}>
-                                    <FaSyncAlt />
-                                    Refresh Analysis
-                                </button>
+                    <section className="ai-summary ">
+                        <div className="summary-header">
+                            <h2>AI-Generated Summary</h2>
+                            <button 
+                                className={`refresh-button ${isRefreshing ? 'refreshing' : ''}`} 
+                                onClick={handleRefreshAnalysis}
+                                disabled={isRefreshing}
+                            >
+                                <FaSyncAlt className={isRefreshing ? 'rotating' : ''} />
+                                {isRefreshing ? 'Refreshing...' : 'Refresh Analysis'}
+                            </button>
+                        </div>
+                        {isRefreshing ? (
+                            <div className="loading-container ">
+                                <div className="loading-gradient"></div>
+                                <div className="loading-text">
+                                    <FaSpinner className="rotating" />
+                                    <p>{loadingMessage}</p>
+                                </div>
                             </div>
+                        ) : (
                             <div dangerouslySetInnerHTML={{ __html: sanitizedAISummary }} />
-                        </section>
+                        )}
+                    </section>
+                        
 
-                        <section className="counseling-notes">
-                            <div className="notes-header">
-                                <h2>Counseling Notes</h2>
-                                <div className="add-note">
-                                    <input
-                                        type="text"
-                                        value={newNote}
-                                        onChange={(e) => setNewNote(e.target.value)}
-                                        placeholder="Add a new note"
-                                        required
-                                    />
-                                    <button className="btn btn-outline" onClick={handleAddNote}>
-                                        <FaPlus />
-                                        Add Note
-                                    </button>
-                                </div>
-                            </div>
-                            {studentData.counselorNotes.map(note => (
-                                <div className="note-item" key={note._id}>
-                                    <div className="note-title">{note.note}</div>
-                                    <div className="note-time">{new Date(note.date).toLocaleDateString()}</div>
-                                    <button className="btn btn-outline" onClick={() => handleRemoveNote(note._id)}>
-                                        <FaTrash />
-                                        Remove
-                                    </button>
-                                </div>
-                            ))}
-                        </section>
+                    <section className="counseling-notes">
+            <div className="notes-header">
+                <h2>Counseling Notes</h2>
+                <div className="add-note">
+                    <textarea
+                        type="text"
+                        value={newNote}
+                        onChange={(e) => setNewNote(e.target.value)}
+                        placeholder="Add a new note"
+                        required
+                    />
+                    <button 
+                        className={`btn btn-outline ${isAddingNote ? '' : ''}`} 
+                        onClick={handleAddNote}
+                        disabled={isAddingNote}
+                    >
+                        {isAddingNote ? 'Adding...' : <><FaPlus /> Add Note</>}
+                    </button>
+                    <div className="loading-container-notes" style={{ display: 'none' }}>
+                        <div className="btn adding-note"></div>
+                        <div className="loading-text">New notes being Generated..</div>
+
+                    </div>
+                </div>
+            </div>
+    <div className="timeline-container">
+        {studentData.counselorNotes.map((note, index) => (
+            <div className="timeline-item" key={note._id}>
+                <div className="timeline-line"></div>
+                <div
+                    className={`timeline-point ${
+                        index === studentData.counselorNotes.length - 1 ? 'active' : ''
+                    }`}
+                ></div>
+                <div className="timeline-content">
+                    <div className="note-title">{note.note}</div>
+                    <div className="note-time">{new Date(note.date).toLocaleDateString()}</div>
+                    <button
+                        className="btn btn-outline delete-button"
+                        onClick={() => handleRemoveNote(note._id)}
+                    >
+                        <FaTrash /> Delete
+                    </button>
+                </div>
+            </div>
+        ))}
+    </div>
+</section>           
                     </main>
 
                     <aside>
