@@ -9,6 +9,7 @@ import HeaderStudent from '../components/HeaderStudent';
 
 
 
+
 const StudentProfile = () => {
     
     
@@ -46,12 +47,7 @@ const StudentProfile = () => {
 
     const handleRefreshAnalysis = async () => {
         setIsRefreshing(true);
-        // const ai_summery_container = document.querySelector('.ai-summary');
-        // ai_summery_container.classList.add("ai-worrking-card")
-        
-
-
-
+        document.querySelector('.ai-summary').classList.add("glow-animation-ai-summary");
         const updateMessage = () => {
             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
             setLoadingMessage(randomMessage);
@@ -69,6 +65,9 @@ const StudentProfile = () => {
             setIsRefreshing(false);
             clearInterval(messageInterval);
             setLoadingMessage('');
+            setTimeout(() => {
+                document.querySelector('.ai-summary').classList.remove("glow-animation-ai-summary");
+            }, 1000); 
         }
     };
 
@@ -129,7 +128,9 @@ const StudentProfile = () => {
     }
 
     return (
-        <div className="container-body">
+        
+        <div className="container-body" style={{display: 'flex', flexDirection: 'column'}}>
+            <HeaderStudent header_name={"Student Profile"} />
             <div className="container">
                 <header className="profile-header">
                     <div className="profile-info">

@@ -23,12 +23,11 @@ const StudentDashboard = () => {
         catch (err) {
             console.error(err);
         }
-        // Add actual logout functionality here
+        
     };
 
     const handleTestStart = () => {
-        alert('Starting Career Aptitude Test...');
-        // Add actual test start functionality here
+        navigate('/allTests');
     };
 
     const handleCareerClick = () => {

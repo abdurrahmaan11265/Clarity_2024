@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom'; // Correct import
+import { useSearchParams } from 'react-router-dom';
 import '../styles/Career.css';
 import { useAuth } from '../AuthContext';
 import { generateCareerOptions, analyzeSkills, updatePreferredCareer, getUserData, askCareerQuestion, addSkill, updateSkill, deleteSkill, addNewCareerOption, editCareerOption, removeCareerOption, addRequiredSkill, updateRequiredSkill, deleteRequiredSkill } from '../services/api';
@@ -202,7 +202,7 @@ const Career = () => {
         }
         try {
             await addNewCareerOption(studentData._id, careerName, averageSalary, description, authToken);
-            await fetchStudentData(); // Refresh student data
+            await fetchStudentData(); 
         } catch (error) {
             console.error("Failed to add career option:", error);
         } finally {
@@ -226,7 +226,7 @@ const Career = () => {
         }
         try {
             await editCareerOption(studentData._id, careerName, newAverageSalary, newDescription, authToken);
-            await fetchStudentData(); // Refresh student data
+            await fetchStudentData(); 
         } catch (error) {
             console.error("Failed to update career option:", error);
         } finally {
@@ -242,7 +242,7 @@ const Career = () => {
         }
         try {
             await removeCareerOption(studentData._id, careerName, authToken);
-            await fetchStudentData(); // Refresh student data
+            await fetchStudentData(); 
         } catch (error) {
             console.error("Failed to delete career option:", error);
         }
@@ -326,7 +326,7 @@ const Career = () => {
 
     return (
         <div className="career-container">
-            <HeaderStudent header_name={"Career"} />
+            <HeaderStudent header_name={"Career"}/>
 
             <main className="main-content">
                 <h1 style={{ textAlign: 'center' }}>Career Dashboard</h1>
@@ -336,7 +336,7 @@ const Career = () => {
                         <tr>
                             <th>Skills</th>
                             <th>Percent</th>
-                            {userData.userType === 'counselor' && <th>Action</th>}
+                            {userData.userType === 'counselor' && <th>{/*Action*/}</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -346,7 +346,7 @@ const Career = () => {
                                 <td>{skill.percentage}%</td>
                                 {userData.userType === 'counselor' && (
                                     <td>
-                                        <button className='delete-skill-btn' onClick={() => handleDeleteSkill(skill.name)}>Delete</button>
+                                        <button className='delete-btn' onClick={() => handleDeleteSkill(skill.name)} >Delete</button>
                                     </td>
                                 )}
                             </tr>
@@ -358,21 +358,22 @@ const Career = () => {
                         <button onClick={toggleSkillsVisibility} className="see-more-btn">
                             {showAllSkills ? 'See Less' : 'See More'}
                         </button>
-                        <button className="refresh-button" onClick={handleRefreshAnalysis}>
-                            <FaBrain />
-                            Skill Analysis with AI
-                        </button>
+                        
                     </div>
                 )}
 
                 {
                     userData.userType === 'counselor' &&
                     <div className='add-edit-skill-container'>
+                        <button className="refresh-button" onClick={handleRefreshAnalysis}>
+                            <FaBrain />
+                            Skill Analysis with AI
+                        </button>
                         <div className='add-skill-container'>
                             <p>Add Skill</p>
                             <input type="text" placeholder='Add Skill' className='add-skill-input' required />
                             <input type="number" placeholder='Add Skill Percentage' className='add-skill-percentage' min={0} max={100} required />
-                            <button onClick={handleAddSkill}>Add</button>
+                            <button onClick={handleAddSkill} className='add-btn'>Add</button>
                         </div>
                         <div className='edit-skill-container'>
                             <p>Edit Skill</p>
@@ -383,7 +384,7 @@ const Career = () => {
                                 ))}
                             </select>
                             <input type="text" placeholder='Edit Skill Percentage' />
-                            <button onClick={handleEditSkill}>Edit</button>
+                            <button onClick={handleEditSkill} className='add-btn'>Edit</button>
                         </div>
                     </div>
                 }
@@ -398,7 +399,7 @@ const Career = () => {
                                         <th>Skill Name</th>
                                         <th>Current Average Salary</th>
                                         <th>Description & Scope</th>
-                                        <th>Action</th>
+                                         <th>{/*Action */}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -411,7 +412,7 @@ const Career = () => {
 
                                             {userData.userType === 'counselor' && (
                                                 <td>
-                                                    <button onClick={() => handleDeleteCareerOption(option.name)}>Delete</button>
+                                                    <button onClick={() => handleDeleteCareerOption(option.name)} className='delete-btn'>Delete</button>
                                                 </td>
                                             )}
                                         </tr>
@@ -426,7 +427,7 @@ const Career = () => {
                                         <input type="text" name="careerName" placeholder='Career Name' />
                                         <input type="number" name="averageSalary" placeholder='Average Salary' />
                                         <input type="text" name="description" placeholder='Description' />
-                                        <button onClick={handleAddCareerOption}>Add</button>
+                                        <button onClick={handleAddCareerOption} className='add-btn'>Add</button>
                                     </div>
                                     <div className='edit-career-container'>
                                         <p>Edit Career Option</p>
@@ -438,9 +439,9 @@ const Career = () => {
                                         </select>
                                         <input type="number" name="newAverageSalary" placeholder='New Average Salary' />
                                         <input type="text" name="newDescription" placeholder='New Description' />
-                                        <button onClick={handleEditCareerOption}>Edit</button>
+                                        <button onClick={handleEditCareerOption} className='add-btn'>Edit</button>
                                     </div>
-                                    <button className="refresh-button" onClick={handleGenerateCareerOptions}>
+                                    <button className="refresh-button" onClick={handleGenerateCareerOptions} style={{alignSelf: 'center'}} >
                                         <FaBrain />
                                         Generate Career Options with AI
                                     </button>
@@ -504,7 +505,7 @@ const Career = () => {
                                                 <span className="tooltip">{skill.currentPercentage}%</span>
                                             </div>
                                             {userData.userType === 'counselor' && (
-                                                <button onClick={() => handleDeleteRequiredSkill(skill.name)}>Delete</button>
+                                                <button onClick={() => handleDeleteRequiredSkill(skill.name)} className='delete-btn'>Delete</button>
                                             )}
                                         </div>
                                     ))}
@@ -516,7 +517,7 @@ const Career = () => {
                                             <p>Add Required Skill</p>
                                             <input type="text" name="skillName" placeholder='Skill Name' />
                                             <input type="number" name="requiredPercentage" placeholder='Percentage' min={0} max={100} />
-                                            <button onClick={handleAddRequiredSkill}>Add</button>
+                                            <button onClick={handleAddRequiredSkill} className='add-btn'>Add</button>
                                         </div>
                                         <div className='edit-required-skill-container'>
                                             <p>Edit Required Skill</p>
@@ -527,7 +528,7 @@ const Career = () => {
                                                 ))}
                                             </select>
                                             <input type="number" name="newRequiredPercentage" placeholder='New Required Percentage' min={0} max={100} />
-                                            <button onClick={handleEditRequiredSkill}>Edit</button>
+                                            <button onClick={handleEditRequiredSkill} className='add-btn'>Edit</button>
                                         </div>
                                     </div>
                                 )}

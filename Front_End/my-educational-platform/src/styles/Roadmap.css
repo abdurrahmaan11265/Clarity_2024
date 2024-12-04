@@ -1,11 +1,12 @@
 .timeline-container {
-    max-width: 72rem;
-    margin: 0 auto;
-    padding-top: 5.5rem;
-    padding-bottom:2rem ;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  max-width: 90vw;
+  margin: 0 auto;
+  padding-top: 7rem;
+  padding-bottom: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     
   }
   

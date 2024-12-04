@@ -20,6 +20,10 @@
     margin-bottom: 2rem;
     animation: slideDown 0.5s ease;
 }
+.test-container input{
+    width: auto;
+   margin: 10px;
+}
 .test-container .header-group {
     display: flex;
     align-items: center;
@@ -44,6 +48,9 @@
     padding: 20px;
     opacity: 0;
     animation: fadeIn 0.8s ease forwards;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
 }
 
 .test-container .category-container {
@@ -68,7 +75,6 @@
     flex-direction: column;
     gap: 1rem;
     width: 100%;
-    max-width: 400px;
     margin-top: 1.5rem;
 }
 
