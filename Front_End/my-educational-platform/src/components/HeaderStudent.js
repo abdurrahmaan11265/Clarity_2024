@@ -3,11 +3,20 @@ import { useNavigate } from 'react-router-dom';
 function HeaderStudent({header_name}) {
     const navigate = useNavigate();
     const handleGoBack = () => {
-    navigate(-1);
+    if(header_name === "Student Profile"){
+      navigate('/counselor');
+    }
+    else if(header_name === "Analytics"){
+      navigate('/student');
+    }
+    else{
+      navigate(-1);
+    }
   };
+  
     return (
         <div>
-             <header>
+             <header className='header-nav'>
         <div className="nav flex items-center justify-between">
           <div className="flex items-center">
             <button className="mr-2" aria-label="Go back" onClick={handleGoBack}>

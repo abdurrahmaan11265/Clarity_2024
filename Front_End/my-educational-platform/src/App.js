@@ -12,6 +12,7 @@ import ClarityAnalytics from './pages/ClarityAnalytics';
 import Career from './pages/Career';
 import Counselor from './pages/Counselor';
 import CounselorsStudentDashboard from './pages/CounselorsStudentDashboard';
+import CounselorTraining from './pages/CounselorTraining';
 const routeDefinitions = [
   { path: '/', element: <Login /> },
   { path: "/student", element: <AuthenticatedRoute element={<StudentDashboard />} /> },
@@ -23,6 +24,7 @@ const routeDefinitions = [
   { path: '/career', element: <Career /> },
   { path: '/counselor', element: <Counselor /> },
   { path: '/counselors-student-dashboard', element: <CounselorsStudentDashboard /> },
+  { path: '/counselor-training', element: <CounselorTraining /> }
 ];
 
 function App() {

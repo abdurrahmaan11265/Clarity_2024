@@ -3,12 +3,16 @@ import '../styles/Counselor.css';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { FaSignOutAlt, FaSearch, FaUser, FaEye } from 'react-icons/fa';
+import CounselorTraining from './CounselorTraining';
 
 const CounselorDashboard = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const { logout, userData } = useAuth();
     const navigate = useNavigate();
     const animationFrameId = useRef(null);
+
+    
+
 
     useEffect(() => {
         const studentCountElement = document.getElementById('studentCount');
@@ -61,9 +65,8 @@ const CounselorDashboard = () => {
     };
 
     return (
-        <div className="container-body">
-            <main className="main-content">
-                <div className="welcome-header">
+        <>
+        <div className="welcome-header">
                     <div className="welcome_text">
                         <h1>Welcome back, {userData?.name}</h1>
                     </div>
@@ -71,6 +74,10 @@ const CounselorDashboard = () => {
                         <FaSignOutAlt /> Log out
                     </button>
                 </div>
+        <div className="container-body">
+            
+            <main className="main-content">
+                
 
                 <div className="stats-section">
                     <div className="stat-card">
@@ -81,36 +88,43 @@ const CounselorDashboard = () => {
                         <div className="stat-value" id="schoolCount">0</div>
                         <div className="stat-label" style={{ color: 'black' }}>Total Schools</div>
                     </div>
-                </div>
+                    <div className="stat-card" onClick={() => navigate('/counselor-training')}>
+                    <div className="stat-value" id="schoolCount"><FaUser size={34} color="#007bff" /></div>
+                    <div className="stat-label" style={{ color: 'black' }}>Train Yourself</div>
 
-                <div className="students-header">
-                    <h2 style={{ marginTop: '1rem', fontSize: '2rem' }}>My Students</h2>
-                    <div className="search-bar">
-                        <FaSearch />
-                        <input type="text" placeholder="Search students..." id="searchInput" onChange={handleSearch} />
                     </div>
                 </div>
+                    <div className="student-container-section">
+                    <div className="students-header">
+                        <h2 style={{ fontSize: '2rem' }}>My Students</h2>
+                        <div className="search-bar">
+                            <FaSearch />
+                            <input type="text" placeholder="Search students..." id="searchInput" onChange={handleSearch} />
+                        </div>
+                    </div>
 
-                <div className="students-grid" id="studentsGrid">
-                    {filteredStudents.map(student => (
-                        <div className="student-card" key={student._id}>
-                            <div className="student-header">
-                                <div className="student-avatar"><FaUser /></div>
-                                <div className="student-info">
-                                    <h3>{student.name}</h3>
-                                    <p>Grade {student.classes[student.classes.length - 1].classNo} | Student ID: {student._id.slice(0, 7)}</p>
+                    <div className="students-grid" id="studentsGrid">
+                        {filteredStudents.map(student => (
+                            <div className="student-card" key={student._id}>
+                                <div className="student-header">
+                                    <div className="student-avatar"><FaUser /></div>
+                                    <div className="student-info-dashboard">
+                                        <h3>{student.name}</h3>
+                                        <p>Grade {student.classes[student.classes.length - 1].classNo} | Student ID: {student._id.slice(0, 7)}</p>
+                                    </div>
+                                </div>
+                                <div className="card-actions">
+                                    <button className="btn btn-primary" onClick={() => handleViewProfile(student._id)}>
+                                        <FaEye /> View Profile
+                                    </button>
                                 </div>
                             </div>
-                            <div className="card-actions">
-                                <button className="btn btn-primary" onClick={() => handleViewProfile(student._id)}>
-                                    <FaEye /> View Profile
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </main>
         </div>
+        </>
     );
 };
 
