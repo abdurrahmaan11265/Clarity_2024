@@ -380,3 +380,104 @@ exports.askCareerQuestion = async (req, res) => {
     }
 };
 
+async function generateCareerStagesWithGemini(careerName) {
+    const prompt = `For the career "${careerName}", provide a structured learning path with 5 stages. Each stage should be an object with the following format:
+    [{
+        id: ,
+        title: "stage 1",
+        content: "Sub-heading",
+        flashcards: [
+          { title: "Skills or Technologies", content: "" },
+          { title: "Time to dedicate", content: "Verify system integration" },
+          { title: "Why learn", content: "Conduct user acceptance testing" }
+        ]
+      },
+      ...
+    ]
+    The id should start from 1 and go to 5. The title should be a small title name for that stage. The content should be about that specific title. In the flashcards array, the titles must not be changed, but the content must be changed according to the stage. Just give the json array and nothing else.`;
+
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    try {
+        const result = await model.generateContent(prompt);
+        let responseText = result.response.text();
+
+        // Strip out any markdown or unwanted characters
+        responseText = responseText.replace(/```json|```/g, '').trim();
+
+        return JSON.parse(responseText); // Return the parsed JSON
+    } catch (error) {
+        console.error("Error generating career stages:", error);
+        throw error; // Ensure the error is thrown to be caught in the calling function
+    }
+}
+
+exports.getCareerStages = async (req, res) => {
+    try {
+        const { careerName } = req.body;
+
+        // Generate career stages using Gemini AI
+        const careerStages = await generateCareerStagesWithGemini(careerName);
+
+        res.status(200).json({
+            message: "Career stages generated successfully",
+            careerStages,
+        });
+    } catch (error) {
+        console.error("Error in getCareerStages:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+async function generateSkillsComparisonWithGemini(careerName, currentSkills) {
+    const prompt = `For the career "${careerName}", considering the current skills: ${JSON.stringify(currentSkills)}, provide the following:
+    1. A list of required skills with their average proficiency percentage and the student's current proficiency percentage. Format: [{"skillName": "Skill Name", "avgPercentage": 50, "currentPercentage": 40}].
+    2. A list of prominent figures in this field with a brief description for each. Format: [{"name": "Person Name", "description": "Brief description"}].
+    Return the response in this JSON format: {"skillsComparison": [{"skillName": "Skill Name", "avgPercentage": 50, "currentPercentage": 40}], "prominentFigures": [{"name": "Person Name", "description": "Brief description"}]}. Only provide the JSON response.`;
+
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    try {
+        const result = await model.generateContent(prompt);
+        let responseText = result.response.text();
+
+        // Strip out any markdown or unwanted characters
+        responseText = responseText.replace(/```json|```/g, '').trim();
+
+        // Parse the response into JSON
+        const parsedResponse = JSON.parse(responseText);
+
+        // Extract skillsComparison and prominentFigures from the parsed response
+        const skillsComparison = parsedResponse.skillsComparison || [];
+        const prominentFigures = parsedResponse.prominentFigures || [];
+
+        return { skillsComparison, prominentFigures };
+    } catch (error) {
+        console.error("Error generating skills comparison and figures:", error);
+        throw error; // Ensure the error is thrown to be caught in the calling function
+    }
+}
+
+exports.getSkillsComparison = async (req, res) => {
+    try {
+        const { studentId, careerName } = req.body;
+
+        // Find the student
+        const student = await Student.findById(studentId);
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        // Generate skills comparison and prominent figures using Gemini AI
+        const { skillsComparison, prominentFigures } = await generateSkillsComparisonWithGemini(careerName, student.skills);
+
+        res.status(200).json({
+            message: "Skills comparison and prominent figures generated successfully",
+            skillsComparison,
+            prominentFigures
+        });
+    } catch (error) {
+        console.error("Error in getSkillsComparison:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
