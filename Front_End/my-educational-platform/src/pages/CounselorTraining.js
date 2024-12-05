@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/CounselorTraining.css';
-import HeaderStudent from '../components/HeaderStudent'; 
+import HeaderStudent from '../components/HeaderStudent';
 
 const fetchVideoTitle = async (videoUrl) => {
   const videoId = videoUrl.split('/embed/')[1];
@@ -21,9 +21,9 @@ const CounselorTraining = () => {
   const [videos, setVideos] = useState([
     { videoUrl: 'https://www.youtube.com/embed/MRkNd_UrzUE', },
     { videoUrl: 'https://www.youtube.com/embed/UVN96JhDOmg' },
-    { videoUrl: 'https://www.youtube.com/embed/bgC6ZLE8QhY'},
+    { videoUrl: 'https://www.youtube.com/embed/bgC6ZLE8QhY' },
     { videoUrl: 'https://www.youtube.com/embed/BuhF_vMuXpI' },
-    {videoUrl: 'https://www.youtube.com/embed/TUMmLkFKpEI' }
+    { videoUrl: 'https://www.youtube.com/embed/TUMmLkFKpEI' }
   ]);
 
   useEffect(() => {
@@ -42,10 +42,10 @@ const CounselorTraining = () => {
     };
 
     updateVideoTitles();
-  }, []);
+  }, [videos]); // Add 'videos' to the dependency array
 
   const stats = [
-    { 
+    {
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -72,13 +72,13 @@ const CounselorTraining = () => {
   return (
     <div className="counselor-training">
       <div className={`hero ${animate ? 'animate' : ''}`}>
-        <HeaderStudent header_name={"Traningg"} />
+        <HeaderStudent header_name={"Training"} />
       </div>
 
       <div className="content">
         <div className="stats">
           {stats.map((stat, index) => (
-            <div key={stat.label} className={`stat-card ${animate ? 'animate' : ''}`} style={{animationDelay: `${index * 0.2}s`}}>
+            <div key={stat.label} className={`stat-card ${animate ? 'animate' : ''}`} style={{ animationDelay: `${index * 0.2}s` }}>
               <div className="stat-icon">{stat.icon}</div>
               <div className="stat-info">
                 <p className="stat-label">{stat.label}</p>
@@ -87,32 +87,28 @@ const CounselorTraining = () => {
             </div>
           ))}
         </div>
-        
+
         <div className="video-list">
-        <h2>Training Videos</h2>
-        <div className="videos">
-          {videos.map((video, index) => (
-            <div key={video.videoUrl} className={`video-card ${animate ? 'animate' : ''}`} style={{ animationDelay: `${0.6 + index * 0.2}s` }}>
-              <div className="video-thumbnail" style={{ position: 'relative' }}>
-                <iframe 
-                  src={video.videoUrl} 
-                  style={{ width: '100%', height: '100%', border: 'none' }} 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen
-                ></iframe>
+          <h2>Training Videos</h2>
+          <div className="videos">
+            {videos.map((video, index) => (
+              <div key={video.videoUrl} className={`video-card ${animate ? 'animate' : ''}`} style={{ animationDelay: `${0.6 + index * 0.2}s` }}>
+                <div className="video-thumbnail" style={{ position: 'relative' }}>
+                  <iframe
+                    src={video.videoUrl}
+                    title={`Video ${index + 1}: ${video.title}`} // Add a unique title
+                    style={{ width: '100%', height: '100%', border: 'none' }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                <h4>{video.title}</h4>
               </div>
-              <h4>{video.title}</h4>
-            </div>
-          ))}
+            ))}
           </div>
-          
-         
         </div>
-        </div>
-        
-        
       </div>
-    
+    </div>
   );
 };
 

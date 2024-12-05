@@ -41,9 +41,9 @@ router.post('/update-preffered-career', updatePreferredCareerAndSkills);
 router.post('/ask-career-question', askCareerQuestion);
 
 // get career stages
-router.post('/get-career-stages', protect, getCareerStages);
+router.post('/get-career-stages', getCareerStages);
 
 // get skills comparison with specific career name
-router.post('/get-skills-comparison',  getSkillsComparison);
+router.post('/get-skills-comparison', protect, getSkillsComparison);
 
 module.exports = router;

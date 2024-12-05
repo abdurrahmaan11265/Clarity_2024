@@ -2,8 +2,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    // baseURL: 'http://localhost:5523', // Adjust the base URL to match your backend
-    baseURL: 'https://clarity-2024.onrender.com',
+    baseURL: 'http://localhost:5523', // Adjust the base URL to match your backend
+    // baseURL: 'https://clarity-2024.onrender.com',
     headers: {
         'Content-Type': 'application/json'
     }
@@ -213,8 +213,9 @@ export const generateAISummary = async (studentId, authToken) => {
 };
 
 export const fetchYouTubeVideos = async (query) => {
-    const apiKey = process.env.GEMINI_API_KEY;
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&maxResults=10&type=video&key=${apiKey}`;
+    // const apiKey = "AIzaSyACavXzO0e-GcdEpS8x4MEmQ1DMjdBlezc";
+    const apiKey = "AIzaSyBPx6xXxTzUuElZS182OD0NNMseRKJimes";
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&maxResults=1&type=video&key=${apiKey}`;
 
     try {
         const response = await axios.get(url);
@@ -245,7 +246,7 @@ export const getSkillsComparison = async (studentId, careerName, authToken) => {
                 }
             }
         );
-        return response.data.skillsComparison;
+        return { skillsComparison: response.data.skillsComparison, prominentFigures: response.data.prominentFigures };
     } catch (error) {
         console.error("Error fetching skills comparison:", error.response ? error.response.data : error.message);
         throw error;

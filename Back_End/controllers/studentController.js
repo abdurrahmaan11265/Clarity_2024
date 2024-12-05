@@ -431,7 +431,7 @@ exports.getCareerStages = async (req, res) => {
 
 async function generateSkillsComparisonWithGemini(careerName, currentSkills) {
     const prompt = `For the career "${careerName}", considering the current skills: ${JSON.stringify(currentSkills)}, provide the following:
-    1. A list of required skills with their average proficiency percentage and the student's current proficiency percentage. Format: [{"skillName": "Skill Name", "avgPercentage": 50, "currentPercentage": 40}].
+    1. A list of top 7 required skills with their average proficiency percentage and the student's current proficiency percentage. Format: [{"skillName": "Skill Name", "avgPercentage": 50, "currentPercentage": 40}].
     2. A list of prominent figures in this field with a brief description for each. Format: [{"name": "Person Name", "description": "Brief description"}].
     Return the response in this JSON format: {"skillsComparison": [{"skillName": "Skill Name", "avgPercentage": 50, "currentPercentage": 40}], "prominentFigures": [{"name": "Person Name", "description": "Brief description"}]}. Only provide the JSON response.`;
 

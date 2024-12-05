@@ -7,6 +7,7 @@ import HeaderStudent from '../components/HeaderStudent';
 import SearchImage from '../assests/search_sparkle.png';
 import RoadmapComponent from '../components/Roadmap.js';
 import { FaBrain } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const ClarityCard = ({ isLoading, clarityQuestion, setClarityQuestion, handleAskClarity, clarityAnswer }) => {
     return (
@@ -48,6 +49,7 @@ const ClarityCard = ({ isLoading, clarityQuestion, setClarityQuestion, handleAsk
 };
 
 const Career = () => {
+    const navigate = useNavigate();
     const { userData, authToken } = useAuth();
     const [searchParams] = useSearchParams();
     const studentId = searchParams.get('studentId');
@@ -322,6 +324,10 @@ const Career = () => {
         await fetchStudentData();
     };
 
+    const handleAboutCareer = async (careerName, careerDescription, careerSalary) => {
+        navigate(`/about-career?careerName=${careerName}&careerDescription=${careerDescription}&careerSalary=${careerSalary}`);
+    };
+
     const skillsToShow = studentData ? (showAllSkills ? studentData.skills : studentData.skills.slice(0, 7)) : [];
 
     return (
@@ -405,7 +411,7 @@ const Career = () => {
                                 <tbody>
                                     {studentData && studentData.careerOptions.map(option => (
                                         <tr key={option._id}>
-                                            <td>{option.name}</td>
+                                            <td onClick={() => { handleAboutCareer (option.name, option.description, option.averageSalary) }}>{option.name}</td>
                                             <td>{option.averageSalary ? option.averageSalary.toLocaleString() : 'N/A'}</td>
                                             <td>{option.description}</td>
                                             {userData.userType === 'student' && <td><img src={SearchImage} alt="Search" onClick={() => handleAskClarityCareer(option.name)} /></td>}
@@ -548,7 +554,7 @@ const Career = () => {
                 <div className="roadmap-container">
                     <h2 style={{ fontWeight: 'bold', color: '#2c3e50', textAlign: 'center', marginTop: '20px' }}>
                     </h2>
-                    <RoadmapComponent />
+                    {/* <RoadmapComponent careerName={studentData ? studentData.prefferedCareer : ''} /> */}
                 </div>
 
             </main>
