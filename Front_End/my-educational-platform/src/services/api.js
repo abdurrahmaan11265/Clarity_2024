@@ -2,8 +2,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    // baseURL: 'http://localhost:5523', // Adjust the base URL to match your backend
-    baseURL: 'https://clarity-2024.onrender.com',
+    baseURL: 'http://localhost:5523', // Adjust the base URL to match your backend
+    // baseURL: 'https://clarity-2024.onrender.com',
     headers: {
         'Content-Type': 'application/json'
     }
@@ -210,4 +210,44 @@ export const generateAISummary = async (studentId, authToken) => {
             Authorization: `Bearer ${authToken}`
         }
     });
+};
+
+export const fetchYouTubeVideos = async (query) => {
+    const apiKey = process.env.GEMINI_API_KEY;
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&maxResults=10&type=video&key=${apiKey}`;
+
+    try {
+        const response = await axios.get(url);
+        return response.data.items;
+    } catch (error) {
+        console.error("Error fetching YouTube videos:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+export const getCareerStages = async (careerName) => {
+    try {
+        const response = await api.post('/api/students/get-career-stages', { careerName });
+        return response.data.careerStages;
+    } catch (error) {
+        console.error("Error fetching career stages:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+export const getSkillsComparison = async (studentId, careerName, authToken) => {
+    try {
+        const response = await api.post('/api/students/get-skills-comparison',
+            { studentId, careerName },
+            {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            }
+        );
+        return response.data.skillsComparison;
+    } catch (error) {
+        console.error("Error fetching skills comparison:", error.response ? error.response.data : error.message);
+        throw error;
+    }
 };

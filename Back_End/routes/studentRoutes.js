@@ -9,7 +9,9 @@ const {
     updateMarks,
     getUserData,
     updatePreferredCareerAndSkills,
-    askCareerQuestion
+    askCareerQuestion,
+    getCareerStages,
+    getSkillsComparison
 } = require('../controllers/studentController');
 const { getTestNames } = require('../controllers/testController');
 const protect = require('../middleware/authMiddleware');
@@ -37,5 +39,11 @@ router.post('/update-preffered-career', updatePreferredCareerAndSkills);
 
 // ask career question
 router.post('/ask-career-question', askCareerQuestion);
+
+// get career stages
+router.post('/get-career-stages', protect, getCareerStages);
+
+// get skills comparison with specific career name
+router.post('/get-skills-comparison',  getSkillsComparison);
 
 module.exports = router;
