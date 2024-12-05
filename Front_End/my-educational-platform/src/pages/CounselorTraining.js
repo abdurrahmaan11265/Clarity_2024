@@ -19,7 +19,7 @@ const fetchVideoTitle = async (videoUrl) => {
 const CounselorTraining = () => {
   const [animate, setAnimate] = useState(false);
   const [videos, setVideos] = useState([
-    { videoUrl: 'https://www.youtube.com/embed/MRkNd_UrzUE', }, 
+    { videoUrl: 'https://www.youtube.com/embed/MRkNd_UrzUE', },
     { videoUrl: 'https://www.youtube.com/embed/UVN96JhDOmg' },
     { videoUrl: 'https://www.youtube.com/embed/bgC6ZLE8QhY'},
     { videoUrl: 'https://www.youtube.com/embed/BuhF_vMuXpI' },
