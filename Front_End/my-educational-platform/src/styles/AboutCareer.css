@@ -1,0 +1,250 @@
+.about-career-container {
+    background-color: #ffffff;
+    min-height: 100vh;
+  }
+
+  .about-career-container .nav {
+    max-width: 100vw;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+}
+
+.about-career-container header {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+
+
+.about-career-container {
+    max-width: 100vw;
+    margin: 0 auto;
+    background-color: #ffffff;
+    color: #333;
+    line-height: 1.6;
+}
+.inside-clarity-analytics-container{
+    padding: 1rem 2rem;
+}
+.about-career-container  .mr-2 {
+    margin-right: 0.5rem;
+}
+
+.about-career-container  .text-2xl {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.about-career-container header button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.about-career-container header svg {
+    stroke: white;
+}
+.about-career-container header h1 {
+    color: white;
+}
+.about-career-container .flex{
+    display: flex;
+}
+.about-career-container .items-center {
+    align-items: center;
+}
+
+.about-career-container .justify-between {
+    justify-content: space-between;
+}
+
+.about-career-container .space-x-4>*+* {
+    margin-left: 1rem;
+}
+
+
+.about-career-container .icon {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+
+
+
+.about-career-container header button {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+  
+ 
+  .about-career-container .hero.animate {
+    opacity: 1;
+    transform: translateY(0);
+    
+  }
+  
+  
+ 
+  
+ .about-career-container .content {
+    max-width: 95vw;
+    margin: 0 auto;
+    padding: 2rem;
+    padding-top: 0px;
+  }
+
+  .career-breifing{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    gap: 0.5rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 1rem;
+    margin-bottom: 2rem;
+  }
+  .career-breifing h2{
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 5px;
+  }
+
+  .Section-Heading-Brefing-page{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    padding: 5px 50px;
+    border-radius: 30px;
+    margin: 1rem;
+    margin-top: 5rem;
+  }
+  
+ 
+  
+ 
+
+  .video-list{
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    flex: 1 1;
+    min-width: 200px;
+    transform: translateY(20px);
+    border: 1px solid #e0e0e0;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out, box-shadow 0.3s ease-in-out;
+  }
+  .video-list h2{
+    margin-bottom: 1rem;
+  }
+  
+  .about-career-container .videos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .about-career-container .video-card {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+  
+ .about-career-container .video-card.animate {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+ .about-career-container .video-thumbnail {
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    transition: background-color 0.3s ease-in-out;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .video-card:hover .video-thumbnail {
+    background-color: #e0e0e0;
+  }
+  
+  .video-card:hover .play-icon {
+    transform: scale(1.1);
+  }
+  
+  .about-career-container .play-icon {
+    width: 50px;
+    height: 50px;
+    color: #4285f4;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .video-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .video-card p {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  
+  .about-career-container.video-card {
+    animation: fadeInUp 0.5s ease-out forwards;
+    animation-play-state: paused;
+  }
+  
+  .video-card.animate {
+    animation-play-state: running;
+  }
+  .salary-table td ,
+  .salary-table th {
+    text-align: center;
+  }
+  
+  .Prominent-People{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    flex: 1 1;
+    min-width: 200px;
+    transform: translateY(20px);
+    border: 1px solid #e0e0e0;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out, box-shadow 0.3s ease-in-out;
+  }
+  
