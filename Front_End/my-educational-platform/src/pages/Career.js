@@ -52,7 +52,7 @@ const Career = () => {
     const navigate = useNavigate();
     const { userData, authToken } = useAuth();
     const [searchParams] = useSearchParams();
-    const studentId = searchParams.get('studentId');
+    const [studentId, setStudentId] = useState(searchParams.get('studentId') || '');
     const [studentData, setStudentData] = useState(null);
     const [showAllSkills, setShowAllSkills] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
@@ -75,6 +75,7 @@ const Career = () => {
             fetchStudentData();
         } else {
             setStudentData(userData);
+            setStudentId(userData._id);
         }
     }, [userData, studentId, fetchStudentData]);
 
@@ -490,7 +491,7 @@ const Career = () => {
 
                             <div className="required-skills">
                                 <h2 style={{ fontWeight: 'bold', color: '#2c3e50', textAlign: 'center', marginTop: '20px' }}>
-                                    Required Skills and Current Proficiency Levels
+                                    Current Proficiency Levels in Required Skills
                                 </h2>
                                 <div className="loading-overlay_for_skills" style={{ display: 'none' }}>
                                     <div className="spinner_for_skills">
@@ -554,7 +555,8 @@ const Career = () => {
                 <div className="roadmap-container">
                     <h2 style={{ fontWeight: 'bold', color: '#2c3e50', textAlign: 'center', marginTop: '20px' }}>
                     </h2>
-                    {/* <RoadmapComponent careerName={studentData ? studentData.prefferedCareer : ''} /> */}
+                    <h2 className='Section-Heading-Brefing-page' style={{ marginBottom: '10px' }}>Roadmap</h2>
+                    <RoadmapComponent careerName={studentData ? studentData.prefferedCareer : ''} />
                 </div>
 
             </main>
