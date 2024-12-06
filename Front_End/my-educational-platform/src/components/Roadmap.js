@@ -10,6 +10,7 @@ const RoadmapComponent = ({ careerName }) => {
   useEffect(() => {
     const fetchCareerStages = async () => {
       try {
+        setLoading(true);
         const response = await getCareerStages(careerName);
         setTimelinePoints(response);
       } catch (error) {
@@ -24,28 +25,27 @@ const RoadmapComponent = ({ careerName }) => {
     }
   }, [careerName]);
 
+
+
   return (
     <div className="timeline-container">
-      <div className="timeline-wrapper">
+      {loading ? (<p className="loading-text-for-raodmap">Loading Content</p>) : (
+        <div className="timeline-wrapper">
         <div className="timeline-line">
           <div className="timeline-points">
-            {loading ? ( // Check if loading
-              <p>Loading...</p> // Display loading message
-            ) : (
-              timelinePoints.map((point) => (
-                <div key={point.id} className="point-wrapper">
-                  <button
-                    onClick={() => setSelectedPoint(selectedPoint === point.id ? null : point.id)}
-                    className="timeline-point"
-                  >
-                    <span>{point.id}</span>
-                  </button>
-                  <div className="point-content">
-                    <h3>{point.title}</h3>
-                    <p>{point.content}</p>
-                  </div>
+            {timelinePoints.map((point) => (
+              <div key={point.id} className="point-wrapper">
+                <button
+                  onClick={() => setSelectedPoint(selectedPoint === point.id ? null : point.id)}
+                  className="timeline-point"
+                >
+                  <span>{point.id}</span>
+                </button>
+                <div className="point-content">
+                  <h3>{point.title}</h3>
+                  <p>{point.content}</p>
                 </div>
-              ))
+              </div>)
             )}
           </div>
         </div>
@@ -67,7 +67,7 @@ const RoadmapComponent = ({ careerName }) => {
             </div>
           )}
         </div>
-      </div>
+      </div>)}
     </div>
   );
 };
