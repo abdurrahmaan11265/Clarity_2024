@@ -213,8 +213,8 @@ export const generateAISummary = async (studentId, authToken) => {
 };
 
 export const fetchYouTubeVideos = async (query) => {
-    // const apiKey = "AIzaSyACavXzO0e-GcdEpS8x4MEmQ1DMjdBlezc";
-    const apiKey = "AIzaSyBPx6xXxTzUuElZS182OD0NNMseRKJimes";
+    const apiKey = "AIzaSyACavXzO0e-GcdEpS8x4MEmQ1DMjdBlezc";
+    // const apiKey = "AIzaSyBPx6xXxTzUuElZS182OD0NNMseRKJimes";
     const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&maxResults=1&type=video&key=${apiKey}`;
 
     try {
