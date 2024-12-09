@@ -2,8 +2,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:5523', // Adjust the base URL to match your backend
-    // baseURL: 'https://clarity-2024.onrender.com',
+    //baseURL: 'http://localhost:5523', // Adjust the base URL to match your backend
+    baseURL: 'https://clarity-2024.onrender.com',
     headers: {
         'Content-Type': 'application/json'
     }
