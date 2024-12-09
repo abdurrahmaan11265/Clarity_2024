@@ -23,6 +23,7 @@
     line-height: 1.5;
     max-width: 1400px;
     margin: 0 auto;
+    padding: 20px;
 }
 
 .student-dashboard-container .header {
@@ -112,12 +113,16 @@
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
+.student-dashboard-container .go-to-journal-section .stat-image {
+    width: 90%;
+    height: 250px;
+    object-fit: cover;
+}
 .student-dashboard-container .stat-image {
-    width: 100%;
+    width: 80%;
     height: 200px;
     object-fit: cover;
 }
-
 .student-dashboard-container .stat-content {
     padding: 1.5rem;
 }
@@ -246,7 +251,7 @@
 
 @media (min-width: 768px) {
     .student-dashboard-container .main-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
@@ -266,4 +271,11 @@
 
 .student-dashboard-container .skills-container{
 margin-bottom: 1rem !important;
+}
+.go-to-journal-section{
+    background-color: var(--card-background);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid lightblue;
 }

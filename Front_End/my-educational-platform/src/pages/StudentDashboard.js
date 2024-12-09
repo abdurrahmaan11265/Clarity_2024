@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/StudentDashboard.css'; // Assuming you move the styles to a CSS file
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import JournalIMG from '../assests/journeling.svg';
 
 
 
@@ -13,6 +14,9 @@ const StudentDashboard = () => {
     };
     const handleTestsClick = () => {
         navigate('/allTests')
+    }
+    const handleJournalClick = ()=>{
+        navigate('/journal-page');
     }
 
     const handleLogout = () => {
@@ -32,6 +36,9 @@ const StudentDashboard = () => {
 
     const handleCareerClick = () => {
         navigate('/career');
+    }
+    const handleAluminaiClick = () => {
+        navigate('/aluminai');
     }
 
     return (
@@ -91,7 +98,7 @@ const StudentDashboard = () => {
                     </div>
                 </div>
 
-                <div className="stat-card">
+                <div className="stat-card" onClick={handleAluminaiClick}>
                     <img
                         src="https://www.univariety.com/blog/wp-content/uploads/2022/02/5853-min-scaled.jpg"
                         alt="Alumni Network"
@@ -128,7 +135,10 @@ const StudentDashboard = () => {
                         </p>
                     </div>
                 </div>
+                
             </div>
+
+           
 
             <div className="main-grid">
                 <div className="assessment-section">
@@ -148,6 +158,25 @@ const StudentDashboard = () => {
                             <p>Available from May 20, 2024</p>
                         </div>
                         <span className="status status-upcoming">Upcoming</span>
+                    </div>
+                </div>
+                <div className='go-to-journal-section' onClick={handleJournalClick}>
+                <h2 className="section-header">Journal</h2>
+                <img
+                        src={JournalIMG}
+                        alt="Analytics Dashboard"
+                        className="stat-image"
+                    />
+                    <div className="stat-content">
+                        <div className="stat-header">
+                            <span className="stat-icon">
+                                <i className="fas fa-chart-line"></i>
+                            </span>
+                            <h4 className="stat-title-journal">Journal-Section</h4>
+                        </div>
+                        <p className="stat-description">
+                            Write About your Mood , Express yourself.Track your emotions
+                        </p>
                     </div>
                 </div>
 

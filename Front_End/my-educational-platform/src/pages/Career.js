@@ -2,53 +2,16 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import '../styles/Career.css';
 import { useAuth } from '../AuthContext';
-import { generateCareerOptions, analyzeSkills, updatePreferredCareer, getUserData, askCareerQuestion, addSkill, updateSkill, deleteSkill, addNewCareerOption, editCareerOption, removeCareerOption, addRequiredSkill, updateRequiredSkill, deleteRequiredSkill } from '../services/api';
+import { generateCareerOptions, analyzeSkills, updatePreferredCareer, getUserData, addSkill, updateSkill, deleteSkill, addNewCareerOption, editCareerOption, removeCareerOption, addRequiredSkill, updateRequiredSkill, deleteRequiredSkill } from '../services/api';
 import HeaderStudent from '../components/HeaderStudent';
 import SearchImage from '../assests/search_sparkle.png';
 import RoadmapComponent from '../components/Roadmap.js';
 import { FaBrain } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-
-const ClarityCard = ({ isLoading, clarityQuestion, setClarityQuestion, handleAskClarity, clarityAnswer }) => {
-    return (
-        <div className="clarity-card">
-            <h2>Clarity AI Assistant</h2>
-            <div className="clarity-container" style={{ position: 'relative' }}>
-                {isLoading ? (
-                    <div className="loading-overlay">
-                        <div className="spinner">
-                            <div className="bounce1"></div>
-                            <div className="bounce2"></div>
-                            <div className="bounce3"></div>
-                        </div>
-                    </div>
-                ) : (
-                    <>
-                        <input
-                            type="text"
-                            className="clarity-input"
-                            placeholder="Ask Clarity..."
-                            value={clarityQuestion}
-                            onChange={(e) => setClarityQuestion(e.target.value)}
-                        />
-                        <button
-                            className="clarity-btn"
-                            onClick={handleAskClarity}
-                            disabled={isLoading}
-                        >
-                            Ask Clarity
-                        </button>
-                        <div className="clarity-output">
-                            {clarityAnswer || "How can I help you today?"}
-                        </div>
-                    </>
-                )}
-            </div>
-        </div>
-    );
-};
+import { useChatbot } from '../ChatbotContext';
 
 const Career = () => {
+    const { setClarityQuestion, handleAskClarity, setIsChatOpen, clarityQuestion } = useChatbot();
     const navigate = useNavigate();
     const { userData, authToken } = useAuth();
     const [searchParams] = useSearchParams();
@@ -57,9 +20,7 @@ const Career = () => {
     const [showAllSkills, setShowAllSkills] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const [dropdownDisabled, setDropdownDisabled] = useState(false);
-    const [clarityQuestion, setClarityQuestion] = useState('');
-    const [clarityAnswer, setClarityAnswer] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    
 
     const fetchStudentData = useCallback(async () => {
         try {
@@ -105,32 +66,6 @@ const Career = () => {
         } finally {
             document.querySelector('.loading-overlay_for_skills').style.display = 'none';
             document.querySelector('.skills-container').style.display = 'flex';
-        }
-    };
-
-    const handleAskClarity = async () => {
-        setIsLoading(true);
-        try {
-            const response = await askCareerQuestion(studentData._id, clarityQuestion);
-            setClarityAnswer(response.answer);
-        } catch (error) {
-            console.error("Failed to get answer from Clarity AI:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleAskClarityCareer = async (careerOption = '') => {
-        setIsLoading(true);
-        setClarityQuestion(`Tell me about ${careerOption} career?`);
-
-        try {
-            const response = await askCareerQuestion(studentData._id, `Tell me about ${careerOption} career?`);
-            setClarityAnswer(response.answer);
-        } catch (error) {
-            console.error("Failed to get answer from Clarity AI:", error);
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -330,6 +265,11 @@ const Career = () => {
     };
 
     const skillsToShow = studentData ? (showAllSkills ? studentData.skills : studentData.skills.slice(0, 7)) : [];
+    useEffect(() => {
+        if (clarityQuestion) {
+            handleAskClarity();
+        }
+    }, [clarityQuestion]);
 
     return (
         <div className="career-container">
@@ -415,7 +355,16 @@ const Career = () => {
                                             <td onClick={() => { handleAboutCareer (option.name, option.description, option.averageSalary) }}>{option.name}</td>
                                             <td>{option.averageSalary ? option.averageSalary.toLocaleString() : 'N/A'}</td>
                                             <td>{option.description}</td>
-                                            {userData.userType === 'student' && <td><img src={SearchImage} alt="Search" onClick={() => handleAskClarityCareer(option.name)} /></td>}
+                                            {userData.userType === 'student' && 
+                                            <td
+                                            onClick={async () => {
+                                                await setClarityQuestion(`Tell me about ${option.name} career`);
+                                                setClarityQuestion(`Tell me about ${option.name} career`);
+                                                setIsChatOpen(true);
+                                                console.log(clarityQuestion);
+                                                handleAskClarity();
+                                            }}
+                                            ><img src={SearchImage} alt="Search"  /></td>}
 
                                             {userData.userType === 'counselor' && (
                                                 <td>
@@ -542,14 +491,6 @@ const Career = () => {
                             </div>
                         </div>
                     </div>
-
-                    <ClarityCard
-                        isLoading={isLoading}
-                        clarityQuestion={clarityQuestion}
-                        setClarityQuestion={setClarityQuestion}
-                        handleAskClarity={handleAskClarity}
-                        clarityAnswer={clarityAnswer}
-                    />
                 </div>
 
                 <div className="roadmap-container">
