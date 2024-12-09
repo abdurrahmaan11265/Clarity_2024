@@ -344,10 +344,6 @@ async function answerQuestionWithGemini(question) {
             .replace(/(\*\s)/g, '- ') // Convert asterisks to bullet points
             .replace(/(\n\s*)+/g, '\n') // Normalize new lines
             .replace(/(\s*\n\s*)/g, '\n\n'); // Ensure paragraphs are separated by double new lines
-
-        console.log(prompt);
-        console.log(responseText);
-
         return responseText; // Return the cleaned and formatted text
     } catch (error) {
         console.error("Error generating answer:", error);
@@ -358,14 +354,8 @@ async function answerQuestionWithGemini(question) {
 
 exports.askCareerQuestion = async (req, res) => {
     try {
-        const { studentId, question } = req.body;
-
-        // Find the student
-        const student = await Student.findById(studentId);
-        if (!student) {
-            return res.status(404).json({ message: "Student not found" });
-        }
-
+        const { question } = req.body;
+        console.log(question)
         // Get the answer from the AI
         const answer = await answerQuestionWithGemini(question);
 

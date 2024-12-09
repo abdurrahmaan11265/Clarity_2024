@@ -1,0 +1,196 @@
+.aluminai-page {
+    background-color: white;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-size: cover; 
+    background-position: center; 
+    
+  }
+  .aluminai-page > ::backdrop{
+    filter: blur(10px);
+  }
+
+
+  .aluminai-page .nav {
+    max-width: 100vw;
+    margin: 0 auto;
+    margin-bottom: 3rem;
+    padding: 1rem 2rem;
+}
+
+.aluminai-page header {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+.aluminai-page {
+    max-width: 100vw;
+    margin: 0 auto;
+    background-color: #ffffff;
+    color: #333;
+    line-height: 1.6;
+}
+
+.inside-clarity-analytics-container {
+    padding: 1rem 2rem;
+}
+
+.aluminai-page .mr-2 {
+    margin-right: 0.5rem;
+}
+
+.aluminai-page .text-2xl {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.aluminai-page header button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.aluminai-page header svg {
+    stroke: white;
+}
+
+.aluminai-page header h1 {
+    color: white;
+}
+
+.aluminai-page .flex {
+    display: flex;
+}
+
+.aluminai-page .items-center {
+    align-items: center;
+}
+
+.aluminai-page .justify-between {
+    justify-content: space-between;
+}
+
+.aluminai-page .space-x-4> {
+    margin-left: 1rem;
+}
+
+
+.aluminai-page .icon {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+
+
+
+.aluminai-page header button {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+  
+.aluminai-page h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #3b82f6;
+  }
+  
+  .aluminai-page .alumni-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 0px 1rem;
+  }
+  
+  .aluminai-page .alumni-card {
+    background: linear-gradient(45deg, #1e3a8a, #2563eb, #60a5fa, #a5d8ff);
+    background-size: 200% 200%;
+    color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    animation: moveGradient 4s infinite ease-in-out;
+  }
+  @keyframes moveGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+  
+.aluminai-page .alumni-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .aluminai-page .profile-picture {
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1rem;
+  }
+  
+  .aluminai-page .profile-picture svg {
+    font-size: 50px;
+    color: #3b82f6;
+  }
+  
+  .aluminai-page h2 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .aluminai-page p {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .aluminai-page .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: auto;
+  }
+  
+  .aluminai-page .social-icons a {
+    color: white;
+    font-size: 1.5rem;
+    transition: opacity 0.3s ease;
+  }
+  
+  .aluminai-page .social-icons a:hover {
+    opacity: 0.8;
+  }
+  
+  
