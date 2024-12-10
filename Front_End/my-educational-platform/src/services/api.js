@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    //baseURL: 'http://localhost:5523', // Adjust the base URL to match your backend
+    // baseURL: 'http://localhost:5523',
     baseURL: 'https://clarity-2024.onrender.com',
     headers: {
         'Content-Type': 'application/json'
@@ -248,6 +248,67 @@ export const getSkillsComparison = async (studentId, careerName, authToken) => {
         return { skillsComparison: response.data.skillsComparison, prominentFigures: response.data.prominentFigures };
     } catch (error) {
         console.error("Error fetching skills comparison:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+// Get all journal entries for a student
+export const getJournalEntries = async (studentId, authToken) => {
+    try {
+        const response = await api.get(`/api/students/journal-entries/${studentId}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching journal entries:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+// Add a new journal entry
+export const addJournalEntry = async (studentId, note, authToken) => {
+    try {
+        const response = await api.post('/api/students/journal-entry', { studentId, note }, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error adding journal entry:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+// Update a journal entry
+export const updateJournalEntry = async (studentId, entryId, note, authToken) => {
+    try {
+        const response = await api.put('/api/students/journal-entry', { studentId, entryId, note }, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error updating journal entry:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+// Delete a journal entry
+export const deleteJournalEntry = async (studentId, entryId, authToken) => {
+    try {
+        const response = await api.delete('/api/students/journal-entry', {
+            data: { studentId, entryId },
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error deleting journal entry:", error.response ? error.response.data : error.message);
         throw error;
     }
 };

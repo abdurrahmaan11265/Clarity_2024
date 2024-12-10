@@ -41,6 +41,12 @@ const counselorNoteSchema = new mongoose.Schema({
     note: String,
 });
 
+const journalEntrySchema = new mongoose.Schema({
+    _id: { type: mongoose.Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() },
+    date: { type: Date, default: Date.now },
+    note: String,
+});
+
 const studentSchema = new mongoose.Schema({
     name: { type: String, required: true },
     details: {
@@ -76,6 +82,7 @@ const studentSchema = new mongoose.Schema({
         testName: String
     }],
     counselorNotes: [counselorNoteSchema],
+    journalEntries: [journalEntrySchema],
     aiSummary: { type: String, default: 'No summary yet' },
     userType: { type: String, default: 'student' }
 });

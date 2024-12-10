@@ -268,3 +268,12 @@
     transition: box-shadow 0.3s ease; /* Smooth highlight effect */
     border-radius: 8px;
   }
+
+.journal-entry .close-button-entry-date {
+    display: none; /* Hide the close button by default */
+}
+
+.journal-entry-on-click .close-button-entry-date {
+    display: block; /* Show the close button when the entry is expanded */
+    cursor: pointer;
+}

@@ -11,7 +11,11 @@ const {
     updatePreferredCareerAndSkills,
     askCareerQuestion,
     getCareerStages,
-    getSkillsComparison
+    getSkillsComparison,
+    getJournalEntries,
+    addJournalEntry,
+    updateJournalEntry,
+    deleteJournalEntry
 } = require('../controllers/studentController');
 const { getTestNames } = require('../controllers/testController');
 const protect = require('../middleware/authMiddleware');
@@ -45,5 +49,11 @@ router.post('/get-career-stages', getCareerStages);
 
 // get skills comparison with specific career name
 router.post('/get-skills-comparison', protect, getSkillsComparison);
+
+// Journal entry routes
+router.get('/journal-entries/:studentId', protect, getJournalEntries);
+router.post('/journal-entry', protect, addJournalEntry);
+router.put('/journal-entry', protect, updateJournalEntry);
+router.delete('/journal-entry', protect, deleteJournalEntry);
 
 module.exports = router;

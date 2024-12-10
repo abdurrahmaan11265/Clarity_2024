@@ -149,6 +149,19 @@
     margin: 1rem 0;
 }
 
+.salary-table td:first-child {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s, text-decoration 0.3s;
+}
+
+.salary-table td:first-child:hover {
+    color: #007bff;
+    /* Change to your desired link color */
+    text-decoration: underline;
+}
+
 .salary-table th,
 .salary-table td {
     padding: 1rem;

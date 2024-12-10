@@ -87,6 +87,7 @@ const AboutCareer = () => {
               <th>Skill Name</th>
               <th>Percent Required</th>
               <th>Current Proficiency</th>
+              <th>Feedback</th>
             </tr>
           </thead>
           <tbody>
@@ -95,6 +96,7 @@ const AboutCareer = () => {
                 <td>{skill.skillName}</td>
                 <td>{skill.avgPercentage}%</td>
                 <td>{skill.currentPercentage}%</td>
+                <td>{skill.resources}</td>
               </tr>
             ))}
           </tbody>

@@ -421,9 +421,9 @@ exports.getCareerStages = async (req, res) => {
 
 async function generateSkillsComparisonWithGemini(careerName, currentSkills) {
     const prompt = `For the career "${careerName}", considering the current skills: ${JSON.stringify(currentSkills)}, provide the following:
-    1. A list of top 7 required skills with their average proficiency percentage and the student's current proficiency percentage. Format: [{"skillName": "Skill Name", "avgPercentage": 50, "currentPercentage": 40}].
+    1. A list of top 7 required skills with their average proficiency percentage and the student's current proficiency percentage. And the resources to improve the skills they can be some book name or website name. Format: [{"skillName": "Skill Name", "avgPercentage": 50, "currentPercentage": 40, "resources": "resources to inprove this skill"}].
     2. A list of prominent figures in this field with a brief description for each. Format: [{"name": "Person Name", "description": "Brief description"}].
-    Return the response in this JSON format: {"skillsComparison": [{"skillName": "Skill Name", "avgPercentage": 50, "currentPercentage": 40}], "prominentFigures": [{"name": "Person Name", "description": "Brief description"}]}. Only provide the JSON response.`;
+    Return the response in this JSON format: {"skillsComparison": [{"skillName": "Skill Name", "avgPercentage": 50, "currentPercentage": 40, "resources": "resources to inprove this skill"}], "prominentFigures": [{"name": "Person Name", "description": "Brief description"}]}. Only provide the JSON response.`;
 
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -471,3 +471,71 @@ exports.getSkillsComparison = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// Get all journal entries for a student
+exports.getJournalEntries = async (req, res) => {
+    try {
+        const { studentId } = req.params;
+        const student = await Student.findById(studentId);
+        if (!student) return res.status(404).json({ message: 'Student not found' });
+
+        res.status(200).json(student.journalEntries);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Add a new journal entry
+exports.addJournalEntry = async (req, res) => {
+    try {
+        const { studentId, note } = req.body;
+        const student = await Student.findById(studentId);
+        if (!student) return res.status(404).json({ message: 'Student not found' });
+
+        const newEntry = { note };
+        student.journalEntries.push(newEntry);
+        await student.save();
+
+        res.status(201).json({ message: 'Journal entry added successfully', journalEntries: student.journalEntries });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Update a journal entry
+exports.updateJournalEntry = async (req, res) => {
+    try {
+        const { studentId, entryId, note } = req.body;
+        const student = await Student.findById(studentId);
+        if (!student) return res.status(404).json({ message: 'Student not found' });
+
+        const entry = student.journalEntries.id(entryId);
+        if (!entry) return res.status(404).json({ message: 'Journal entry not found' });
+
+        entry.note = note;
+        await student.save();
+
+        res.status(200).json({ message: 'Journal entry updated successfully', journalEntries: student.journalEntries });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Delete a journal entry
+exports.deleteJournalEntry = async (req, res) => {
+    try {
+        const { studentId, entryId } = req.body;
+        const student = await Student.findById(studentId);
+        if (!student) return res.status(404).json({ message: 'Student not found' });
+
+        // Filter out the journal entry to be deleted
+        student.journalEntries = student.journalEntries.filter(entry => entry._id.toString() !== entryId);
+
+        await student.save();
+
+        res.status(200).json({ message: 'Journal entry deleted successfully', journalEntries: student.journalEntries });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
