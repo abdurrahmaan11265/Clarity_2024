@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../styles/StudentDashboard.css'; // Assuming you move the styles to a CSS file
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import JournalIMG from '../assests/journeling.svg';
+import { getUserData } from '../services/api';
 
 
 
 const StudentDashboard = () => {
     const navigate = useNavigate();
-    const { userData, logout } = useAuth();
+    const { userData, logout, setUserData, authToken } = useAuth();
+    
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const data = await getUserData(userData._id, authToken);
+            setUserData(data);
+        };
+        fetchUserData();
+    }, [userData._id, authToken, setUserData]);
+
     const handleAnalyticsClick = () => {
         navigate('/analytics');
     };
@@ -100,7 +110,7 @@ const StudentDashboard = () => {
 
                 
 
-                <div className='go-to-journal-section' onClick={handleJournalClick}>
+                <div className='go-to-journal-section stat-card' onClick={handleJournalClick}>
                 <img
                         src={JournalIMG}
                         alt="Analytics Dashboard"

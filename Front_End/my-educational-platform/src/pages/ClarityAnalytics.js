@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
 import '../styles/ClarityAnalytics.css';
 import LineChart from '../components/LineChart copy';
@@ -30,9 +30,9 @@ const ClarityAnalytics = () => {
       }
     };
 
-    if (userData.userType === 'counselor' && studentId) {
+    if (userData && userData.userType === 'counselor' && studentId) {
       fetchStudentData();
-    } else {
+    } else if (userData) {
       setClarityTests(userData.clarityTests || []);
     }
   }, [userData, studentId, authToken]);
@@ -162,8 +162,8 @@ const ClarityAnalytics = () => {
           <table>
             <thead>
               <tr>
-                <th>Skill</th>
-                <th>Score</th>
+                <th>Category</th>
+                <th>Percentage</th>
               </tr>
             </thead>
             <tbody>

@@ -8,6 +8,7 @@ import { useAuth } from '../AuthContext';
 const AllTest = () => {
     const navigate = useNavigate();
     const [tests, setTests] = useState([]);
+    const [loading, setLoading] = useState(true);
     const { userData, authToken, setUserData } = useAuth();
 
     useEffect(() => {
@@ -20,6 +21,7 @@ const AllTest = () => {
                     .filter(test => !test.completed)
                     .map(test => test.testId);
                 if (!Array.isArray(incompleteTestIds) || incompleteTestIds.length === 0) {
+                    setLoading(false);
                     return;
                 }
 
@@ -27,13 +29,15 @@ const AllTest = () => {
                 setTests(res.data);
             } catch (error) {
                 console.error("Error fetching tests:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
-        if (userData && userData.assignedTests) {
+        if (userData?.assignedTests) {
             fetchTests();
         }
-    }, [userData._id, authToken]);
+    }, [userData._id, authToken, setUserData]);
 
     const handleGoBack = () => {
         navigate('/student');
@@ -63,7 +67,9 @@ const AllTest = () => {
 
             <main id="mainContent" className="Main-Content">
                 <div id="testGrid" className="Tests">
-                    {tests.length === 0 ? (
+                    {loading ? (
+                        <p>Loading tests...</p>
+                    ) : tests.length === 0 ? (
                         <div className="no-tests-message">
                             <p>No tests available to display.</p>
                         </div>

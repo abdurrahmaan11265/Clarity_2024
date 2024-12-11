@@ -260,8 +260,8 @@ const Career = () => {
         await fetchStudentData();
     };
 
-    const handleAboutCareer = async (careerName, careerDescription, careerSalary) => {
-        navigate(`/about-career?careerName=${careerName}&careerDescription=${careerDescription}&careerSalary=${careerSalary}`);
+    const handleAboutCareer = async (careerName, careerDescription, careerSalary, careerMarketTrends) => {
+        navigate(`/about-career?careerName=${careerName}&careerDescription=${careerDescription}&careerSalary=${careerSalary}&careerMarketTrends=${careerMarketTrends}`);
     };
 
     const skillsToShow = studentData ? (showAllSkills ? studentData.skills : studentData.skills.slice(0, 7)) : [];
@@ -269,7 +269,7 @@ const Career = () => {
         if (clarityQuestion) {
             handleAskClarity();
         }
-    }, [clarityQuestion]);
+    }, [clarityQuestion, handleAskClarity]);
 
     return (
         <div className="career-container">
@@ -352,8 +352,8 @@ const Career = () => {
                                 <tbody>
                                     {studentData && studentData.careerOptions.map(option => (
                                         <tr key={option._id}>
-                                            <td onClick={() => { handleAboutCareer (option.name, option.description, option.averageSalary) }}>{option.name}</td>
-                                            <td>{option.averageSalary ? option.averageSalary.toLocaleString() : 'N/A'}</td>
+                                            <td onClick={() => { handleAboutCareer (option.name, option.description, option.averageSalary, option.marketTrends) }}>{option.name}</td>
+                                            <td>₹{option.averageSalary ? option.averageSalary.toLocaleString() : 'N/A'}</td>
                                             <td>{option.description}</td>
                                             {userData.userType === 'student' && 
                                             <td
