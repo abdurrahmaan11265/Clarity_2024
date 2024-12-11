@@ -19,6 +19,7 @@ import ClarityAI from './components/ClarityAI';
 import './styles/Career.css';
 import JournalPage from './pages/JournalPage';
 import Aluminai from './pages/aluminai';
+import Notes from './pages/Notes';
 
 const routeDefinitions = [
   { path: '/', element: <Login /> },
@@ -34,7 +35,8 @@ const routeDefinitions = [
   { path: '/counselor-training', element: <CounselorTraining /> },
   { path: '/about-career', element: <AboutCareer /> },
   { path: '/journal-page', element: <JournalPage /> },
-  { path: '/aluminai', element: <Aluminai /> }
+  { path: '/aluminai', element: <Aluminai /> },
+  { path: '/notes', element: <Notes /> }
 ];
 
 function App() {

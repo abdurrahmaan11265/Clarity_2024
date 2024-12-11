@@ -9,6 +9,7 @@ import HeaderStudent from '../components/HeaderStudent';
 import { RiParentFill } from "react-icons/ri";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import Button from '../components/Button';
 
 
 
@@ -131,6 +132,10 @@ const StudentProfile = () => {
         navigate(`/career/?studentId=${studentId}`);
     }
 
+    const handleCounselingSession = () => {
+        navigate(`/notes/?studentId=${studentId}`);
+    }
+
     return (
         
         <div className="container-body" style={{display: 'flex', flexDirection: 'column'}}>
@@ -211,29 +216,8 @@ const StudentProfile = () => {
                     <section className="counseling-notes">
             <div className="notes-header">
                 <h2>Counseling Notes</h2>
-                <div className="add-note">
-                    <textarea
-                        type="text"
-                        value={newNote}
-                        onChange={(e) => setNewNote(e.target.value)}
-                        placeholder="Add a new note"
-                        required
-                    />
-                    <button 
-                        className={`btn btn-outline ${isAddingNote ? '' : ''}`} 
-                        onClick={handleAddNote}
-                        disabled={isAddingNote}
-                    >
-                        {isAddingNote ? 'Adding...' : <><FaPlus /> Add Note</>}
-                    </button>
-                    <div className="loading-container-notes" style={{ display: 'none' }}>
-                        <div className="btn adding-note"></div>
-                        <div className="loading-text">New notes being Generated..</div>
-
-                    </div>
-                    <div className='category-selector'>
-                        
-                    </div>
+                <div className="add-note" onClick={handleCounselingSession}>
+                    <Button text={<IoIosAddCircleOutline />}/>
                 </div>
             </div>
     <div className="timeline-container">
