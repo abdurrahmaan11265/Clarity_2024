@@ -504,7 +504,6 @@
 }
 
 .add-note {
-    width: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
