@@ -24,13 +24,12 @@ const Test = () => {
                 const data = await getTest(testId);
                 setTestData(data);
 
-                // Initialize selectedOptions with the first option of each question
+                // Initialize selectedOptions as an empty object
                 const initialSelectedOptions = {};
                 data.categories.forEach(category => {
                     category.questions.forEach(question => {
-                        if (question.options.length > 0) {
-                            initialSelectedOptions[question._id] = question.options[0];
-                        }
+                        // No pre-selection of options
+                        initialSelectedOptions[question._id] = null;
                     });
                 });
                 setSelectedOptions(initialSelectedOptions);
@@ -57,9 +56,22 @@ const Test = () => {
             return;
         }
 
+        // Check if all questions have been answered
+        const unansweredQuestions = testData.categories.flatMap(category =>
+            category.questions.filter(question => !selectedOptions[question._id])
+        );
+
+        if (unansweredQuestions.length > 0) {
+            alert("Please answer all questions before submitting the test.");
+            return;
+        }
+
         const responses = testData.categories.map(category => ({
             category: category.category,
-            selectedOptions: category.questions.map(question => selectedOptions[question._id] || "Not Answered")
+            questions: category.questions.map(question => ({
+                question: question.question,
+                selectedOption: selectedOptions[question._id] || "Not Answered"
+            }))
         }));
 
         const submissionData = {

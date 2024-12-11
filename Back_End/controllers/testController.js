@@ -3,6 +3,10 @@ const Test = require('../models/Test'); // Assuming the Test model is in the mod
 const Student = require('../models/Student');
 const mongoose = require('mongoose');
 const express = require('express');
+const dotenv = require('dotenv');
+dotenv.config();
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const app = express();
 
 app.use(express.json()); // This middleware is crucial for parsing JSON bodies
@@ -45,16 +49,30 @@ exports.getAllTests = async (req, res) => {
     }
 };
 
-const optionScores = {
-    "Strongly Agree": 4,
-    "Agree": 3,
-    "Disagree": 2,
-    "Strongly Disagree": 1
-};
+// New function to evaluate responses using GeminiAI
+async function evaluateWithGeminiAI(responses) {
+    // Simulate a prompt to GeminiAI
+    const prompt = `
+        You are a well-trained psychologist. Evaluate the following responses and provide the result in the format {category1: percentage scored, category2: percentage,... } and be precise you can give upto 2 decimal places:
+        ${JSON.stringify(responses)}
+        and only give the json format nothing else.
+    `;
+
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    // Placeholder for GeminiAI API call
+    // Simulate the evaluation result
+    const evaluationResult = await model.generateContent(prompt);
+
+    // Return the simulated evaluation result
+    return JSON.parse(evaluationResult.response.text().replace(/```json|```/g, '').trim());
+}
 
 exports.submitResponses = async (req, res) => {
     try {
         const { testId, studentId, responses } = req.body;
+        console.log(responses);
         const test = await Test.findById(testId);
         const student = await Student.findById(studentId);
 
@@ -73,22 +91,8 @@ exports.submitResponses = async (req, res) => {
             return res.status(400).json({ message: "Test has already been completed" });
         }
 
-        // Calculate scores for each category
-        const categoryScores = {};
-        responses.forEach(response => {
-            const { category, selectedOptions } = response;
-            if (!categoryScores[category]) {
-                categoryScores[category] = 0;
-            }
-            selectedOptions.forEach(option => {
-                categoryScores[category] += optionScores[option];
-            });
-        });
-
-        // Normalize scores
-        for (const category in categoryScores) {
-            categoryScores[category] = (categoryScores[category] / 40) * 100; // Normalize to percentage
-        }
+        // Evaluate responses using GeminiAI
+        const evaluationResult = await evaluateWithGeminiAI(responses);
 
         // Update student responses in Test model
         const existingResponseIndex = test.studentResponses.findIndex(response => response.studentId.toString() === studentId);
@@ -97,31 +101,27 @@ exports.submitResponses = async (req, res) => {
         } else {
             test.studentResponses.push({ studentId, responses });
         }
-
-        await test.save();
-
-        // Update Student model's clarityTests with category scores
+        
+        // Store the evaluated test result in the Student model
         const clarityTest = student.clarityTests.find(ct => ct.name === test.name);
         if (clarityTest) {
             clarityTest.dateAndMarks.push({
                 date: new Date(),
-                marks: categoryScores
+                marks: evaluationResult
             });
         } else {
             student.clarityTests.push({
                 name: test.name,
-                dateAndMarks: [{
-                    date: new Date(),
-                    marks: categoryScores
-                }]
+                dateAndMarks: [{ date: new Date(), marks: evaluationResult }]
             });
         }
-
+        
         // Mark the test as completed
         assignedTest.completed = true;
+        await test.save();
         await student.save();
 
-        res.status(200).json({ message: "Responses submitted and evaluated successfully" });
+        res.status(200).json({ message: "Responses submitted and evaluated successfully", evaluationResult });
     } catch (error) {
         console.error("Error submitting responses:", error);
         res.status(500).json({ error: error.message });

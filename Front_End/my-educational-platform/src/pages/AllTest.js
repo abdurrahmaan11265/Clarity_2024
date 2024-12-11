@@ -2,23 +2,24 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/AllTest.css';
 import { useNavigate } from 'react-router-dom';
-import { getAllTests } from '../services/api';
+import { getAllTests, getUserData } from '../services/api';
 import { useAuth } from '../AuthContext';
 
 const AllTest = () => {
     const navigate = useNavigate();
     const [tests, setTests] = useState([]);
-    const { userData } = useAuth();
+    const { userData, authToken, setUserData } = useAuth();
 
     useEffect(() => {
         const fetchTests = async () => {
             try {
-                const assignedTests = userData.assignedTests || [];
+                const updatedUserData = await getUserData(userData._id, authToken);
+                setUserData(updatedUserData);
+                const assignedTests = updatedUserData.assignedTests || [];
                 const incompleteTestIds = assignedTests
                     .filter(test => !test.completed)
                     .map(test => test.testId);
                 if (!Array.isArray(incompleteTestIds) || incompleteTestIds.length === 0) {
-                    console.error("No incomplete test IDs available to fetch.");
                     return;
                 }
 
@@ -32,7 +33,7 @@ const AllTest = () => {
         if (userData && userData.assignedTests) {
             fetchTests();
         }
-    }, [userData]);
+    }, [userData._id, authToken]);
 
     const handleGoBack = () => {
         navigate('/student');
@@ -73,7 +74,7 @@ const AllTest = () => {
                             );
 
                             if (isCompleted) {
-                                return null; // Skip rendering this test if it's completed
+                                return null;
                             }
 
                             return (
