@@ -98,21 +98,23 @@ const StudentDashboard = () => {
                     </div>
                 </div>
 
-                <div className="stat-card" onClick={handleAluminaiClick}>
-                    <img
-                        src="https://www.univariety.com/blog/wp-content/uploads/2022/02/5853-min-scaled.jpg"
-                        alt="Alumni Network"
+                
+
+                <div className='go-to-journal-section' onClick={handleJournalClick}>
+                <img
+                        src={JournalIMG}
+                        alt="Analytics Dashboard"
                         className="stat-image"
                     />
                     <div className="stat-content">
                         <div className="stat-header">
                             <span className="stat-icon">
-                                <i className="fas fa-user-graduate"></i>
+                                <i className="fas fa-chart-line"></i>
                             </span>
-                            <h3 className="stat-title">Alumni</h3>
+                            <h3 className="stat-title">Journal</h3>
                         </div>
                         <p className="stat-description">
-                            Connect with successful graduates, access mentorship opportunities, and explore networking events within our alumni community.
+                            Write About your Mood , Express yourself.Track your emotions
                         </p>
                     </div>
                 </div>
@@ -160,26 +162,25 @@ const StudentDashboard = () => {
                         <span className="status status-upcoming">Upcoming</span>
                     </div>
                 </div>
-                <div className='go-to-journal-section' onClick={handleJournalClick}>
-                <h2 className="section-header">Journal</h2>
-                <img
-                        src={JournalIMG}
-                        alt="Analytics Dashboard"
+                <div className="stat-card" onClick={handleAluminaiClick}>
+                <h2 className="section-header">Alumimai Network</h2>
+                    <img
+                        src="https://www.univariety.com/blog/wp-content/uploads/2022/02/5853-min-scaled.jpg"
+                        alt="Alumni Network"
                         className="stat-image"
                     />
                     <div className="stat-content">
                         <div className="stat-header">
                             <span className="stat-icon">
-                                <i className="fas fa-chart-line"></i>
+                                <i className="fas fa-user-graduate"></i>
                             </span>
-                            <h4 className="stat-title-journal">Journal-Section</h4>
+                            <h3 className="stat-title">Alumni</h3>
                         </div>
                         <p className="stat-description">
-                            Write About your Mood , Express yourself.Track your emotions
+                            Connect with successful graduates, access mentorship opportunities, and explore networking events within our alumni community.
                         </p>
                     </div>
                 </div>
-
                 <div className="messages-section">
                     <h2 className="section-header">Recent Messages</h2>
                     <div className="message">

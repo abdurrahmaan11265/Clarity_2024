@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import '../styles/JournalPage.css';
 import HeaderStudent from '../components/HeaderStudent';
 import { MdClose } from 'react-icons/md';
+import { MdOutlineModeEditOutline } from "react-icons/md";
+import { MdDeleteSweep } from "react-icons/md";
+import { LuSaveAll } from "react-icons/lu";
 import {
   getJournalEntries,
   addJournalEntry,
@@ -22,16 +25,24 @@ const JournalPage = () => {
 
   const toggleEntryClass = (e) => {
     const entryElement = e.currentTarget.closest('.journal-entry');
+
     if (entryElement) {
+      document.querySelector('.entry-text-and-button-container').style.height = '72vh';
+      document.querySelector('.journal-page textarea').style.height = '60vh';
       entryElement.classList.add('journal-entry-on-click');
+      
     }
   };
 
   const closeEntry = (e) => {
-    e.stopPropagation(); // Prevent the click from toggling the entry
+    e.stopPropagation();
+    handleUpdateEntry();
     const entryElement = e.currentTarget.closest('.journal-entry');
     if (entryElement) {
+      
+      document.querySelector('.journal-page textarea').style.height = '300px';
       entryElement.classList.remove('journal-entry-on-click');
+      document.querySelector('.entry-text-and-button-container').style.height = '100%';
     }
   };
 
@@ -60,6 +71,7 @@ const JournalPage = () => {
   };
 
   const handleUpdateButton = (entryId, currentText, e) => {
+   
     setIsUpdating(true);
     setEntryToUpdate({ id: entryId, text: currentText });
     // closeEntry(e);
@@ -102,6 +114,7 @@ const JournalPage = () => {
                     <MdClose size={24} color="white" />
                   </div>
                 </div>
+                <div className='entry-text-and-button-container'>
                 <div className="entry-text">
                   {isUpdating && entryToUpdate?.id === entry._id ? (
                     <textarea
@@ -112,16 +125,23 @@ const JournalPage = () => {
                     entry.note
                   )}
                 </div>
+                <div className='buttons-journal-entries'>
                 {isUpdating && entryToUpdate?.id === entry._id ? (
-                  <button onClick={handleUpdateEntry}>Save</button>
+                  <button className='save-button-journal' onClick={() => {
+                    handleUpdateEntry();
+                  }}><LuSaveAll /></button>
                 ) : (
-                  <button onClick={(e) => handleUpdateButton(entry._id, entry.note, e)}>Update</button>
+                  
+                  <button className='edit-button-journal' onClick={(e) => handleUpdateButton(entry._id, entry.note, e)}><MdOutlineModeEditOutline /></button>
                 )}
-                <button onClick={(e) => {
+                <button className='delete-button-journal' onClick={(e) => {
                   handleDeleteEntry(entry._id);
                   closeEntry(e);
-                }}>Delete</button>
+                }}><MdDeleteSweep /></button>
+                </div>
+                </div>
               </div>
+              
             ))}
           </div>
         </aside>

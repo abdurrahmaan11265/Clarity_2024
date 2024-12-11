@@ -75,6 +75,8 @@ const AboutCareer = () => {
           <h4 style={{ color: '#2c2c2c', marginBottom: '0px !important', marginTop: '10px' }}>Current Average Salary: {careerSalary}</h4>
           <h4 style={{ color: '#2c2c2c', marginBottom: '0px !important', marginTop: '10px' }}>Career Description:</h4>
           <p style={{ color: '#64748b' }}>{careerDescription}</p>
+          <h4 style={{ color: '#2c2c2c', marginBottom: '0px !important', marginTop: '10px' }}>Market Trends:</h4>
+          <p style={{ color: '#64748b' }}></p>
         </div>
 
         <h2 className='Section-Heading-Brefing-page'>Roadmap</h2>
