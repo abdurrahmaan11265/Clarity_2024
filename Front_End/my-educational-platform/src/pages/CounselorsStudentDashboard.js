@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { FaUser, FaPlus, FaSyncAlt, FaGraduationCap, FaBrain, FaChartLine, FaTrash, FaSpinner } from 'react-icons/fa';
+import { FaUser, FaPlus, FaSyncAlt, FaGraduationCap, FaBrain, FaChartLine, FaTrash, FaSpinner, } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
 import '../styles/CounselorsStudentDachboard.css';
 import { useAuth } from '../AuthContext';
 import { getUserData, generateAISummary, addNote, removeNote } from '../services/api';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import HeaderStudent from '../components/HeaderStudent';
+import { RiParentFill } from "react-icons/ri";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
+import { IoIosAddCircleOutline } from "react-icons/io";
+
 
 
 
@@ -227,6 +231,9 @@ const StudentProfile = () => {
                         <div className="loading-text">New notes being Generated..</div>
 
                     </div>
+                    <div className='category-selector'>
+                        
+                    </div>
                 </div>
             </div>
     <div className="timeline-container">
@@ -255,6 +262,7 @@ const StudentProfile = () => {
                     </main>
 
                     <aside>
+                       <div className='aside-container'>
                         <section className="student-info">
                             <h2 style={{ marginBottom: '1rem' }}>Student Information</h2>
                             <div className="info-item">
@@ -286,6 +294,29 @@ const StudentProfile = () => {
                                 <span className="info-value">{studentData.details.fatherName}</span>
                             </div>
                         </section>
+                        <section>
+                            <div className='student-info-aside'>
+                                <RiParentFill size={'35px'} color='white' style={{ backgroundColor: 'var(--primary-color)', borderRadius:'100px' ,padding:'5px' }} />
+                                <h2 style={{borderBottom:'1px solid var(--border-color)', paddingBottom:'5px',}}>Sessions With Parents</h2>
+                                <div className='session-no-container'>
+                                <IoIosRemoveCircleOutline color='red' size={'22px'}/>
+                                <h1 style={{color:'var(--primary-color', fontSize:'32px'}}>4</h1>
+                                <IoIosAddCircleOutline  color='green' size={'22px'}/>
+                                </div>
+                                
+                            </div>
+                            <div className='student-info-aside'>
+                                <FaUser size={'35px'} color='white' style={{ backgroundColor: 'var(--primary-color)', borderRadius:'100px' ,padding:'5px' }} />
+                                <h2 style={{borderBottom:'1px solid var(--border-color)', paddingBottom:'5px',}}>Sessions With Student</h2>
+                                <div className='session-no-container'>
+                                <IoIosRemoveCircleOutline color='red' size={'22px'}/>
+                                <h1 style={{color:'var(--primary-color', fontSize:'32px'}}>4</h1>
+                                <IoIosAddCircleOutline  color='green' size={'22px'}/>
+                                </div>
+                                
+                            </div>
+                        </section>
+                     </div>  
                     </aside>
                 </div>
             </div>

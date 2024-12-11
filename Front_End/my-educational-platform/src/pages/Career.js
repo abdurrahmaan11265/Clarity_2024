@@ -9,6 +9,10 @@ import RoadmapComponent from '../components/Roadmap.js';
 import { FaBrain } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useChatbot } from '../ChatbotContext';
+import BannerCareer from '../assests/Career-Banner.svg';
+
+
+
 
 const Career = () => {
     const { setClarityQuestion, handleAskClarity, setIsChatOpen, clarityQuestion } = useChatbot();
@@ -276,12 +280,20 @@ const Career = () => {
             <HeaderStudent header_name={"Career"}/>
 
             <main className="main-content">
-                <h1 style={{ textAlign: 'center' }}>Career Dashboard</h1>
-                {userData.userType === 'student' ? <p style={{ textAlign: 'center' }}>Explore your career opportunities and track your skill development with our comprehensive dashboard.</p> : <p style={{ textAlign: 'center' }}>Explore {studentData ? studentData.name : 'your'}'s career opportunities and track his skill development with our comprehensive dashboard.</p>}
-                <table className="skills-table">
+            <div className='Banner-Container-Career' style={{marginBottom:'0px'}}>
+                <h1 style={{ textAlign: 'center', }}>Career Dashboard</h1>
+                {userData.userType === 'student' ? <>
+
+                <p style={{ textAlign: 'center' }}>Explore your career opportunities and track your skill development with our comprehensive dashboard.</p>
+                <img src={BannerCareer} style={{marginBottom:'-10px'}}></img>
+
+                </>
+                : <p style={{ textAlign: 'center' }}>Explore {studentData ? studentData.name : 'your'}'s career opportunities and track his skill development with our comprehensive dashboard.</p>}
+                </div>
+                <table className="skills-table" style={{marginTop:"0px"}}>
                     <thead>
                         <tr>
-                            <th>Skills</th>
+                            <th>Category</th>
                             <th>Percent</th>
                             {userData.userType === 'counselor' && <th>{/*Action*/}</th>}
                         </tr>
@@ -301,7 +313,7 @@ const Career = () => {
                     </tbody>
                 </table>
                 {studentData && studentData.skills.length > 7 && (
-                    <div className="seemore-analyse-container" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div className="seemore-analyse-container" style={{ display: 'flex', justifyContent: 'center' }}>
                         <button onClick={toggleSkillsVisibility} className="see-more-btn">
                             {showAllSkills ? 'See Less' : 'See More'}
                         </button>
@@ -343,7 +355,7 @@ const Career = () => {
                             <table className="salary-table">
                                 <thead>
                                     <tr>
-                                        <th>Skill Name</th>
+                                        <th>Career</th>
                                         <th>Current Average Salary</th>
                                         <th>Description & Scope</th>
                                          <th>{/*Action */}</th>

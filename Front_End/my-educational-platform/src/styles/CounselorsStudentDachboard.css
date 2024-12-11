@@ -213,9 +213,14 @@
 }
 
 .content-grid-overveiw {
+    position: relative;
     display: grid;
     grid-template-columns: 1fr 300px;
     gap: 2rem;
+}
+.content-grid-overveiw .aside-container{
+    top: 1rem;
+    position: sticky;
 }
 
 .ai-summary {
@@ -348,6 +353,17 @@
 .container-body .student-info {
     background: white;
     padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 2rem;
+}
+.container-body .student-info-aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    padding: 1rem;
     border-radius: 8px;
     border: 1px solid var(--border-color);
     margin-bottom: 2rem;
@@ -707,4 +723,13 @@
 
 .loading-container-notes {
     padding: 20px;
+}
+.session-no-container{
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
 }
