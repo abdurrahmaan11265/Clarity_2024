@@ -121,6 +121,13 @@
     display: none;
     overflow: hidden;
   }
+  .entry-text-and-button-container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+  }
   
   .journal-entry {
     background-color: #f0f8ff;
@@ -128,6 +135,7 @@
     border-radius: 15px;
     padding: 15px;
     padding-top: 0px;
+    padding-bottom: 5px;
     margin-bottom: 20px;
     transition: all 0.3s ease;
     max-height: 20vh;
@@ -165,6 +173,7 @@
     line-height: 1.6;
     max-height: 90%;
     max-width: 95%;
+    margin-bottom: 10px;
   }
   
   .journal-page .new-entry-section {
@@ -270,10 +279,23 @@
   }
 
 .journal-entry .close-button-entry-date {
-    display: none; /* Hide the close button by default */
+    display: none; 
 }
 
 .journal-entry-on-click .close-button-entry-date {
-    display: block; /* Show the close button when the entry is expanded */
+    display: block; 
     cursor: pointer;
+}
+.edit-button-journal{
+  padding: 5px 10px !important;
+}
+.delete-button-journal{
+  padding: 5px 12px !important;
+}
+.save-button-journal{
+  padding: 5px 12px !important;
+}
+.buttons-journal-entries{
+  display: flex;
+  gap: 5px;
 }
