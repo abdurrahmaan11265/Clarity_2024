@@ -13,6 +13,8 @@ import {
 } from '../services/api';
 
 import { useAuth } from '../AuthContext';
+import CurveChart from '../components/CurveChart';
+import BarChart from '../components/BarChart';
 
 const JournalPage = () => {
 
@@ -23,14 +25,23 @@ const JournalPage = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [entryToUpdate, setEntryToUpdate] = useState(null);
 
+  const xAxisData = ['January', 'February', 'March', 'April', 'May', 'June'];
+  const yAxisData = [30, 45, 28, 60, 80, 95];
+  const xAxisData1 = ['Red', 'Green']; // X-axis labels for the two bars
+  const yAxisData1 = [65, 15];
+
   const toggleEntryClass = (e) => {
     const entryElement = e.currentTarget.closest('.journal-entry');
-
+  
     if (entryElement) {
-      document.querySelector('.entry-text-and-button-container').style.height = '72vh';
-      document.querySelector('.journal-page textarea').style.height = '60vh';
       entryElement.classList.add('journal-entry-on-click');
-      
+      const statsSections = document.body.querySelectorAll('.journal-analytics');
+      console.log(statsSections);
+      if (statsSections) {
+        statsSections.forEach((statsSection) => {
+          statsSection.style.display = 'flex';
+        });
+      }
     }
   };
 
@@ -38,11 +49,12 @@ const JournalPage = () => {
     e.stopPropagation();
     handleUpdateEntry();
     const entryElement = e.currentTarget.closest('.journal-entry');
+    const statsSections = document.body.querySelectorAll('.journal-analytics');
     if (entryElement) {
-      
-      document.querySelector('.journal-page textarea').style.height = '300px';
+      statsSections.forEach((statsSection) => {
+        statsSection.style.display = 'none';
+      });
       entryElement.classList.remove('journal-entry-on-click');
-      document.querySelector('.entry-text-and-button-container').style.height = '100%';
     }
   };
 
@@ -114,31 +126,43 @@ const JournalPage = () => {
                     <MdClose size={24} color="white" />
                   </div>
                 </div>
-                <div className='entry-text-and-button-container'>
-                <div className="entry-text">
+                <div className='two-section-of-journal'>
+                  <div className='entry-text-and-button-container'>
+                  <div className="entry-text">
+                    {isUpdating && entryToUpdate?.id === entry._id ? (
+                      <textarea rows={10}
+                        value={entryToUpdate.text}
+                        onChange={(e) => setEntryToUpdate({ ...entryToUpdate, text: e.target.value })}
+                      />
+                    ) : (
+                      entry.note
+                    )}
+                  </div>
+                  <div className='buttons-journal-entries'>
                   {isUpdating && entryToUpdate?.id === entry._id ? (
-                    <textarea
-                      value={entryToUpdate.text}
-                      onChange={(e) => setEntryToUpdate({ ...entryToUpdate, text: e.target.value })}
-                    />
+                    <button className='save-button-journal' onClick={() => {
+                      handleUpdateEntry();
+                    }}><LuSaveAll /></button>
                   ) : (
-                    entry.note
+                    
+                    <button className='edit-button-journal' onClick={(e) => handleUpdateButton(entry._id, entry.note, e)}><MdOutlineModeEditOutline /></button>
                   )}
-                </div>
-                <div className='buttons-journal-entries'>
-                {isUpdating && entryToUpdate?.id === entry._id ? (
-                  <button className='save-button-journal' onClick={() => {
-                    handleUpdateEntry();
-                  }}><LuSaveAll /></button>
-                ) : (
-                  
-                  <button className='edit-button-journal' onClick={(e) => handleUpdateButton(entry._id, entry.note, e)}><MdOutlineModeEditOutline /></button>
-                )}
-                <button className='delete-button-journal' onClick={(e) => {
-                  handleDeleteEntry(entry._id);
-                  closeEntry(e);
-                }}><MdDeleteSweep /></button>
-                </div>
+                  <button className='delete-button-journal' onClick={(e) => {
+                    handleDeleteEntry(entry._id);
+                    closeEntry(e);
+                  }}><MdDeleteSweep /></button>
+                  </div>
+                  </div>
+                  <div className='journal-analytics' style={{textAlign:'center'}}>
+                    <h2>Emotional Statistics</h2>
+                    <CurveChart xData={xAxisData} yData={yAxisData} />
+                    <BarChart xData={xAxisData1} yData={yAxisData1} />
+                    <div className='Theme_container'>
+                    <h4 style={{marginBottom:'10px'}}>Theme:</h4>
+                    <p>A journal is a sacred space where thoughts, emotions, and experiences are poured onto the page, creating a tangible record of one's inner world.</p>
+                    </div>
+
+                  </div>
                 </div>
               </div>
               
@@ -148,6 +172,7 @@ const JournalPage = () => {
         <section className="new-entry-section">
           <h2>New Entry</h2>
           <textarea
+            rows={10}
             value={newEntry}
             onChange={(e) => setNewEntry(e.target.value)}
             placeholder="Write your new journal entry here..."

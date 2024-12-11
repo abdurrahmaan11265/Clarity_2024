@@ -3,6 +3,7 @@ import '../styles/Analytics.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import  HeaderStudent  from '../components/HeaderStudent.js';
+import AcademicApperals from '../assests/Academic-appeals.jpg'
 
 const Dashboard = () => {
   const { userData } = useAuth();
@@ -29,7 +30,7 @@ const Dashboard = () => {
       <div className="container_body_analytics">
         <div className="grid-container">
           <div className="card">
-            <img src="https://www.oustudents.com/pageassets/support-and-advice/student-advice/academic-appeals/Academic-appeals.jpg"
+            <img src={AcademicApperals}
               alt="Academic Analysis Cover" className="card-cover" />
             <div className="card-content">
               <h2 className="card-title">Academic Analysis</h2>
