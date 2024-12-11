@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/StudentDashboard.css'; // Assuming you move the styles to a CSS file
+import '../styles/StudentDashboard.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import JournalIMG from '../assests/journeling.svg';
@@ -100,7 +100,7 @@ const StudentDashboard = () => {
 
                 
 
-                <div className='go-to-journal-section' onClick={handleJournalClick}>
+                <div className='go-to-journal-section stat-card' onClick={handleJournalClick}>
                 <img
                         src={JournalIMG}
                         alt="Analytics Dashboard"
@@ -163,7 +163,7 @@ const StudentDashboard = () => {
                     </div>
                 </div>
                 <div className="stat-card" onClick={handleAluminaiClick}>
-                <h2 className="section-header">Alumimai Network</h2>
+                <h2 className="section-header">Alumni  Network</h2>
                     <img
                         src="https://www.univariety.com/blog/wp-content/uploads/2022/02/5853-min-scaled.jpg"
                         alt="Alumni Network"
