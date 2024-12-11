@@ -29,6 +29,7 @@
 }
 
 .welcome-header {
+    border-radius: 0px 0px 30px 30px !important;
     color: white;
     display: flex;
     justify-content: space-between;

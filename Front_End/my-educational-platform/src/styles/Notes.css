@@ -228,7 +228,7 @@
     flex-direction: column;
   }
   
-  h2, h3 {
+  .container-notes-ai h2, h3 {
     color: var(--primary-color);
   }
   

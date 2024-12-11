@@ -16,7 +16,7 @@ function HeaderStudent({header_name}) {
   
     return (
         <div>
-             <header className='header-nav'>
+             <header className='header-nav' style={{borderRadius: "0px 0px 30px 30px"}}>
         <div className="nav flex items-center justify-between">
           <div className="flex items-center">
             <button className="mr-2" aria-label="Go back" onClick={handleGoBack}>

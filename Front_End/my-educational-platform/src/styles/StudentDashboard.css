@@ -29,6 +29,7 @@
 
 .student-dashboard-container .header {
     background-color: var(--card-background);
+    background-image: url("blob:https://www.canva.com/645c5ad7-1fb0-4a98-a648-3a1624ae0c95");
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -120,6 +121,7 @@
     object-fit: cover;
 }
 .student-dashboard-container .stat-image {
+    margin: 0px 10%;
     width: 80%;
     height: 200px;
     object-fit: cover;
@@ -284,3 +286,55 @@ margin-bottom: 1rem !important;
     font-size: 20px;
 
 }
+
+.card {
+    display: grid;
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid lightblue;
+}
+.card:hover {
+    transform: scale(1.05);
+    transform: translateY(-5px);
+    cursor: pointer;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card > .first {     
+    background-position: bottom;
+    align-items: center;
+}
+
+.card > .second {
+    height: 200px;
+    padding: 0 32px 32px 32px;
+    background-color: var(--wave-color);
+    color: white;
+}
+:root {
+    --wave-color: #B0E0E6; /* Default lighter blue */
+  }
+  
+  .flexible-wave {
+    width: 100%;
+    height: auto;
+    background: none;
+  }
+  
+  .flexible-wave path {
+    fill: var(--wave-color); /* Dynamically applies the wave color */
+  }
+
+
+
+
+
+
+
+
+
+
+  

@@ -25,6 +25,9 @@
     background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.header-nav{
+    border-radius: 0px 0px 30px 30px !important;
+}
 
 
 
@@ -178,6 +181,7 @@
     background: white;
     border: 1px solid var(--border-color);
     color: var(--text-primary);
+    border-radius:30px ;
 }
 
 .btn-primary {
