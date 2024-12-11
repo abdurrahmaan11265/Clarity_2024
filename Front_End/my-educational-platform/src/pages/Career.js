@@ -285,7 +285,7 @@ const Career = () => {
                 {userData.userType === 'student' ? <>
 
                 <p style={{ textAlign: 'center' }}>Explore your career opportunities and track your skill development with our comprehensive dashboard.</p>
-                <img src={BannerCareer} style={{marginBottom:'-10px'}}></img>
+                <img src={BannerCareer} alt="Banner" style={{marginBottom:'-10px'}}></img>
 
                 </>
                 : <p style={{ textAlign: 'center' }}>Explore {studentData ? studentData.name : 'your'}'s career opportunities and track his skill development with our comprehensive dashboard.</p>}

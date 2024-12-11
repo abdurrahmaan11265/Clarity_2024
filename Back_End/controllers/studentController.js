@@ -484,14 +484,40 @@ exports.getJournalEntries = async (req, res) => {
     }
 };
 
-// Add a new journal entry
+async function analyzeJournalWithGemini(journalText) {
+    const prompt = `Analyze the following journal entry and provide the emotions, positivity score, and theme. Your Response should be in the format: {emotions: { happiness: percentage, sadness: percentage, disgust: percentage, fear: percentage, surprise: percentage, anger: percentage }, positivity: percentage, theme: ""}. The positivity should be a number between 0 and 100 same goes with the emotions. The theme should be a short phrase. Only give json and nothing else: "${journalText}"`;
+
+    const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    try {
+        const result = await model.generateContent(prompt);
+        let responseText = result.response.text();
+
+        // Strip out any markdown or unwanted characters
+        responseText = responseText.replace(/```json|```/g, '').trim();
+
+        return JSON.parse(responseText); // Return the parsed JSON
+    } catch (error) {
+        console.error("Error analyzing journal entry:", error);
+        throw error; // Ensure the error is thrown to be caught in the calling function
+    }
+}
+
 exports.addJournalEntry = async (req, res) => {
     try {
         const { studentId, note } = req.body;
         const student = await Student.findById(studentId);
         if (!student) return res.status(404).json({ message: 'Student not found' });
 
-        const newEntry = { note };
+        // Analyze the journal entry with Gemini AI
+        const analysis = await analyzeJournalWithGemini(note);
+
+        const newEntry = {
+            note,
+            emotions: analysis.emotions,
+            positivity: analysis.positivity,
+            theme: analysis.theme
+        };
         student.journalEntries.push(newEntry);
         await student.save();
 
@@ -511,7 +537,13 @@ exports.updateJournalEntry = async (req, res) => {
         const entry = student.journalEntries.id(entryId);
         if (!entry) return res.status(404).json({ message: 'Journal entry not found' });
 
+        const analysis = await analyzeJournalWithGemini(note);
+
         entry.note = note;
+        entry.emotions = analysis.emotions;
+        entry.positivity = analysis.positivity;
+        entry.theme = analysis.theme;
+
         await student.save();
 
         res.status(200).json({ message: 'Journal entry updated successfully', journalEntries: student.journalEntries });

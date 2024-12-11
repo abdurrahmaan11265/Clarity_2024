@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { FaUser, FaPlus, FaSyncAlt, FaGraduationCap, FaBrain, FaChartLine, FaTrash, FaSpinner, } from 'react-icons/fa';
 import DOMPurify from 'dompurify';
 import '../styles/CounselorsStudentDachboard.css';
@@ -36,18 +36,19 @@ const StudentProfile = () => {
         "Calculating performance metrics..."
     ];
 
-    useEffect(() => {
-        fetchStudentData();
-    }, [authToken, studentId]);
-    
-    const fetchStudentData = async () => {
+    const fetchStudentData = useCallback(async () => {
         try {
             const data = await getUserData(studentId, authToken);
             setStudentData(data);
         } catch (error) {
             console.error('Error fetching student data:', error);
         }
-    };
+    }, [studentId, authToken]);
+    
+    useEffect(() => {
+        fetchStudentData();
+    }, [fetchStudentData]);
+    
 
     const handleRefreshAnalysis = async () => {
         setIsRefreshing(true);

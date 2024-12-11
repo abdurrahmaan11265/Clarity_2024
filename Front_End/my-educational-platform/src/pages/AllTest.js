@@ -34,10 +34,11 @@ const AllTest = () => {
             }
         };
 
-        if (userData?.assignedTests) {
+        if (userData.assignedTests) {
             fetchTests();
         }
-    }, [userData._id, authToken, setUserData]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleGoBack = () => {
         navigate('/student');
