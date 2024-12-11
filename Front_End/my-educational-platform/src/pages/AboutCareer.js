@@ -90,7 +90,7 @@ const AboutCareer = () => {
               <th>Skill Name</th>
               <th>Percent Required</th>
               <th>Current Proficiency</th>
-              <th>Feedback</th>
+              <th>Feedback & Resources</th>
             </tr>
           </thead>
           <tbody>
@@ -113,6 +113,7 @@ const AboutCareer = () => {
                 <div className="video-thumbnail" style={{ position: 'relative' }}>
                   <iframe
                     src={video.videoUrl}
+                    title={video.title || ''}
                     style={{ width: '100%', height: '100%', border: 'none' }}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen

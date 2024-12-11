@@ -46,6 +46,12 @@ const journalEntrySchema = new mongoose.Schema({
     _id: { type: mongoose.Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() },
     date: { type: Date, default: Date.now },
     note: String,
+    emotions: {
+        type: Object,
+        default: { happiness: 0, sadness: 0, disgust: 0, fear: 0, surprise: 0, anger: 0 },
+    },
+    positivity: Number,
+    theme: String,
 });
 
 const studentSchema = new mongoose.Schema({
