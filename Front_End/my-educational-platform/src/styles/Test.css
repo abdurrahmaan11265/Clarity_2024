@@ -8,8 +8,6 @@
 }
 
 .test-container header {
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
-    font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
     color: white;
     padding: 1rem;
@@ -19,6 +17,7 @@
     z-index: 10;
     margin-bottom: 2rem;
     animation: slideDown 0.5s ease;
+    border-radius: 0px 0px 30px 30px !important;
 }
 .test-container input{
     width: auto;
