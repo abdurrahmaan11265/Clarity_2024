@@ -12,6 +12,7 @@ const AboutCareer = () => {
   const careerName = searchParams.get('careerName');
   const careerDescription = searchParams.get('careerDescription');
   const careerSalary = searchParams.get('careerSalary');
+  const careerMarketTrends = searchParams.get('careerMarketTrends');
   const [animate, setAnimate] = useState(false);
   const [videos, setVideos] = useState([
     { videoUrl: 'https://www.youtube.com/embed/O3m14PVOq_g', },
@@ -61,7 +62,7 @@ const AboutCareer = () => {
 
     fetchVideos();
     fetchSkillsComparison();
-  }, [careerName]);
+  }, [careerName, userData._id, authToken]);
 
   return (
     <div className="about-career-container">
@@ -72,11 +73,11 @@ const AboutCareer = () => {
       <div className="content">
         <div className='career-breifing'>
           <h2 style={{ color: 'black' }}>{careerName}</h2>
-          <h4 style={{ color: '#2c2c2c', marginBottom: '0px !important', marginTop: '10px' }}>Current Average Salary: {careerSalary}</h4>
+          <h4 style={{ color: '#2c2c2c', marginBottom: '0px !important', marginTop: '10px' }}>Current Average Salary: ₹{careerSalary}</h4>
           <h4 style={{ color: '#2c2c2c', marginBottom: '0px !important', marginTop: '10px' }}>Career Description:</h4>
           <p style={{ color: '#64748b' }}>{careerDescription}</p>
           <h4 style={{ color: '#2c2c2c', marginBottom: '0px !important', marginTop: '10px' }}>Market Trends:</h4>
-          <p style={{ color: '#64748b' }}></p>
+          <p style={{ color: '#64748b' }}>{careerMarketTrends}</p>
         </div>
 
         <h2 className='Section-Heading-Brefing-page'>Roadmap</h2>

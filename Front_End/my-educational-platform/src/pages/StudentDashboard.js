@@ -3,12 +3,22 @@ import '../styles/StudentDashboard.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import JournalIMG from '../assests/journeling.svg';
+import { getUserData } from '../services/api';
 
 
 
 const StudentDashboard = () => {
     const navigate = useNavigate();
-    const { userData, logout } = useAuth();
+    const { userData, logout, setUserData, authToken } = useAuth();
+    
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const data = await getUserData(userData._id, authToken);
+            setUserData(data);
+        };
+        fetchUserData();
+    }, [userData._id, authToken, setUserData]);
+
     const handleAnalyticsClick = () => {
         navigate('/analytics');
     };

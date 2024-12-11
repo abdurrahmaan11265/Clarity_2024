@@ -33,6 +33,7 @@ const careerOptionSchema = new mongoose.Schema({
     name: String,
     averageSalary: Number,
     description: String,
+    marketTrends: String,
 });
 
 const counselorNoteSchema = new mongoose.Schema({

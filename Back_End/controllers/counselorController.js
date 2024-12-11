@@ -162,7 +162,7 @@ exports.removeTestFromStudent = async (req, res) => {
 };
 
 async function generateCareerOptionsWithGemini(skills) {
-    const prompt = `Based on the following skills and their percentages, suggest career options with average salary in indian rupees and description:\n${JSON.stringify(skills)}\nOutput the career options in the JSON format: [{"name": "Career Name", "averageSalary": 50000, "description": "Career description"}]. and dont give anything else rather than that json.`;
+    const prompt = `Based on the following skills and their percentages, suggest career options with average salary in indian rupees and description of 10 lines and market trends of 10 lines:\n${JSON.stringify(skills)}\nOutput the career options in the JSON format: [{"name": "Career Name", "averageSalary": 50000, "description": "Career description", "marketTrends": "Market trends"}]. and dont give anything else rather than that json.`;
 
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -350,7 +350,7 @@ exports.analyzeSkills = async (req, res) => {
         }
 
         // Combine all clarity test scores into a prompt
-        let prompt = "Based on the following test scores, identify the skills and assign a percentage to each skill, search new skills which can be derived from the score:\n";
+        let prompt = "Based on the following test scores which are in the format {category1: percentage scored, category2: percentage scored,...}, identify the skills and assign a percentage to each skill, search new skills which can be derived from the score:\n";
         for (const test of student.clarityTests) {
             for (const entry of test.dateAndMarks) {
                 const marks = entry.marks;
@@ -358,9 +358,10 @@ exports.analyzeSkills = async (req, res) => {
             }
         }
 
-        prompt += "\nOutput the skills in the json format: 'Skill: percentage'. and don't give anything else rather than that json.";
+        prompt += "\nOutput the skills in the json format the percentage should be in the range of 0 to 100 and it can be in decimal places: 'Skill: percentage'. and don't give anything else rather than that json.";
 
         // Call Gemini API to infer skills
+        console.log(prompt);
         const skillsText = await inferSkillsFromTextWithGemini(prompt);
 
         // Parse the JSON response directly
