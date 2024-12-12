@@ -247,7 +247,7 @@ const StudentProfile = () => {
                         ) : (
                                     <>
                                         <div dangerouslySetInnerHTML={{ __html: sanitizedAISummary }} />
-                                        <button onClick={handleReadAloud}>
+                                        <button onClick={handleReadAloud} className="btn btn-outline" style={{ marginTop: '1rem' }}>
                                             {isSpeaking ? 'Stop Reading' : 'Read Aloud'}
                                         </button>
                                     </>
