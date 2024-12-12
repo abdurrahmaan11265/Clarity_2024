@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback , useRef} from 'react';
 import { useSearchParams } from 'react-router-dom';
 import '../styles/Career.css';
 import { useAuth } from '../AuthContext';
-import { generateCareerOptions, analyzeSkills, updatePreferredCareer, getUserData, addSkill, updateSkill, deleteSkill, addNewCareerOption, editCareerOption, removeCareerOption, addRequiredSkill, updateRequiredSkill, deleteRequiredSkill } from '../services/api';
+import { generateCareerOptions, analyzeSkills, updatePreferredCareer, getUserData, addSkill, updateSkill, deleteSkill, addNewCareerOption, editCareerOption, removeCareerOption, addRequiredSkill, updateRequiredSkill, deleteRequiredSkill, askCareerQuestion } from '../services/api';
 import HeaderStudent from '../components/HeaderStudent';
 import SearchImage from '../assests/search_sparkle.png';
 import RoadmapComponent from '../components/Roadmap.js';
@@ -25,6 +25,9 @@ const Career = () => {
     const [showAllSkills, setShowAllSkills] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const [dropdownDisabled, setDropdownDisabled] = useState(false);
+    const [ngoResponse, setNgoResponse] = useState('');
+
+    
 
 
     const fetchStudentData = useCallback(async () => {
@@ -37,11 +40,23 @@ const Career = () => {
     }, [studentId, authToken]);
 
     useEffect(() => {
+        const getNGOData = async () => {
+            const response = await askCareerQuestion(` For disability ${userData.disability} Provide a list of NGOs in India and globally that support individuals with right-hand disabilities. Include their names, specialties, and focus areas. Ensure the response is limited to the organization details, without any additional context or disclaimers.`);
+            setNgoResponse(response.answer || 'No NGOs available.');
+        }
+
         if (userData.userType === 'counselor' && studentId) {
             fetchStudentData();
         } else {
             setStudentData(userData);
             setStudentId(userData._id);
+        }
+        if(userData.disability !== 'none') {
+            getNGOData();
+            document.querySelector('.ngo-container').style.display = 'block';
+        }
+        else{
+            document.querySelector('.ngo-container').style.display = 'none';
         }
     }, [userData, studentId, fetchStudentData]);
 
@@ -300,6 +315,7 @@ const Career = () => {
                         </tr>
                     </thead>
                     <tbody>
+
                         {skillsToShow.map(skill => (
                             <tr key={skill._id}>
                                 <td>{skill.name}</td>
@@ -313,6 +329,7 @@ const Career = () => {
                         ))}
                     </tbody>
                 </table>
+
                 {studentData && studentData.skills.length > 7 && (
                     <div className="seemore-analyse-container" style={{ display: 'flex', justifyContent: 'center' }}>
                         <button onClick={toggleSkillsVisibility} className="see-more-btn">
@@ -321,6 +338,11 @@ const Career = () => {
 
                     </div>
                 )}
+
+                <div className='ngo-container' style={{marginTop:'1rem'}}> 
+                    <h2>NGOs Which Can Assist You</h2>
+                    <div>{ngoResponse || 'Loading...'}</div>
+                </div>
 
                 {
                     userData.userType === 'counselor' &&

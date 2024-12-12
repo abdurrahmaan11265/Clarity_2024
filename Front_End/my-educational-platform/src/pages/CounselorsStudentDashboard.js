@@ -11,6 +11,7 @@ import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Button from '../components/Button';
 import { RiMentalHealthFill } from "react-icons/ri";
+import  SparkleIMG  from '../assests/sparkle.svg';
 
 
 
@@ -247,7 +248,8 @@ const StudentProfile = () => {
                         ) : (
                                     <>
                                         <div dangerouslySetInnerHTML={{ __html: sanitizedAISummary }} />
-                                        <button onClick={handleReadAloud} className="btn btn-outline" style={{ marginTop: '1rem' }}>
+                                        <button onClick={handleReadAloud} className="btn btn-outline" style={{ margin: '1rem 0rem 0rem 86%', color: 'white', backgroundColor: 'var(--primary-color)' }}>
+                                            <img src={SparkleIMG} alt='Read Aloud' />
                                             {isSpeaking ? 'Stop Reading' : 'Read Aloud'}
                                         </button>
                                     </>

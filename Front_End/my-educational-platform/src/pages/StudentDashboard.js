@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import JournalIMG from '../assests/journeling.svg';
 import { getUserData } from '../services/api';
+import Rating from '../components/Rating';
 
 
 
@@ -50,6 +51,10 @@ const StudentDashboard = () => {
     const handleAluminaiClick = () => {
         navigate('/aluminai');
     }
+
+    const handleRatingChange = (newRating) => {
+          console.log(`New rating: ${newRating}`);
+        };
 
     return (
         <div className="student-dashboard-container">
@@ -304,6 +309,9 @@ const StudentDashboard = () => {
                         </p>
                     </div>
                 </div>
+            </div>
+            <div className='review-container '>
+            <Rating initialRating={0} onRatingChange={handleRatingChange} />
             </div>
         </div>
     );
