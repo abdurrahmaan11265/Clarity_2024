@@ -10,7 +10,7 @@ import { RiParentFill } from "react-icons/ri";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Button from '../components/Button';
-
+import { RiMentalHealthFill } from "react-icons/ri";
 
 
 
@@ -137,8 +137,9 @@ const StudentProfile = () => {
         navigate(`/notes/?studentId=${studentId}`);
     }
 
+
     const handleMentalWellbeing = () => {
-        navigate(`/notes/?studentId=${studentId}`);
+        navigate(`/journal-page/?studentId=${studentId}`);
     }
 
     return (
@@ -190,11 +191,11 @@ const StudentProfile = () => {
                     </div>
                     <div className="performance-card" id="skillsAnalysis" onClick={handleMentalWellbeing}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-                            <FaChartLine style={{ color: 'var(--primary-color)', fontSize: '1.5rem' }} />
+                            <RiMentalHealthFill style={{ color: 'var(--primary-color)', fontSize: '1.5rem' }} />
                             <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)' }}>Mental Wellbeing</h3>
                         </div>
                         <p style={{ color: 'var(--text-secondary)', textAlign: 'left' }}>
-                            Analyzing student's mental wellbeing and providing insights on how to improve it.
+                            Analyzing student's mental wellbeing and providing insights on how to improve it.Includes His daily Journal For better Understanding and Guidance.
                         </p>
                     </div>
                 </section>
