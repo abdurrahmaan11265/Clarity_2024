@@ -23,7 +23,6 @@ const CounselorTraining = () => {
     { videoUrl: 'https://www.youtube.com/embed/UVN96JhDOmg' },
     { videoUrl: 'https://www.youtube.com/embed/bgC6ZLE8QhY' },
     { videoUrl: 'https://www.youtube.com/embed/BuhF_vMuXpI' },
-    { videoUrl: 'https://www.youtube.com/embed/TUMmLkFKpEI' }
   ]);
 
   useEffect(() => {
@@ -54,8 +53,8 @@ const CounselorTraining = () => {
           <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
         </svg>
       ),
-      label: 'Workshop Attend',
-      value: '28'
+      label: 'Workshops',
+      value: '↗'
     },
     {
       icon: (
@@ -78,7 +77,12 @@ const CounselorTraining = () => {
       <div className="content">
         <div className="stats">
           {stats.map((stat, index) => (
-            <div key={stat.label} className={`stat-card ${animate ? 'animate' : ''}`} style={{ animationDelay: `${index * 0.2}s` }}>
+            <div
+              key={stat.label}
+              className={`stat-card ${animate ? 'animate' : ''}`}
+              style={{ animationDelay: `${index * 0.2}s` }}
+              onClick={stat.label === 'Workshops' ? () => window.location.href = `https://www.eventbrite.com/d/india/counseling` : undefined}
+            >
               <div className="stat-icon">{stat.icon}</div>
               <div className="stat-info">
                 <p className="stat-label">{stat.label}</p>
@@ -87,25 +91,25 @@ const CounselorTraining = () => {
             </div>
           ))}
         </div>
+      </div>
 
-        <div className="video-list">
-          <h2>Training Videos</h2>
-          <div className="videos">
-            {videos.map((video, index) => (
-              <div key={video.videoUrl} className={`video-card ${animate ? 'animate' : ''}`} style={{ animationDelay: `${0.6 + index * 0.2}s` }}>
-                <div className="video-thumbnail" style={{ position: 'relative' }}>
-                  <iframe
-                    src={video.videoUrl}
-                    title={`Video ${index + 1}: ${video.title}`} // Add a unique title
-                    style={{ width: '100%', height: '100%', border: 'none' }}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-                <h4>{video.title}</h4>
+      <div className="video-list">
+        <h2>Training Videos</h2>
+        <div className="videos">
+          {videos.map((video, index) => (
+            <div key={video.videoUrl} className={`video-card ${animate ? 'animate' : ''}`} style={{ animationDelay: `${0.6 + index * 0.2}s` }}>
+              <div className="video-thumbnail" style={{ position: 'relative' }}>
+                <iframe
+                  src={video.videoUrl}
+                  title={`Video ${index + 1}: ${video.title}`} // Add a unique title
+                  style={{ width: '100%', height: '100%', border: 'none' }}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
               </div>
-            ))}
-          </div>
+              <h4>{video.title}</h4>
+            </div>
+          ))}
         </div>
       </div>
     </div>

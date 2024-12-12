@@ -102,9 +102,19 @@ const StudentProfile = () => {
 
     const handleAddNoteAI = async () => {
         if (!transcript.trim()) return;
-        const prompt = `I am a Counselor and I need to generate a note for myself based on the following transcript which was recorded during my counseling session with a student: ${transcript}`;
-        const response = await askCareerQuestion(prompt);
-        setNewNote(response.answer);
+        const prompt = `I am a Counselor and I need to generate a note for myself based on the following transcript which was recorded during my counseling session with a student,Make it short and readable without using unnecessary words,Don't add any heading: ${transcript}`;
+        let response;
+            setIsAddingNote(true);
+            try {
+              response = await askCareerQuestion(prompt);
+            } catch (error) {
+              console.error(error);
+            } finally {
+                setIsAddingNote(false);
+              if (response) {
+                setNewNote(response.answer);
+              }
+            }
     };
 
     return (
