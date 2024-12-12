@@ -137,6 +137,10 @@ const StudentProfile = () => {
         navigate(`/notes/?studentId=${studentId}`);
     }
 
+    const handleMentalWellbeing = () => {
+        navigate(`/notes/?studentId=${studentId}`);
+    }
+
     return (
         
         <div className="container-body" style={{display: 'flex', flexDirection: 'column'}}>
@@ -182,6 +186,15 @@ const StudentProfile = () => {
                         </div>
                         <p style={{ color: 'var(--text-secondary)', textAlign: 'left' }}>
                             Excellent problem-solving and critical thinking skills. Strong in team collaboration and leadership. Active participant in group projects and study sessions.
+                        </p>
+                    </div>
+                    <div className="performance-card" id="skillsAnalysis" onClick={handleMentalWellbeing}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+                            <FaChartLine style={{ color: 'var(--primary-color)', fontSize: '1.5rem' }} />
+                            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)' }}>Mental Wellbeing</h3>
+                        </div>
+                        <p style={{ color: 'var(--text-secondary)', textAlign: 'left' }}>
+                            Analyzing student's mental wellbeing and providing insights on how to improve it.
                         </p>
                     </div>
                 </section>
