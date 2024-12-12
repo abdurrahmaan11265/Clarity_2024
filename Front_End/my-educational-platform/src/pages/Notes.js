@@ -208,7 +208,7 @@ const StudentProfile = () => {
                                 onChange={handleTranscriptChange}
                                 placeholder="Type or record your text here..."
                             />
-                            <button onClick={handleAddNoteAI}>Analyse and create Note</button>
+                            <button className='btn btn-outline' style={{ margin: "auto", }} onClick={handleAddNoteAI}>Analyse and create Note</button>
                         </div>
                     </div>
                 </div>
