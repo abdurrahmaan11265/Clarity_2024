@@ -218,7 +218,7 @@ const StudentProfile = () => {
             <div className="notes-header">
                 <h2>Counseling Notes</h2>
                 <div className="add-note" onClick={handleCounselingSession}>
-                    <Button text={<IoIosAddCircleOutline />}/>
+                    <Button displayText="Add notes" text={<IoIosAddCircleOutline />}/>
                 </div>
             </div>
     <div className="timeline-container">

@@ -2,7 +2,6 @@ import React from 'react';
 import { FaUser, FaInstagram, FaWhatsapp, FaLinkedin } from 'react-icons/fa';
 import '../styles/aluminai.css';
 import HeaderStudent from '../components/HeaderStudent';
-import BackGroundAluminai from '../assests/background_aluminai.svg';
 
 const AlumniCard = ({ name, description, instagram, whatsapp, linkedin }) => (
   <div className="alumni-card" >

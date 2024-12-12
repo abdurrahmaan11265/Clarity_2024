@@ -1246,3 +1246,10 @@ select{
     background-color: white;
     border-radius: 50%;
   }
+
+  .mentorship-n-workshops {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+  }

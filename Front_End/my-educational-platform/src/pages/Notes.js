@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaMicrophone } from 'react-icons/fa';
 import '../styles/Notes.css';
 import { useAuth } from '../AuthContext';
@@ -6,6 +6,7 @@ import { FaPlus, FaTrash } from 'react-icons/fa';
 import { getUserData, addNote, removeNote, askCareerQuestion } from '../services/api';
 import { useSearchParams } from 'react-router-dom';
 import HeaderStudent from '../components/HeaderStudent';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 const StudentProfile = () => {
     const [isRecording, setIsRecording] = useState(false);
@@ -16,7 +17,18 @@ const StudentProfile = () => {
     const [searchParams] = useSearchParams();
     const studentId = searchParams.get('studentId');
     const { authToken } = useAuth();
-    const recognitionRef = useRef(null);
+
+    const {
+        transcript: currentTranscript,
+        resetTranscript,
+        browserSupportsSpeechRecognition
+    } = useSpeechRecognition();
+
+    useEffect(() => {
+        if (currentTranscript) {
+            setTranscript(currentTranscript);
+        }
+    }, [currentTranscript]);
 
     const fetchStudentData = async () => {
         try {
@@ -33,57 +45,22 @@ const StudentProfile = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-
-
     const handleStartRecording = () => {
+        if (!browserSupportsSpeechRecognition) {
+            alert('Browser doesn\'t support speech recognition.');
+            return;
+        }
         setIsRecording(true);
-
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.lang = 'en-US';
-
-        recognition.onresult = (event) => {
-            let finalTranscript = '';
-            for (let i = event.resultIndex; i < event.results.length; i++) {
-                const transcriptPart = event.results[i][0].transcript;
-                if (event.results[i].isFinal) {
-                    finalTranscript += transcriptPart;
-                }
-            }
-            setTranscript((prevTranscript) => prevTranscript + finalTranscript);
-        };
-
-        recognition.onerror = (event) => {
-            console.error('Speech recognition error:', event.error);
-        };
-
-        recognition.onend = () => {
-            if (!isRecording) {
-                // If stopped manually, do nothing
-                console.log('Speech recognition stopped manually');
-            } else {
-                // Otherwise, log and reset
-                console.warn('Speech recognition ended unexpectedly');
-                setIsRecording(false);
-            }
-        };
-
-        recognition.start();
-        recognitionRef.current = recognition;
+        resetTranscript();
+        SpeechRecognition.startListening({ continuous: true });
         document.querySelector('.mic-icon').style.display = 'none';
     };
 
     const handleStopRecording = () => {
         setIsRecording(false);
         document.querySelector('.mic-icon').style.display = 'block';
-        if (recognitionRef.current) {
-            recognitionRef.current.stop();
-            recognitionRef.current = null;
-        }
+        SpeechRecognition.stopListening();
     };
-
 
     const handleTranscriptChange = (e) => {
         setTranscript(e.target.value);

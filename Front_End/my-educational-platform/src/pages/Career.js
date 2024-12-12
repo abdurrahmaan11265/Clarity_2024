@@ -10,6 +10,7 @@ import { FaBrain } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useChatbot } from '../ChatbotContext';
 import BannerCareer from '../assests/Career-Banner.svg';
+import Button from '../components/Button';
 
 
 
@@ -24,7 +25,7 @@ const Career = () => {
     const [showAllSkills, setShowAllSkills] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const [dropdownDisabled, setDropdownDisabled] = useState(false);
-    
+
 
     const fetchStudentData = useCallback(async () => {
         try {
@@ -144,7 +145,7 @@ const Career = () => {
         }
         try {
             await addNewCareerOption(studentData._id, careerName, averageSalary, description, authToken);
-            await fetchStudentData(); 
+            await fetchStudentData();
         } catch (error) {
             console.error("Failed to add career option:", error);
         } finally {
@@ -168,7 +169,7 @@ const Career = () => {
         }
         try {
             await editCareerOption(studentData._id, careerName, newAverageSalary, newDescription, authToken);
-            await fetchStudentData(); 
+            await fetchStudentData();
         } catch (error) {
             console.error("Failed to update career option:", error);
         } finally {
@@ -184,7 +185,7 @@ const Career = () => {
         }
         try {
             await removeCareerOption(studentData._id, careerName, authToken);
-            await fetchStudentData(); 
+            await fetchStudentData();
         } catch (error) {
             console.error("Failed to delete career option:", error);
         }
@@ -277,20 +278,20 @@ const Career = () => {
 
     return (
         <div className="career-container">
-            <HeaderStudent header_name={"Career"}/>
+            <HeaderStudent header_name={"Career"} />
 
             <main className="main-content">
-            <div className='Banner-Container-Career' style={{marginBottom:'0px'}}>
-                <h1 style={{ textAlign: 'center', }}>Career Dashboard</h1>
-                {userData.userType === 'student' ? <>
+                <div className='Banner-Container-Career' style={{ marginBottom: '0px' }}>
+                    <h1 style={{ textAlign: 'center', }}>Career Dashboard</h1>
+                    {userData.userType === 'student' ? <>
 
-                <p style={{ textAlign: 'center' }}>Explore your career opportunities and track your skill development with our comprehensive dashboard.</p>
-                <img src={BannerCareer} alt="Banner" style={{marginBottom:'-10px'}}></img>
+                        <p style={{ textAlign: 'center' }}>Explore your career opportunities and track your skill development with our comprehensive dashboard.</p>
+                        <img src={BannerCareer} alt="Banner" style={{ marginBottom: '-10px' }}></img>
 
-                </>
-                : <p style={{ textAlign: 'center' }}>Explore {studentData ? studentData.name : 'your'}'s career opportunities and track his skill development with our comprehensive dashboard.</p>}
+                    </>
+                        : <p style={{ textAlign: 'center' }}>Explore {studentData ? studentData.name : 'your'}'s career opportunities and track his skill development with our comprehensive dashboard.</p>}
                 </div>
-                <table className="skills-table" style={{marginTop:"0px"}}>
+                <table className="skills-table" style={{ marginTop: "0px" }}>
                     <thead>
                         <tr>
                             <th>Category</th>
@@ -317,7 +318,7 @@ const Career = () => {
                         <button onClick={toggleSkillsVisibility} className="see-more-btn">
                             {showAllSkills ? 'See Less' : 'See More'}
                         </button>
-                        
+
                     </div>
                 )}
 
@@ -358,25 +359,25 @@ const Career = () => {
                                         <th>Career</th>
                                         <th>Current Average Salary</th>
                                         <th>Description & Scope</th>
-                                         <th>{/*Action */}</th>
+                                        <th>{/*Action */}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {studentData && studentData.careerOptions.map(option => (
                                         <tr key={option._id}>
-                                            <td onClick={() => { handleAboutCareer (option.name, option.description, option.averageSalary, option.marketTrends) }}>{option.name}</td>
+                                            <td onClick={() => { handleAboutCareer(option.name, option.description, option.averageSalary, option.marketTrends) }}>{option.name}</td>
                                             <td>₹{option.averageSalary ? option.averageSalary.toLocaleString() : 'N/A'}</td>
                                             <td>{option.description}</td>
-                                            {userData.userType === 'student' && 
-                                            <td
-                                            onClick={async () => {
-                                                await setClarityQuestion(`Tell me about ${option.name} career`);
-                                                setClarityQuestion(`Tell me about ${option.name} career`);
-                                                setIsChatOpen(true);
-                                                console.log(clarityQuestion);
-                                                handleAskClarity();
-                                            }}
-                                            ><img src={SearchImage} alt="Search"  /></td>}
+                                            {userData.userType === 'student' &&
+                                                <td
+                                                    onClick={async () => {
+                                                        await setClarityQuestion(`Tell me about ${option.name} career`);
+                                                        setClarityQuestion(`Tell me about ${option.name} career`);
+                                                        setIsChatOpen(true);
+                                                        console.log(clarityQuestion);
+                                                        handleAskClarity();
+                                                    }}
+                                                ><img src={SearchImage} alt="Search" /></td>}
 
                                             {userData.userType === 'counselor' && (
                                                 <td>
@@ -409,7 +410,7 @@ const Career = () => {
                                         <input type="text" name="newDescription" placeholder='New Description' />
                                         <button onClick={handleEditCareerOption} className='add-btn'>Edit</button>
                                     </div>
-                                    <button className="refresh-button" onClick={handleGenerateCareerOptions} style={{alignSelf: 'center'}} >
+                                    <button className="refresh-button" onClick={handleGenerateCareerOptions} style={{ alignSelf: 'center' }} >
                                         <FaBrain />
                                         Generate Career Options with AI
                                     </button>
@@ -432,6 +433,15 @@ const Career = () => {
                                 >
                                     Change Option
                                 </button>
+
+                            </div>
+                            <div className="mentorship-n-workshops">
+                                <div onClick={() => window.open(`https://unstop.com/find-a-mentor?searchTerm=${studentData.prefferedCareer}/`, '_blank')}>
+                                    <Button displayText="Mentorship" />
+                                </div>
+                                <div onClick={() => window.open(`https://www.eventbrite.com/d/india/${studentData.prefferedCareer}/`, '_blank')}>
+                                    <Button displayText="Workshops" />
+                                </div>
                             </div>
 
                             <div className="select-wrapper">

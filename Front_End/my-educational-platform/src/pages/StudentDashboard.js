@@ -10,7 +10,7 @@ import { getUserData } from '../services/api';
 const StudentDashboard = () => {
     const navigate = useNavigate();
     const { userData, logout, setUserData, authToken } = useAuth();
-    
+
     useEffect(() => {
         const fetchUserData = async () => {
             const data = await getUserData(userData._id, authToken);
@@ -25,7 +25,7 @@ const StudentDashboard = () => {
     const handleTestsClick = () => {
         navigate('/allTests')
     }
-    const handleJournalClick = ()=>{
+    const handleJournalClick = () => {
         navigate('/journal-page');
     }
 
@@ -37,7 +37,7 @@ const StudentDashboard = () => {
         catch (err) {
             console.error(err);
         }
-        
+
     };
 
     const handleTestStart = () => {
@@ -86,30 +86,31 @@ const StudentDashboard = () => {
                     </div>
                 </div> */}
 
-                
-                    <div class="card" onClick={handleAnalyticsClick} style={{cursor:'pointer', border:'1px solid #1E90FF'}}>
-                        <div class="first">
+
+                <div class="card" onClick={handleAnalyticsClick} style={{ cursor: 'pointer', border: '1px solid #1E90FF' }}>
+                    <div class="first">
                         <img
-                        src="https://www.edureka.co/blog/wp-content/uploads/2018/12/Data-Analytics-What-is-Data-Analytics-Edureka-1.png"
+                            src="https://www.edureka.co/blog/wp-content/uploads/2018/12/Data-Analytics-What-is-Data-Analytics-Edureka-1.png"
+                            alt="Analytics Dashboard"
+                            className="stat-image"
+                        />
+                    </div>
+                    <img
                         alt="Analytics Dashboard"
-                        className="stat-image"
-                    />
-                        </div>
-                        <img
                         src="data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 91.61'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:%231E90FF;%7D%3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='M0,420.39a459.6,459.6,0,0,0,123.1,27c78.32,6,118.8-11.72,182.59-14.61,48.24-2.18,118.44,3.73,206.31,43.82V512H0Z' transform='translate(0 -420.39)'/%3E%3C/svg%3E"
                         class=""
-                        />
-                        <div class="second" style={{backgroundColor:'#1E90FF'}}>
+                    />
+                    <div class="second" style={{ backgroundColor: '#1E90FF' }}>
                         <div class="wave-text">
-                        <h2 class="new-stat-card-title">Analytics</h2>
-                        <p class="new-stat-card-description">
-                            Track your performance metrics, learning patterns, and progress through interactive dashboards and detailed reports.
-                        </p>
-                        </div>
+                            <h2 class="new-stat-card-title">Analytics</h2>
+                            <p class="new-stat-card-description">
+                                Track your performance metrics, learning patterns, and progress through interactive dashboards and detailed reports.
+                            </p>
                         </div>
                     </div>
-                                    
-                
+                </div>
+
+
 
                 {/* <div className="stat-card" onClick={handleTestsClick}>
                     <img
@@ -130,29 +131,30 @@ const StudentDashboard = () => {
                     </div>
                 </div> */}
 
-                    <div class="card" onClick={handleTestsClick} style={{cursor:'pointer', border:'1px solid #87CEEB'}}>
-                        <div class="first">
+                <div class="card" onClick={handleTestsClick} style={{ cursor: 'pointer', border: '1px solid #87CEEB' }}>
+                    <div class="first">
                         <img
-                        src="https://img.freepik.com/premium-vector/job-exam-test-vector-illustration_138676-243.jpg"
+                            src="https://img.freepik.com/premium-vector/job-exam-test-vector-illustration_138676-243.jpg"
+                            alt="Analytics Dashboard"
+                            className="stat-image"
+                        />
+                    </div>
+                    <img
                         alt="Analytics Dashboard"
-                        className="stat-image"
-                    />
-                        </div>
-                        <img
                         src="data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 91.61'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:%2387CEEB;%7D%3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='M0,420.39a459.6,459.6,0,0,0,123.1,27c78.32,6,118.8-11.72,182.59-14.61,48.24-2.18,118.44,3.73,206.31,43.82V512H0Z' transform='translate(0 -420.39)'/%3E%3C/svg%3E"
                         class=""
-                        />
-                        <div class="second" style={{backgroundColor:'#87CEEB'}}>
+                    />
+                    <div class="second" style={{ backgroundColor: '#87CEEB' }}>
                         <div class="wave-text">
-                        <h2 class="new-stat-card-title">Tests</h2>
-                        <p class="new-stat-card-description">
-                        Access your upcoming assessments, practice tests, and historical performance data to improve your academic success.
-                        </p>
-                        </div>
+                            <h2 class="new-stat-card-title">Tests</h2>
+                            <p class="new-stat-card-description">
+                                Access your upcoming assessments, practice tests, and historical performance data to improve your academic success.
+                            </p>
                         </div>
                     </div>
+                </div>
 
-                
+
 
                 {/* <div className='go-to-journal-section stat-card' onClick={handleJournalClick}>
                 <img
@@ -173,27 +175,28 @@ const StudentDashboard = () => {
                     </div>
                 </div> */}
 
-                    <div class="card" onClick={handleJournalClick} style={{cursor:'pointer', border:'1px solid #20B2AA'}}>
-                        <div class="first">
+                <div class="card" onClick={handleJournalClick} style={{ cursor: 'pointer', border: '1px solid #20B2AA' }}>
+                    <div class="first">
                         <img
-                        src={JournalIMG}
+                            src={JournalIMG}
+                            alt="Analytics Dashboard"
+                            className="stat-image"
+                        />
+                    </div>
+                    <img
                         alt="Analytics Dashboard"
-                        className="stat-image"
-                    />
-                        </div>
-                        <img
                         src=" data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 91.61'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:%2320B2AA;%7D%3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='M0,420.39a459.6,459.6,0,0,0,123.1,27c78.32,6,118.8-11.72,182.59-14.61,48.24-2.18,118.44,3.73,206.31,43.82V512H0Z' transform='translate(0 -420.39)'/%3E%3C/svg%3E"
                         class=""
-                        />
-                        <div class="second" style={{backgroundColor:'#20B2AA'}}>
+                    />
+                    <div class="second" style={{ backgroundColor: '#20B2AA' }}>
                         <div class="wave-text">
-                        <h2 class="new-stat-card-title">Journal</h2>
-                        <p class="new-stat-card-description">
-                        Write About your Mood , Express yourself.Track your emotions
-                        </p>
-                        </div>
+                            <h2 class="new-stat-card-title">Journal</h2>
+                            <p class="new-stat-card-description">
+                                Write About your Mood , Express yourself.Track your emotions
+                            </p>
                         </div>
                     </div>
+                </div>
 
                 {/* <div className="stat-card" onClick={handleCareerClick}>
                     <img
@@ -214,31 +217,32 @@ const StudentDashboard = () => {
                     </div>
                 </div> */}
 
-                    <div class="card" onClick={handleCareerClick} style={{cursor:'pointer', border:'1px solid #CCCCFF'}}>
-                        <div class="first">
+                <div class="card" onClick={handleCareerClick} style={{ cursor: 'pointer', border: '1px solid #CCCCFF' }}>
+                    <div class="first">
                         <img
-                        src='https://builtin.com/sites/www.builtin.com/files/styles/ckeditor_optimize/public/inline-images/career-development-pillar-page-overview.png'
+                            src='https://builtin.com/sites/www.builtin.com/files/styles/ckeditor_optimize/public/inline-images/career-development-pillar-page-overview.png'
+                            alt="Analytics Dashboard"
+                            className="stat-image"
+                        />
+                    </div>
+                    <img
                         alt="Analytics Dashboard"
-                        className="stat-image"
-                    />
-                        </div>
-                        <img
                         src="data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 91.61'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:%23CCCCFF;%7D%3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='M0,420.39a459.6,459.6,0,0,0,123.1,27c78.32,6,118.8-11.72,182.59-14.61,48.24-2.18,118.44,3.73,206.31,43.82V512H0Z' transform='translate(0 -420.39)'/%3E%3C/svg%3E"
                         class=""
-                        />
-                        <div class="second" style={{backgroundColor:'#CCCCFF'}}>
+                    />
+                    <div class="second" style={{ backgroundColor: '#CCCCFF' }}>
                         <div class="wave-text">
-                        <h2 class="new-stat-card-title">Career</h2>
-                        <p class="new-stat-card-description">
-                        Explore career paths, job opportunities, and professional development resources tailored to your academic journey.
-                        </p>
-                        </div>
+                            <h2 class="new-stat-card-title">Career</h2>
+                            <p class="new-stat-card-description">
+                                Explore career paths, job opportunities, and professional development resources tailored to your academic journey.
+                            </p>
                         </div>
                     </div>
-                
+                </div>
+
             </div>
 
-           
+
 
             <div className="main-grid">
                 <div className="assessment-section">
@@ -261,7 +265,7 @@ const StudentDashboard = () => {
                     </div>
                 </div>
                 <div className="stat-card" onClick={handleAluminaiClick}>
-                <h2 className="section-header">Alumni  Network</h2>
+                    <h2 className="section-header">Alumni  Network</h2>
                     <img
                         src="https://www.univariety.com/blog/wp-content/uploads/2022/02/5853-min-scaled.jpg"
                         alt="Alumni Network"

@@ -3,7 +3,7 @@ import '../styles/Counselor.css';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { FaSignOutAlt, FaSearch, FaUser, FaEye } from 'react-icons/fa';
-import CounselorTraining from './CounselorTraining';
+// import CounselorTraining from './CounselorTraining';
 
 const CounselorDashboard = () => {
     const [searchTerm, setSearchTerm] = useState('');
