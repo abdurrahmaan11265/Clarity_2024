@@ -27,6 +27,7 @@ const StudentProfile = () => {
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState('');
     const [isAddingNote, setIsAddingNote] = useState(false);
+    const [isSpeaking, setIsSpeaking] = useState(false);
 
 
     const messages = [
@@ -111,6 +112,27 @@ const StudentProfile = () => {
             await fetchStudentData(); 
         } catch (error) {
             console.error('Error removing note:', error);
+        }
+    };
+
+    const handleReadAloud = () => {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+
+            if (isSpeaking) {
+                setIsSpeaking(false);
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(
+                sanitizedAISummary.replace(/<[^>]*>/g, '')
+            );
+
+            utterance.onend = () => setIsSpeaking(false);
+            setIsSpeaking(true);
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert('Text-to-speech is not supported in your browser');
         }
     };
 
@@ -223,7 +245,12 @@ const StudentProfile = () => {
                                 </div>
                             </div>
                         ) : (
-                            <div dangerouslySetInnerHTML={{ __html: sanitizedAISummary }} />
+                                    <>
+                                        <div dangerouslySetInnerHTML={{ __html: sanitizedAISummary }} />
+                                        <button onClick={handleReadAloud}>
+                                            {isSpeaking ? 'Stop Reading' : 'Read Aloud'}
+                                        </button>
+                                    </>
                         )}
                     </section>
                         
