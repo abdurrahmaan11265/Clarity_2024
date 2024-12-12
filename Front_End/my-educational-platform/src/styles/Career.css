@@ -1253,3 +1253,31 @@ select{
     align-items: center;
     margin-top: 1rem;
   }
+
+  .ngo-container {
+    opacity: 1;
+    display: block;
+    background: white;
+    cursor: pointer;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: left; /* Align text to the left for better readability */
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    /* Add spacing between child elements */
+    line-height: 1.6; /* Increase line height for better readability */
+    word-wrap: break-word; /* Ensure long words or URLs don't overflow */
+    white-space: pre-wrap; /* Preserve line breaks in content */
+}
+
+/* Optional: Add hover effects for better interactivity */
+.ngo-container:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Optional: Add some margin if multiple containers are present */
+.ngo-container + .ngo-container {
+    margin-top: 1rem;
+}

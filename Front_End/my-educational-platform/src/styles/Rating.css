@@ -1,0 +1,83 @@
+.rating-container {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgb(30, 144, 255);
+  }
+  
+  .rating-container .stars {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .star {
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .star.filled {
+    color: rgb(30, 144, 255);
+  }
+  
+  .star:hover {
+    color: #6495ed;
+  }
+  
+  .feedback-container {
+    width: 100%;
+  }
+  
+  .rating-container .feedback-container label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #4169e1;
+  }
+  
+  .rating-container .feedback-container textarea {
+    width: 80vh;
+    min-height: 30vh;
+    padding: 0.5rem;
+    border: 2px solid #4169e1;
+    border-radius: 10px;
+    resize: vertical;
+  }
+  
+  .rating-container .submit-button {
+    margin: auto;
+    padding: 0.5rem 1rem;
+    background-color: #4169e1;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .submit-button:hover {
+    background-color: #6495ed;
+  }
+  
+  .rating-container h3 {
+    color: black;
+    margin-bottom: 1rem;
+  }
+  .rating-container form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+ 
+  
+  
