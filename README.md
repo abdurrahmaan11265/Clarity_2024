@@ -62,14 +62,10 @@ This platform is grounded in a detailed academic thesis that covers:
 
 ## Test Credentials
 
-### Counselor
-Email: drsmith@example.com
+| Role       | Email                | Password          |
+|------------|----------------------|------------------|
+| Counselor  | drsmith@example.com   | securePassword456 |
+| Student    | johndoe@example.com   | password123       |
 
-Password: securePassword456
-
-### Student
-Email: johndoe@example.com
-
-Password: password123
 
 ---
