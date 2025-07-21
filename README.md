@@ -59,3 +59,17 @@ This platform is grounded in a detailed academic thesis that covers:
 - **Other Tools:** Chart.js
 
 ---
+
+## Test Credentials
+
+### Counselor
+Email: drsmith@example.com
+
+Password: securePassword456
+
+### Student
+Email: johndoe@example.com
+
+Password: password123
+
+---
